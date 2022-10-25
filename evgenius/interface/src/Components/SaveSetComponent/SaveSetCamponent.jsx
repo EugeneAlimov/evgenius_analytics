@@ -28,7 +28,7 @@ const SaveSetComponent = ({
             />
             <Button
               onClick={() => {
-                closePopperHandle(datasetName)
+                closePopperHandle(datasetName, true)
                 setDatasetName('')
                 }
               }
@@ -39,7 +39,7 @@ const SaveSetComponent = ({
             </Button>
             <Button
               onClick={() => {
-                closePopperHandle()
+                closePopperHandle(datasetName, false)
                 setDatasetName('')
                 }
               }

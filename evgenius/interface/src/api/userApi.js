@@ -1,10 +1,8 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { Tag } from '@mui/icons-material'
-
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/'
-axios.defaults.timeout = 1500
+// axios.defaults.timeout = 1500
 
 // export const registrate = createAsyncThunk(
 //     'auth/registrate', async (credentials) => {
@@ -79,29 +77,21 @@ export const userDatasetSave = async (
     dateTimeStart,
     dateTimeEnd,
     isHistorical,
+    setName
   ) => {
-    const imageName = image.name
-  const formData = new FormData()
+    const formData = new FormData()
+    const dtStart = dateTimeStart.toISOString()
+    const dtSend = dateTimeEnd.toISOString()
 
-  const tagsArr = selectedTags.map((tag) => tag.name_tag)
-  const qw = {tag: tagsArr}
-  // const tagsArr = selectedTags.map((tag) => tag.id)
-console.log('qw: ', qw);
-console.log('API tagsArr: ', tagsArr);
-  console.log('JSON tagsArr: ', JSON.stringify(tagsArr));
-
-      tagsArr.forEach(element => {
-        formData.append('tag', element)
+    selectedTags.forEach(element => {
+        formData.append('tag', element.name_tag)
       });
 
-      // formData.append("tag", qw)
-      // formData.append("tag", tagsArr)
-      // formData.append("tag", JSON.stringify(tagsArr))
-      formData.append("name", imageName)
+      formData.append("name", setName)
       formData.append("is_historical", isHistorical)
-      // formData.append("date_time_start_diapason", JSON.stringify(dateTimeStart))
-      // formData.append("date_time_end_diapason", JSON.stringify(dateTimeEnd))
-      // formData.append("url", imageName)
+      formData.append("date_time_start_diapason", dtStart)
+      formData.append("date_time_end_diapason", dtSend)
+      formData.append("url", setName)
       formData.append("dataset_image", image)
     try {
       const request = await axios.post('user-dataset/',

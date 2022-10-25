@@ -27,13 +27,10 @@ router = routers.DefaultRouter()
 router.register(r'analytics', AnalyticsTagsViewSet, basename='analytics')
 router.register(r'groups', AnalyticsGroupsViewSet, basename='groups')
 router.register(r'user-dataset', UserSetsViewSet, basename='user-dataset')
-router.register(r'upload-excel-file', AnalyticsFileUploaderViewSet, basename='upload-excel-file')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
-    # path('api/v1/user-dataset/', UserSetsAPIView.as_view()),
-    # path('api/v1/user-dataset/<int:pk>/', UserSetsAPIView.as_view()),
     # path('api/v1/auth/', include('rest_framework.urls')),
     path('', TemplateView.as_view(template_name="index.html")),
     path('user/', TemplateView.as_view(template_name="index.html")),

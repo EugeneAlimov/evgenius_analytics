@@ -5,9 +5,7 @@ from analytics.models import Tags
 
 
 class UserDataset(models.Model):
-    tag = models.ManyToManyField(Tags,
-                                 related_query_name='tag',
-                                 )
+    tag = models.ManyToManyField(Tags, related_query_name='tag')
     name = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name='Dataset name')
     is_historical = models.BooleanField(default=True, verbose_name='Historical dataset')
     date_time_start_diapason = models.DateTimeField(blank=True, null=True, default=None, verbose_name='Beginning time')

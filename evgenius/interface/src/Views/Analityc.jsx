@@ -11,11 +11,12 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import AllTagsList from "../Components/AccordionAnalitycs/AllTagsList/AllTagsList";
 import SelectedTagsList from "../Components/AccordionAnalitycs/SelectedTagsList/SelectedTagsList";
 import DateTimePickerComponent from "../Components/DateTimePickers/DatePickerComponent/DateTimePickerComponent";
-import { Divider, Stack, Typography, Paper, Box, } from "@mui/material";
+import { Divider, Stack, Typography, Paper, } from "@mui/material";
 
 
 import * as htmlToImage from 'html-to-image';
 import { userDatasetSave } from "../api/userApi";
+import AlertDialog from "../Components/Notification";
 
 const Analytic = () => {
 
@@ -25,20 +26,48 @@ const Analytic = () => {
   const [dateTimeStart, setDateTimeStart] = useState()
   const [dateTimeEnd, setDateTimeEnd] = useState()
   const [isHistorical, setIsHistorical] = useState()
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('')
 
   const [width, height] = getWindowDimensions()
 
   const dispatch = useDispatch()
+
   
   const accessToken = useSelector((state) => state.login.token.access)
   const selectedTags = useSelector((state) => state.login.selectedTags)
-console.log('selectedTags: ', selectedTags);
+
   const domEl = useRef(null)
 
-  const saveUserDatasetToServer = async (imageName) => {
-    const dataUrl = await htmlToImage.toPng(domEl.current, { cacheBust: true, });
+  const setAlertStateHandler = (value) => {
+    setAlertOpen(value)
+  }
 
+  const formStateCheck = (startTime, endTime) => {
+
+    if (!!!startTime) {
+      console.log(true);
+      setAlertStateHandler(true)
+      setAlertMessage('Check if you have set the range start time!')
+      return false
+    }
+
+    if (!!!endTime) {
+      console.log(true);
+      setAlertStateHandler(true)
+      setAlertMessage('Check if you have set the range end time!')
+      return false
+    }
+  }
+
+  const saveUserDatasetToServer = async (value) => {
+
+    const setName = value
+
+    const dataUrl = await htmlToImage.toPng(domEl.current, { cacheBust: true, });
+    const imageName = value
     const link = document.createElement('a');
+
     link.download = `${imageName}.jpeg`
     link.href = dataUrl;
 
@@ -59,7 +88,17 @@ console.log('selectedTags: ', selectedTags);
 
     const file = dataURLtoFile(dataUrl, link.download);
 
-    userDatasetSave(accessToken, file, selectedTags, dateTimeStart, dateTimeEnd, isHistorical)
+    formStateCheck(dateTimeStart, dateTimeEnd, setName)
+
+    userDatasetSave(
+        accessToken,
+        file,
+        selectedTags,
+        dateTimeStart,
+        dateTimeEnd,
+        isHistorical,
+        setName
+      )
   }
 
   useEffect(() => {
@@ -74,12 +113,20 @@ console.log('selectedTags: ', selectedTags);
     setIsHistorical(isHistorical)
   }
 
-  const closePopperHandle = (value) => {
-    if (!!value) {
+  const closePopperHandle = (value, _) => {
+    if (_) {
+      if (!!value) {
       saveUserDatasetToServer(value)
       setPopOpen(false)
+      return
+      } else {
+        setAlertStateHandler(true)
+        setAlertMessage('Check if you have set the dataset name!')
+        return
+      }
     }
     setPopOpen(false)
+    return
   }
 
   const dateTimeStartHandler = (value) => {
@@ -146,10 +193,8 @@ console.log('selectedTags: ', selectedTags);
         >
             Show Trand
         </Button>
-        <button
-          onClick={saveUserDatasetToServer}
-        >Download Image</button>
       </Grid2>
+      <AlertDialog alertOpen={alertOpen} setAlertStateHandler={setAlertStateHandler} alertMessage={alertMessage} />
     </Grid2>
   )
 }
