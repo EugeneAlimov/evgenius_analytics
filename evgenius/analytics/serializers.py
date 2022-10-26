@@ -4,6 +4,11 @@ from .models import *
 
 
 class TagsSerializer(serializers.ModelSerializer):
+    label = serializers.SlugRelatedField(
+        many=False,
+        slug_field='name',
+        queryset=Group.objects.all()
+    )
 
     class Meta:
         model = Tags
@@ -22,10 +27,6 @@ class GroupSerializer(serializers.ModelSerializer):
 class UserSetsSerializer(serializers.ModelSerializer):
 
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    # tag = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(),
-    #                                          write_only=True,
-    #                                          many=True
-    #                                          )
     tag = serializers.SlugRelatedField(
         many=True,
         # read_only=True,

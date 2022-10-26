@@ -32,7 +32,7 @@ const AllTagsList = ({ height, width }) => {
   const [value, setValue] = useState(null)
   const [filteredByGroupTags, setFilteredByGroupsTags] = useState([])
   const [searchedAndFilteredByGroupTags, setSearchedAndFilteredByGroupTags] = useState([])
-
+console.log('groups: ', groups);
   useEffect(() => {
     setGroupFilter(value)
   }, [value])
@@ -105,8 +105,8 @@ const AllTagsList = ({ height, width }) => {
             id={searchedAndFilteredByGroupTags[index].id}
             primary={
               <Typography sx={{m: 0}} paragraph={true}>
-                Name tag: {searchedAndFilteredByGroupTags[index].name_tag} <br/>
-                Name group: {searchedAndFilteredByGroupTags[index].label}
+                Tag: {searchedAndFilteredByGroupTags[index].name_tag} <br/>
+                Group: {searchedAndFilteredByGroupTags[index].label}
               </Typography>}
           />
         </ListItemButton>

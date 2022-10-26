@@ -59,9 +59,15 @@ def download_to_base(request):
                 save_set_of_tags.save()                                             # сохраняем модель Tags
         else:
             """"Для случая когда теги полуены из DB блоков"""
-            name_group = (ws.cell(row=i, column=6)).value
+            # name_group = (ws.cell(row=i, column=6)).value
+            name_group = 'A'
             if (ws.cell(row=i, column=2)).value == 'Struct':
                 name_group = (ws.cell(row=i, column=1)).value
+                if not Group.objects.filter(label=name_group):
+                    save_set_of_groups = Group(
+                        label=name_group)  # сохраняем содержимое в переменной name_group в базу
+                    save_set_of_groups.save()  # сохраняем name_group в базу
+                continue
 
             if not Group.objects.filter(label=name_group):
                 save_set_of_groups = Group(

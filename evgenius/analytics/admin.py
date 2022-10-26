@@ -15,7 +15,7 @@ admin.site.register(Tags, TagsAdmin)
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Group._meta.fields]
-    list_display_links = ['label']
+    list_display_links = ['name']
 
 
 admin.site.register(Group, GroupAdmin)
