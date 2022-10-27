@@ -85,7 +85,7 @@ export const userDatasetSave = async (
 
     selectedTags.forEach(element => {
         formData.append('tag', element.name_tag)
-      });
+      })
 
       formData.append("name", setName)
       formData.append("is_historical", isHistorical)
@@ -93,6 +93,7 @@ export const userDatasetSave = async (
       formData.append("date_time_end_diapason", dtSend)
       formData.append("url", setName)
       formData.append("dataset_image", image)
+      console.log(...formData);
     try {
       const request = await axios.post('user-dataset/',
         formData,
@@ -102,7 +103,6 @@ export const userDatasetSave = async (
               "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${credentials}`,
             },
-              
           }
         )
       return request.data

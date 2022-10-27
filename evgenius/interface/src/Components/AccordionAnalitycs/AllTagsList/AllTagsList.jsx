@@ -18,6 +18,7 @@ import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
 import { checkTags } from "../../../Redux/slice";
 import binarySearch from "../../../Libs/binarySearch"
+import { red } from "@mui/material/colors";
 
 const AllTagsList = ({ height, width }) => {
 
@@ -32,7 +33,17 @@ const AllTagsList = ({ height, width }) => {
   const [value, setValue] = useState(null)
   const [filteredByGroupTags, setFilteredByGroupsTags] = useState([])
   const [searchedAndFilteredByGroupTags, setSearchedAndFilteredByGroupTags] = useState([])
-console.log('groups: ', groups);
+
+  const autocompliteArr = groups.map((el) => {
+    let obj = {
+      id: el.id,
+      label: el.name,
+    }
+    return obj
+  })
+
+  console.log(tags);
+
   useEffect(() => {
     setGroupFilter(value)
   }, [value])
@@ -42,7 +53,7 @@ console.log('groups: ', groups);
       setFilteredByGroupsTags(tags)
       return
     }
-    const tagsArr = tags.filter(tag => tag.label === groupFilter.id)
+    const tagsArr = tags.filter(tag => tag.label === groupFilter.label)
     setFilteredByGroupsTags(tagsArr)
   }, [groupFilter, tags])
 
@@ -83,7 +94,8 @@ console.log('groups: ', groups);
             Address: {searchedAndFilteredByGroupTags[index].address}<br/>
             Datatype: {searchedAndFilteredByGroupTags[index].data_type}<br/>
             Tagtable: {searchedAndFilteredByGroupTags[index].tag_table}<br/>
-            Comment: {searchedAndFilteredByGroupTags[index].comment}
+            Comment: {searchedAndFilteredByGroupTags[index].comment}<br/>
+            Group: {searchedAndFilteredByGroupTags[index].label}
           </Typography>}
         style={style} >
       <ListItem divider dense={true} >
@@ -105,8 +117,8 @@ console.log('groups: ', groups);
             id={searchedAndFilteredByGroupTags[index].id}
             primary={
               <Typography sx={{m: 0}} paragraph={true}>
-                Tag: {searchedAndFilteredByGroupTags[index].name_tag} <br/>
-                Group: {searchedAndFilteredByGroupTags[index].label}
+               {searchedAndFilteredByGroupTags[index].name_tag} <br/>
+                
               </Typography>}
           />
         </ListItemButton>
@@ -138,7 +150,7 @@ console.log('groups: ', groups);
               size="small"
               disablePortal
               id="combo-box-demo"
-              options={ groups }
+              options={ autocompliteArr }
               sx={{ width: 300, offset: 100 }}
               freeSolo
               value={ value }

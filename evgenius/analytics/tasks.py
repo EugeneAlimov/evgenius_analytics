@@ -18,6 +18,9 @@ def download_to_base(request):
     группе соотношением один-комногим
     Если файл с тегами не содержит нужные данные (пустые колонки или ячейки (кроме комментариев)) вывести уведомление 
     об этом"""
+
+    name_group = ''
+
     for i in range(1, ws.max_row + 1):
 
         name_tag = (ws.cell(row=i, column=1)).value  # выбираем ячейки из таблицы
@@ -39,13 +42,13 @@ def download_to_base(request):
         if address_tag.startswith('%'):
             name_group = (ws.cell(row=i, column=2)).value
 
-            if not Group.objects.filter(label=name_group):
+            if not Group.objects.filter(name=name_group):
                 save_set_of_groups = Group(
-                    label=name_group)                           # сохраняем содержимое в переменной name_group в базу
+                    name=name_group)                           # сохраняем содержимое в переменной name_group в базу
                 save_set_of_groups.save()                       # сохраняем name_group в базу
 
             name_group_from_db = Group.objects.get(
-                    label=name_group)                           # заносим в переменную объект группы для текущей записи
+                    name=name_group)                           # заносим в переменную объект группы для текущей записи
             if comment_tag.capitalize == 'Spare':
                 continue
             tag_table = (ws.cell(row=i, column=2)).value
@@ -60,22 +63,22 @@ def download_to_base(request):
         else:
             """"Для случая когда теги полуены из DB блоков"""
             # name_group = (ws.cell(row=i, column=6)).value
-            name_group = 'A'
+            # name_group = ''
             if (ws.cell(row=i, column=2)).value == 'Struct':
                 name_group = (ws.cell(row=i, column=1)).value
-                if not Group.objects.filter(label=name_group):
-                    save_set_of_groups = Group(
-                        label=name_group)  # сохраняем содержимое в переменной name_group в базу
+                print('name_group: ', name_group)
+                if not Group.objects.filter(name=name_group):
+                    save_set_of_groups = Group(name=name_group)  # сохраняем содержимое в переменной name_group в базу
                     save_set_of_groups.save()  # сохраняем name_group в базу
                 continue
 
-            if not Group.objects.filter(label=name_group):
-                save_set_of_groups = Group(
-                    label=name_group)                            # сохраняем содержимое в переменной name_group в базу
-                save_set_of_groups.save()                        # сохраняем name_group в базу
+            # if not Group.objects.filter(name=name_group):
+            #     save_set_of_groups = Group(
+            #         name=name_group)                            # сохраняем содержимое в переменной name_group в базу
+            #     save_set_of_groups.save()                        # сохраняем name_group в базу
 
             name_group_from_db = Group.objects.get(
-                label=name_group)                                # заносим в переменную объект группы для текущей записи
+                name=name_group)                                # заносим в переменную объект группы для текущей записи
             data_type = (ws.cell(row=i, column=2)).value
             tag_table = (ws.cell(row=i, column=4)).value
             x = ''

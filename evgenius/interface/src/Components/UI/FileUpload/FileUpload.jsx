@@ -3,7 +3,6 @@ import { Button, Snackbar, Alert } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from "react";
 import handleFile from "../../../Libs/excel-csv";
-import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadFile } from "../../../api/settingsApi";
 
@@ -43,16 +42,18 @@ const FileUpload = () => {
     
         uploadFile(file, accessToken)
         .then(response => {
-            console.log('response: ', response)
+            console.log(
+                // 'response: ', response
+                )
             snakBarShow('File uploaded')})
         .catch(error => {
             snakBarShow('File upload failed')
-            console.error(error)
+            // console.error(error)
             }
         )
 
         handleFile(file)
-        uploadFile(file, accessToken)
+        // uploadFile(file, accessToken)
     }, [accessToken, dispatch, file])
 
     const { vertical, horizontal, open, message } = snakState;

@@ -55,8 +55,8 @@ const SelectedTagsList = ({ height, width }) => {
                 id={labelId}
                 primary={
                   <Typography sx={{m: 0}} paragraph={true}>
-                    Name tag: {name_tag}<br/>
-                    Name group: {label}
+                    TAG: {name_tag}<br/>
+                    GROUP: {label}
                   </Typography>}
                 />
             <IconButton

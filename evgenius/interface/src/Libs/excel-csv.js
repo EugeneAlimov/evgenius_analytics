@@ -18,7 +18,7 @@ function handleFile(fileToParce) {
     let i = 1
     let sheetArr = []
     let group = ''
-
+console.log('worksheet: ', worksheet);
     for (i; i < listRange; i++) {
             let A_X_Cell = worksheet[`A${i}`]
             let A_X_Value = String((A_X_Cell ? A_X_Cell.v : undefined))
