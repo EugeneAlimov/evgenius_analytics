@@ -15,7 +15,16 @@ export const getGroupsQuery = createAsyncThunk(
     'auth/groupsList', async () => {
         try {
             const request = await axios.get('groups/')
-            return request.data
+
+            const groupsRequest = request.data
+            const groups = groupsRequest.map((el) => {
+                let obj = {
+                  id: el.id,
+                  label: el.name,
+                }
+                return obj
+              })
+            return groups
         } catch (error) {console.log(error);}
     }
 )

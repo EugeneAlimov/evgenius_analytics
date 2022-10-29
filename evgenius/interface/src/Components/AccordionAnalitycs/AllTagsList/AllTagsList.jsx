@@ -18,7 +18,6 @@ import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
 import { checkTags } from "../../../Redux/slice";
 import binarySearch from "../../../Libs/binarySearch"
-import { red } from "@mui/material/colors";
 
 const AllTagsList = ({ height, width }) => {
 
@@ -33,16 +32,6 @@ const AllTagsList = ({ height, width }) => {
   const [value, setValue] = useState(null)
   const [filteredByGroupTags, setFilteredByGroupsTags] = useState([])
   const [searchedAndFilteredByGroupTags, setSearchedAndFilteredByGroupTags] = useState([])
-
-  const autocompliteArr = groups.map((el) => {
-    let obj = {
-      id: el.id,
-      label: el.name,
-    }
-    return obj
-  })
-
-  console.log(tags);
 
   useEffect(() => {
     setGroupFilter(value)
@@ -150,7 +139,7 @@ const AllTagsList = ({ height, width }) => {
               size="small"
               disablePortal
               id="combo-box-demo"
-              options={ autocompliteArr }
+              options={ groups }
               sx={{ width: 300, offset: 100 }}
               freeSolo
               value={ value }
