@@ -63,8 +63,6 @@ export const getUserDatasetCollection = createAsyncThunk(
           }
         }
       )
-      console.log('tags: ', request.data);
-
       return request.data
     } catch (error) {console.log('error: ', error.response.data)}
   }

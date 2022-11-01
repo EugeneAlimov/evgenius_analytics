@@ -21,13 +21,17 @@ const User = () => {
     const [realtimelPreview, setRealtimePreview] = useState()
 
     useEffect(() => {
-      if (userDataset.length > 0) {
-        return
-      }
+      // if (userDataset.length > 0) {
+      //   return
+      // }
       dispatch(
         getUserDatasetCollection(accessToken)
       )
-    }, [accessToken, dispatch, userDataset])
+    }, [
+      // accessToken,
+      // dispatch,
+      // userDataset
+    ])
 
     useEffect(() => {
       const historical = userDataset.filter(set => set.is_historical === true)

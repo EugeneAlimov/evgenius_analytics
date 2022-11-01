@@ -28,9 +28,9 @@ function App() {
           </Grid>
         </Container>
         <Routes>
-            <Route path="/" element={<Analytic  />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="/user" element={<User />} />
+            <Route strict path="/" element={<Analytic  />} />
+            <Route path="settings/" element={<Settings />} />
+            <Route path="user/" element={<User />} />
             <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Box>
