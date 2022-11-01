@@ -1,8 +1,5 @@
 /venv
 /static
 /interface/node_modules
-/interface/package.json
-/interface/package-lock.json
-/interface/yarn.lock
 /interface/README.md
 /db.sqlite3
