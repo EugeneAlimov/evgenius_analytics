@@ -2,7 +2,7 @@ import './App.css';
 import './index.css'
 import NavBar from './Components/Navbar/Navbar';
 import { Container, Box, Grid } from '@mui/material';
-
+import mathRound from './Libs/mathRound';
 import { Routes, Route } from 'react-router-dom'
 import Analytic from './Views/Analityc';
 import Settings from './Views/Settings';
@@ -28,9 +28,9 @@ function App() {
           </Grid>
         </Container>
         <Routes>
-            <Route strict path="/" element={<Analytic  />} />
-            <Route path="settings/" element={<Settings />} />
-            <Route path="user/" element={<User />} />
+            <Route path="/" element={<Analytic />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="/user" element={<User />} />
             <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Box>

@@ -7,7 +7,7 @@ export const uploadFile = async (file) => {
     formData.append("file", file)
 
         try {
-        const request = await axios.post('pars-tags-list/',
+        const request = await axios.post('http://127.0.0.1:8000/api/v1/pars-tags-list/',
 
             formData,
                 {
@@ -94,7 +94,7 @@ export const test = async (file, credentials) => {
         formData.append("name", element)})
 
         try {
-        const request = await axios.post('groups/',
+        const request = await axios.post('http://127.0.0.1:8000/api/v1/groups/',
 
             formData,
                 {

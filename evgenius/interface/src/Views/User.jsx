@@ -28,8 +28,8 @@ const User = () => {
         getUserDatasetCollection(accessToken)
       )
     }, [
-      // accessToken,
-      // dispatch,
+      accessToken,
+      dispatch,
       // userDataset
     ])
 

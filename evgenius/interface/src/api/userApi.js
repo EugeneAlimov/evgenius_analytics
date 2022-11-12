@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/'
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/'
 // axios.defaults.timeout = 1500
 
 // export const registrate = createAsyncThunk(
@@ -33,7 +33,7 @@ const token = {
 export const login = createAsyncThunk(
     'auth/login', async (credentials) => {
         try {
-            const request = await axios.post('token/', credentials)
+            const request = await axios.post('http://127.0.0.1:8000/api/v1/token/', credentials)
             const user = request.config.data
             const authToken = request.data
             token.set(authToken.access)
@@ -45,7 +45,7 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk(
     'auth/logout', async (credentials) => {
         try {
-            await axios.post('token/blacklist/', credentials)
+            await axios.post('http://127.0.0.1:8000/api/v1/token/blacklist/', credentials)
             token.unset()
             return
         } catch (error) {}
@@ -55,7 +55,7 @@ export const logout = createAsyncThunk(
 export const getUserDatasetCollection = createAsyncThunk(
     'auth/userDataset', async (credentials) => {
     try {
-      const request = await axios.get('user-dataset/',
+      const request = await axios.get('http://127.0.0.1:8000/api/v1/user-dataset/',
       {
           headers: 
           {
@@ -93,7 +93,7 @@ export const userDatasetSave = async (
       formData.append("dataset_image", image)
       console.log(...formData);
     try {
-      const request = await axios.post('user-dataset/',
+      const request = await axios.post('http://127.0.0.1:8000/api/v1/user-dataset/',
         formData,
           {
             headers: 

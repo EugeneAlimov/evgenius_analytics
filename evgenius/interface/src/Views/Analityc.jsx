@@ -17,6 +17,103 @@ import { Divider, Stack, Typography, Paper, } from "@mui/material";
 import * as htmlToImage from 'html-to-image';
 import { userDatasetSave } from "../api/userApi";
 import AlertDialog from "../Components/Notification";
+import influxRequest from "../api/InfluxAPI";
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+import { faker } from '@faker-js/faker'
+import { getHours } from "date-fns";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const options = {
+  responsive: true,
+  // update: "quiet",
+  interaction: {
+    mode: "index",
+    intersect: false
+  },
+  stacked: false,
+  plugins: {
+    title: {
+      display: true,
+      text: "Chart.js Line Chart - Multi Axis"
+    }
+  },
+  scales: {
+    y: {
+      type: "linear",
+      display: true,
+      position: "left",
+      backgroundColor: "rgba(255, 99, 132, 0.7)"
+    },
+    y1: {
+      type: "linear",
+      display: true,
+      position: "right",
+      backgroundColor: "rgba(53, 162, 235, 0.7)",
+      grid: {
+        drawOnChartArea: false
+      }
+    },
+    y2: {
+      type: "linear",
+      display: true,
+      position: "right",
+      backgroundColor: "rgba(153, 62, 135, 0.7)",
+      grid: {
+        drawOnChartArea: false
+      }
+    }
+  }
+};
+
+const labels = ["January", "February", "March", "April", "May", "June", "July"];
+
+const data111 = {
+  labels,
+  datasets: [
+    {
+      label: "Dataset 1",
+      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      yAxisID: "y"
+    },
+    {
+      label: "Dataset 2",
+      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      borderColor: "rgb(53, 162, 235)",
+      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      yAxisID: "y1"
+    },
+    {
+      label: "Dataset 3",
+      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      borderColor: "rgb(153, 62, 135)",
+      backgroundColor: "rgba(153, 62, 135, 0.5)",
+      yAxisID: "y2"
+    }
+  ]
+  
+};
 
 const Analytic = () => {
 
@@ -24,16 +121,16 @@ const Analytic = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [placement, setPlacement] = useState()
   const [dateTimeStart, setDateTimeStart] = useState()
-  const [dateTimeEnd, setDateTimeEnd] = useState()
-  const [isHistorical, setIsHistorical] = useState()
+  const [dateTimeEnd, setDateTimeEnd] = useState(Date.now())
+  const [isHistorical, setIsHistorical] = useState(Date.now())
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
+  const [data, setData] = useState([])
 
   const [width, height] = getWindowDimensions()
 
   const dispatch = useDispatch()
 
-  
   const accessToken = useSelector((state) => state.login.token.access)
   const selectedTags = useSelector((state) => state.login.selectedTags)
 
@@ -137,6 +234,11 @@ const Analytic = () => {
     setDateTimeEnd(value)
   }
 
+  const handler = () => {
+    influxRequest(selectedTags, dateTimeStart, dateTimeEnd)
+    .then((response) => setData(response))
+  }
+
   return(
     <Grid2 container spacing={2} sx={{m: 0}}>
       <Grid2 xs={4}>
@@ -190,11 +292,13 @@ const Analytic = () => {
           // onClick={influxQueryHandler}
           sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
           variant="contained" size="large"
+          onClick={handler}
         >
             Show Trand
         </Button>
       </Grid2>
       <AlertDialog alertOpen={alertOpen} setAlertStateHandler={setAlertStateHandler} alertMessage={alertMessage} />
+        {!!data.labels ? <Line updateMode="quiet" options={options} data={data} /> : <></>}
     </Grid2>
   )
 }
