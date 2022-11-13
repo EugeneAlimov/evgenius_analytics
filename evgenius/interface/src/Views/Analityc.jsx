@@ -120,9 +120,9 @@ const Analytic = () => {
   const [isPopOpen, setPopOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [placement, setPlacement] = useState()
-  const [dateTimeStart, setDateTimeStart] = useState()
+  const [dateTimeStart, setDateTimeStart] = useState(Date.now())
   const [dateTimeEnd, setDateTimeEnd] = useState(Date.now())
-  const [isHistorical, setIsHistorical] = useState(Date.now())
+  const [isHistorical, setIsHistorical] = useState()
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
   const [data, setData] = useState([])
@@ -274,28 +274,39 @@ const Analytic = () => {
           popPlacement={ placement }
           closePopperHandle={ closePopperHandle }
         />
-        <Button
-          onClick={ setDatasetNamehandleClick('right', true) }
-          sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
-          variant="contained" size="large"
-        >
-          Save set as historical
-        </Button>
-        <Button
-          onClick={ setDatasetNamehandleClick('right', false) }
-          sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
-          variant="contained" size="large"
-        >
-            Save set as realtime
-        </Button>
-        <Button
-          // onClick={influxQueryHandler}
-          sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
-          variant="contained" size="large"
-          onClick={handler}
-        >
-            Show Trand
-        </Button>
+        <Paper sx={{ boxShadow: 5, mt: 1, ml: 1, mr: 1, p: 3 }} elevation={10} square>
+          <Button
+            onClick={ setDatasetNamehandleClick('right', true) }
+            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
+            variant="contained" size="large"
+          >
+            Save set as historical
+          </Button>
+          <Button
+            onClick={ setDatasetNamehandleClick('right', false) }
+            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
+            variant="contained" size="large"
+          >
+              Save set as realtime
+          </Button>
+          <Button
+            // onClick={influxQueryHandler}
+            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
+            variant="contained" size="large" color="warning"
+            onClick={handler}
+          >
+              Show historical Trand
+          </Button>
+          <Button
+            // onClick={influxQueryHandler}
+            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
+            variant="contained" size="large" color="success"
+            onClick={handler}
+          >
+              Show realtime Trand
+          </Button>
+
+        </Paper>
       </Grid2>
       <AlertDialog alertOpen={alertOpen} setAlertStateHandler={setAlertStateHandler} alertMessage={alertMessage} />
         {!!data.labels ? <Line updateMode="quiet" options={options} data={data} /> : <></>}
