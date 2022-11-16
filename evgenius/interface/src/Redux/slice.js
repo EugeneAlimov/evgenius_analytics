@@ -55,7 +55,6 @@ const slice = createSlice({
             state.token = { refresh: null, access: null }
             state.isLoggedIn = false
             state.userDatasets = []
-            return initialState
         },
         [getUserDatasetCollection.fulfilled]: (state, action) => {
             state.userDatasets = action.payload
