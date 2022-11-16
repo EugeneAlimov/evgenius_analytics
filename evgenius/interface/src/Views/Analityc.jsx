@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import getWindowDimensions from '../Libs/getWindowDimensions'
-import { getGroupsQuery, getTagsQuery } from "../api/analitycApi";
+import { getTagsAndGroupsQuery } from "../api/analitycApi";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -199,8 +199,7 @@ const Analytic = () => {
   }
 
   useEffect(() => {
-    dispatch(getTagsQuery())
-    dispatch(getGroupsQuery())
+    dispatch(getTagsAndGroupsQuery())
   }, [dispatch])
 
   const setDatasetNamehandleClick = (newPlacement, isHistorical) => (event) => {

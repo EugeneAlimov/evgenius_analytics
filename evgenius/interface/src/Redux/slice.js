@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
     getGroupsQuery,
     getTagsQuery,
+    getTagsAndGroupsQuery,
 } from '../api/analitycApi'
 import { 
     login, 
@@ -50,21 +51,25 @@ const slice = createSlice({
             state.error = action.payload
         },
         [logout.fulfilled]: (state) => {
-            // state.user = {username: null, password: null}
-            // state.token = { refresh: null, access: null }
-            // state.isLoggedIn = false
-            // state.userDatasets = []
+            state.user = {username: null, password: null}
+            state.token = { refresh: null, access: null }
+            state.isLoggedIn = false
+            state.userDatasets = []
             return initialState
         },
         [getUserDatasetCollection.fulfilled]: (state, action) => {
             state.userDatasets = action.payload
         },
-        [getTagsQuery.fulfilled]: (state, action) => {
-            state.tags = action.payload
-        },
-        [getGroupsQuery.fulfilled]: (state, action) => {
-            state.groups = action.payload
-        },
+        [getTagsAndGroupsQuery.fulfilled]: (state, action) => {
+            state.tags = action.payload.tags
+            state.groups = action.payload.groups.map((el) => {
+                let obj = {
+                  id: el.id,
+                  label: el.name,
+                }
+                return obj
+              })
+        }
     }
 })
 

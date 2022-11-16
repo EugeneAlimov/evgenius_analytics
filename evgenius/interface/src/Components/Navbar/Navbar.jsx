@@ -28,7 +28,7 @@ const NavBar = () => {
                 </Typography>
                 <ul className={classes.Ul}>
                     <li>
-                        <NavLink end to='/analytic'
+                        <NavLink end to='analytic'
                             className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem}
                         >
                             <Typography variant="overline" display="block" sx={{ mr: 1, fontSize: 18, }} >
