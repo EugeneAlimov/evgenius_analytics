@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import classes from './NavBar.module.css'
 import { Grid, Typography } from '@mui/material';
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ResponsiveDialog from "../../Components/UI/Dialog/DialogComponent";
 import { logout } from "../../api/userApi";
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ const NavBar = () => {
 
     const logoutHandler = () => {
         dispatch(logout({ refresh: refreshToken }))
-        navigate('/')
+        navigate('analytics')
     }
 
     return(
@@ -28,11 +28,11 @@ const NavBar = () => {
                 </Typography>
                 <ul className={classes.Ul}>
                     <li>
-                        <NavLink end to='/'
+                        <NavLink end to='/analytic'
                             className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem}
                         >
                             <Typography variant="overline" display="block" sx={{ mr: 1, fontSize: 18, }} >
-                                Analityc
+                                Analytic
                             </Typography>
                         </NavLink>
                     </li>
@@ -44,7 +44,7 @@ const NavBar = () => {
                         </a>
                     </li>
                     <li>
-                        <NavLink to='/settings'
+                        <NavLink to='settings'
                             className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem}
                         >
                             <Typography variant="overline" display="block" sx={{ ml: 1, mr: 1, fontSize: 18, }} >
@@ -57,7 +57,7 @@ const NavBar = () => {
                     ?
                     <>
                         <li>
-                            <NavLink to='/user' className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem} >
+                            <NavLink to='user' className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem} >
                                 <Typography variant="overline" display="block" sx={{ ml: 1, mr: 1, fontSize: 18, }} >
                                     {userName} Page
                                 </Typography>
@@ -78,7 +78,7 @@ const NavBar = () => {
                     </li>
                     }
                     </ul>
-                <Outlet />
+                {/* <Outlet /> */}
             </div>
         </Grid>
     )
