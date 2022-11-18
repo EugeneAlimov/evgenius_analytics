@@ -35,6 +35,8 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
     path('user/', TemplateView.as_view(template_name="index.html")),
     path('settings/', TemplateView.as_view(template_name="index.html")),
+    path('analytic/', TemplateView.as_view(template_name="index.html")),
+    path('analytic/chart/', TemplateView.as_view(template_name="index.html")),
     path('api/v1/auth/', include('djoser.urls')),
     re_path(r'auth/', include('djoser.urls.authtoken')),
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

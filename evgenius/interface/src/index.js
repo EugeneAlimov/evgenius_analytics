@@ -14,6 +14,7 @@ import Analytic from './Views/Analityc';
 import PageNotFound from './Views/PageNotFound';
 import Settings from './Views/Settings';
 import User from './Views/User';
+import Chart from './Views/chart';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: "analytic",
-        element: <Analytic />
+        element: <Analytic />,
+        children: [
+          {
+            path: "chart",
+            element: <Chart />
+          }
+        ]
       },
       {
         path: "settings",

@@ -17,8 +17,8 @@ class Group(models.Model):
 
 
 class Tags(models.Model):
-    label = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, default=None, db_column='name',
-                              verbose_name='Группа тегов', related_query_name='label')
+    label = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, default=None,
+                              verbose_name='Группа тегов', related_name='label')
     name_tag = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name='Имя тега')
     tag_table = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name='Таблица тегов')
     address = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name='Адрес в памяти')

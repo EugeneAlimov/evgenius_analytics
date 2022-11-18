@@ -21,9 +21,18 @@ class TagsSerializer(serializers.ModelSerializer):
 
 class GroupSerializer(serializers.ModelSerializer):
 
+    # label = TagsSerializer(many=True, read_only=True)
+    label = serializers.SlugRelatedField(
+        many=True,
+        slug_field='name_tag',
+        read_only=True,
+        # queryset=Tags.objects.all()
+    )
+
     class Meta:
         model = Group
         fields = '__all__'
+        # fields = ('name', 'label')
 
 
 class UserSetsSerializer(serializers.ModelSerializer):

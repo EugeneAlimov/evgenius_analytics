@@ -20,6 +20,14 @@ def download_to_base(request):
     об этом"""
 
     name_group = ''
+    groups_list = []
+
+    # for i in range(1, ws.max_row + 1):
+    #     if (ws.cell(row=i, column=4)).value.startswith('%'):
+    #         groups_list.append(ws.cell(row=i, column=4))
+    #     else:
+
+
 
     for i in range(1, ws.max_row + 1):
 
@@ -30,7 +38,6 @@ def download_to_base(request):
         name_tag = str(name_tag)
         address_tag = str(address_tag)
 
-        # if not Tags.objects.filter(address=address_tag):
         comment_tag = (ws.cell(row=i, column=5)).value
         comment_tag = str(comment_tag)
 
@@ -43,12 +50,8 @@ def download_to_base(request):
             name_group = (ws.cell(row=i, column=2)).value
 
             if not Group.objects.filter(name=name_group):
-                save_set_of_groups = Group(
-                    name=name_group)                           # сохраняем содержимое в переменной name_group в базу
-                save_set_of_groups.save()                       # сохраняем name_group в базу
-
-            name_group_from_db = Group.objects.get(
-                    name=name_group)                           # заносим в переменную объект группы для текущей записи
+                Group.objects.create(name=name_group)           # сохраняем содержимое в переменной name_group в базу
+            name_group_from_db = Group.objects.get(name=name_group) # заносим в переменную объект группы для текущей записи
             if comment_tag.capitalize == 'Spare':
                 continue
             tag_table = (ws.cell(row=i, column=2)).value
@@ -57,25 +60,16 @@ def download_to_base(request):
             data_type = str(data_type)
 
             if not Tags.objects.filter(address=address_tag):
-                save_set_of_tags = Tags(label=name_group_from_db, name_tag=name_tag, tag_table=tag_table,
-                                        data_type=data_type, address=address_tag, comment=comment_tag)
-                save_set_of_tags.save()                                             # сохраняем модель Tags
+                Tags.objects.create(label=name_group_from_db, name_tag=name_tag, tag_table=tag_table,   # сохраняем
+                                    data_type=data_type, address=address_tag, comment=comment_tag)      # модель Tags
+
         else:
             """"Для случая когда теги полуены из DB блоков"""
-            # name_group = (ws.cell(row=i, column=6)).value
-            # name_group = ''
             if (ws.cell(row=i, column=2)).value == 'Struct':
                 name_group = (ws.cell(row=i, column=1)).value
-                print('name_group: ', name_group)
                 if not Group.objects.filter(name=name_group):
-                    save_set_of_groups = Group(name=name_group)  # сохраняем содержимое в переменной name_group в базу
-                    save_set_of_groups.save()  # сохраняем name_group в базу
+                    Group.objects.create(name=name_group)  # сохраняем name_group в базу
                 continue
-
-            # if not Group.objects.filter(name=name_group):
-            #     save_set_of_groups = Group(
-            #         name=name_group)                            # сохраняем содержимое в переменной name_group в базу
-            #     save_set_of_groups.save()                        # сохраняем name_group в базу
 
             name_group_from_db = Group.objects.get(
                 name=name_group)                                # заносим в переменную объект группы для текущей записи
@@ -93,7 +87,7 @@ def download_to_base(request):
             address_tag = f'{(ws.cell(row=i, column=4)).value}{x}{(ws.cell(row=i, column=3)).value}'
 
             if not Tags.objects.filter(address=address_tag):
-                save_set_of_tags = Tags(label=name_group_from_db, name_tag=name_tag, tag_table=tag_table,
-                                        data_type=data_type, address=address_tag, comment=comment_tag)
-                save_set_of_tags.save()                                                         # сохраняем модель Tags
+                Tags.objects.create(label=name_group_from_db, name_tag=name_tag, tag_table=tag_table,# сохраняем модель Tags
+                                    data_type=data_type, address=address_tag, comment=comment_tag)
+
     return

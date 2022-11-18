@@ -32,6 +32,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { faker } from '@faker-js/faker'
 import { getHours } from "date-fns";
+import { Link, Outlet, useLoaderData } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -238,6 +239,8 @@ const Analytic = () => {
     .then((response) => setData(response))
   }
 
+
+
   return(
     <Grid2 container spacing={2} sx={{m: 0}}>
       <Grid2 xs={4}>
@@ -276,39 +279,41 @@ const Analytic = () => {
         <Paper sx={{ boxShadow: 5, mt: 1, ml: 1, mr: 1, p: 3 }} elevation={10} square>
           <Button
             onClick={ setDatasetNamehandleClick('right', true) }
-            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
-            variant="contained" size="large"
+            sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
+            variant="contained" size="large" fullWidth={true}
           >
             Save set as historical
           </Button>
           <Button
             onClick={ setDatasetNamehandleClick('right', false) }
-            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
-            variant="contained" size="large"
+            sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
+            variant="contained" size="large" fullWidth={true}
           >
               Save set as realtime
           </Button>
           <Button
             // onClick={influxQueryHandler}
-            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
-            variant="contained" size="large" color="warning"
+            sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
+            variant="contained" size="large" color="warning" fullWidth={true}
             onClick={handler}
           >
               Show historical Trand
           </Button>
           <Button
             // onClick={influxQueryHandler}
-            sx={{ m: 1, position: 'senter', width: '29vw', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
-            variant="contained" size="large" color="success"
+            sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
+            variant="contained" size="large" color="success" fullWidth={true}
             onClick={handler}
           >
               Show realtime Trand
           </Button>
+          <Link to='chart'>CHART</Link>
 
         </Paper>
       </Grid2>
       <AlertDialog alertOpen={alertOpen} setAlertStateHandler={setAlertStateHandler} alertMessage={alertMessage} />
         {!!data.labels ? <Line updateMode="quiet" options={options} data={data} /> : <></>}
+        <Outlet />
     </Grid2>
   )
 }
