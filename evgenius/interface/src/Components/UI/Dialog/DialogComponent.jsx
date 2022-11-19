@@ -10,18 +10,21 @@ import { useDispatch } from 'react-redux';
 import classes from '../../../Components/Navbar/NavBar.module.css'
 import { Typography } from '@mui/material';
 import { login } from '../../../api/userApi';
+import { useNavigate } from 'react-router-dom';
 
 export default function FormDialog() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [open, setOpen] = useState(false);
 
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+
   const handleClickOpen = () => {
     setOpen(true)
   };
   
-  const dispatch = useDispatch()
-
   const handleClose = () => {
     if (username !== '') {
       dispatch(login({ username: username, password: password }))
@@ -44,7 +47,7 @@ export default function FormDialog() {
       Log in
     </Typography>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Log In</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Enter your email and password to log in.

@@ -21,14 +21,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 //     }
 // ) 
 
-const token = {
-  set(token) {
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`
-    },
-    unset() {
-      axios.defaults.headers.common.Authorization = ''
-    }
-}
+// const token = {
+//   set(token) {
+//       axios.defaults.headers.common.Authorization = `Bearer ${token}`
+//     },
+//     unset() {
+//       axios.defaults.headers.common.Authorization = ''
+//     }
+// }
 
 export const login = createAsyncThunk(
     'auth/login', async (credentials) => {
@@ -36,30 +36,48 @@ export const login = createAsyncThunk(
             const request = await axios.post('http://127.0.0.1:8000/api/v1/token/', credentials)
             const user = request.config.data
             const authToken = request.data
-            token.set(authToken.access)
+            // token.set(authToken.access)
             return {user, authToken}
         } catch (error) {console.log('error: ', error)}
     }
 )
 
 export const logout = createAsyncThunk(
-    'auth/logout', async (credentials) => {
-        try {
-            await axios.post('http://127.0.0.1:8000/api/v1/token/blacklist/', credentials)
-            token.unset()
-            return
+  'auth/logout', async (refreshToken) => {
+    try {
+      console.log('kjhgfdzdxfcg');
+      await axios.post('http://127.0.0.1:8000/api/v1/token/blacklist/',
+        {
+          refresh: refreshToken
+        }
+      )
+          return
         } catch (error) {}
     }
 )
 
+export const refreshTokenHandler = createAsyncThunk(
+  'auth/refreshToken', async (refreshToken) => {
+      try {
+          const request = await axios.post('http://127.0.0.1:8000/api/v1/token/refresh/',
+          {
+            refresh: refreshToken
+          }
+          )
+          const authToken = request.data
+          return authToken
+      } catch (error) {console.log('error: ', error.response.data)}
+  }
+)
+
 export const getUserDatasetCollection = createAsyncThunk(
-    'auth/userDataset', async (credentials) => {
+    'auth/userDataset', async (accessToken) => {
     try {
       const request = await axios.get('http://127.0.0.1:8000/api/v1/user-dataset/',
       {
           headers: 
           {
-            Authorization: `Bearer ${credentials}`,
+            Authorization: `Bearer ${accessToken}`,
           }
         }
       )
@@ -69,7 +87,7 @@ export const getUserDatasetCollection = createAsyncThunk(
 )
 
 export const userDatasetSave = async (
-    credentials,
+  accessToken,
     image,
     selectedTags,
     dateTimeStart,
@@ -91,7 +109,7 @@ export const userDatasetSave = async (
       formData.append("date_time_end_diapason", dtSend)
       formData.append("url", setName)
       formData.append("dataset_image", image)
-      console.log(...formData);
+      
     try {
       const request = await axios.post('http://127.0.0.1:8000/api/v1/user-dataset/',
         formData,
@@ -99,35 +117,21 @@ export const userDatasetSave = async (
             headers: 
             {
               "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${credentials}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           }
         )
-        console.log('request.data: ', request.data);
+
       return request.data
     } catch (error) {console.log('error: ', error.response.data)}
+}
 
-      //   {
-      //     headers: 
-      //     {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${credentials}`,
-      //       // tag: 'test',
-      //       // name: 'test',
-      //       // is_historical: true,
-      //       // url: 'test',
-      //       // dataset_image: image,
-      //     },
-      //     "parses": [
-      //       "application/json",
-      //       "application/x-www-form-urlencoded",
-      //       "multipart/form-data"
-      //   ],
-      //     // url: 'test',
-      //     // dataset_image: formData,
-      //     // dataset_image: image,
-      // }
-      // ).then((response) => console.log(response))
-    // }
-    // catch (error) {console.log('error', error)}
-  }
+export const tokenUpdater = async (refreshToken) => {
+  const response = await axios.post('http://127.0.0.1:8000/api/v1/token/refresh/',
+    {
+      refresh: refreshToken
+    }
+  )
+  
+  return response.data.access
+}

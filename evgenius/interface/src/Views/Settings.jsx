@@ -630,7 +630,7 @@ const Settings = () => {
   return(
     <>
         <FileUpload/>
-        <Line style={{backgroundColor: '#f2f2f2'}} options={options} data={data} />;
+        <Line style={{backgroundColor: '#f2f2f2'}} options={options} data={data} />
 
     </>
   )   

@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-    getGroupsQuery,
-    getTagsQuery,
     getTagsAndGroupsQuery,
 } from '../api/analitycApi'
 import { 
     login, 
     logout,
     getUserDatasetCollection,
+    refreshTokenHandler,
 } from '../api/userApi'
 
 const initialState = {
@@ -26,6 +25,9 @@ const slice = createSlice({
     reducers: {
     checkTags: (state, action) => {
         state.selectedTags = action.payload
+    },
+    accessTokenSetter: (state, action) => {
+        state.token.access = action.payload
     },
     //     // increment: (state) => {
     //     //     state.value += 1
@@ -51,10 +53,16 @@ const slice = createSlice({
             state.error = action.payload
         },
         [logout.fulfilled]: (state) => {
+            console.log('logout');
             state.user = {username: null, password: null}
             state.token = { refresh: null, access: null }
             state.isLoggedIn = false
             state.userDatasets = []
+        },
+        [refreshTokenHandler.fulfilled]: (state, action) => {
+            const accessToken = action.payload.access
+            state.token.access = accessToken
+            state.isLoggedIn = true
         },
         [getUserDatasetCollection.fulfilled]: (state, action) => {
             state.userDatasets = action.payload
@@ -80,4 +88,4 @@ const slice = createSlice({
 //   }
 
 export default slice.reducer
-export const { checkTags } = slice.actions
+export const { checkTags, accessTokenSetter } = slice.actions

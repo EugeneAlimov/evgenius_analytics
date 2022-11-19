@@ -15,7 +15,7 @@ import { Divider, Stack, Typography, Paper, } from "@mui/material";
 
 
 import * as htmlToImage from 'html-to-image';
-import { userDatasetSave } from "../api/userApi";
+import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
 import AlertDialog from "../Components/Notification";
 import influxRequest from "../api/InfluxAPI";
 
@@ -133,6 +133,7 @@ const Analytic = () => {
   const dispatch = useDispatch()
 
   const accessToken = useSelector((state) => state.login.token.access)
+  const refreshToken = useSelector((state) => state.login.token.refresh)
   const selectedTags = useSelector((state) => state.login.selectedTags)
 
   const domEl = useRef(null)
@@ -188,6 +189,7 @@ const Analytic = () => {
 
     formStateCheck(dateTimeStart, dateTimeEnd, setName)
 
+    dispatch(refreshTokenHandler(refreshToken))
     userDatasetSave(
         accessToken,
         file,
@@ -238,8 +240,6 @@ const Analytic = () => {
     influxRequest(selectedTags, dateTimeStart, dateTimeEnd)
     .then((response) => setData(response))
   }
-
-
 
   return(
     <Grid2 container spacing={2} sx={{m: 0}}>

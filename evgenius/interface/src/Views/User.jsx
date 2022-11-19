@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Typography, Tooltip, Grid, IconButton, Button, Checkbox, ListItemText, ListItemButton, ListItem, List, Card } from "@mui/material";
 import CommentIcon from '@mui/icons-material/Comment'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDatasetCollection } from "../api/userApi"
+import { getUserDatasetCollection, refreshTokenHandler, tokenUpdater } from "../api/userApi"
+import { accessTokenSetter } from '../Redux/slice'
+import { useNavigate } from "react-router-dom";
+import { logout } from "../api/userApi";
 
 const User = () => {
   
-    const accessToken = useSelector((state) => state.login.token.access)
+    const refreshToken = useSelector((state) => state.login.token.refresh)
     const userDataset = useSelector((state) => state.login.userDatasets)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
 
     const [userSetsHistorical, setUserSetsHistorical] = useState([])
     const [userSetsRealtime, setUserSetsRealtime] = useState([])
@@ -21,19 +26,22 @@ const User = () => {
     const [realtimelPreview, setRealtimePreview] = useState()
 
     useEffect(() => {
-      // if (userDataset.length > 0) {
-      //   return
-      // }
-      dispatch(
-        getUserDatasetCollection(accessToken)
-      )
+      tokenUpdater(refreshToken)
+        .then((response) => {
+          dispatch(accessTokenSetter(response))
+          dispatch(getUserDatasetCollection(response))
+        }).catch(() => {
+            dispatch(logout(refreshToken))
+            navigate('/analytic', {replace: true})
+        })
     }, [
-      accessToken,
+      navigate,
       dispatch,
-      // userDataset
+      refreshToken,
     ])
 
     useEffect(() => {
+      if (!userDataset) return
       const historical = userDataset.filter(set => set.is_historical === true)
       const realtime = userDataset.filter(set => set.is_historical === false)
       setUserSetsHistorical(historical)
@@ -79,6 +87,9 @@ const User = () => {
       arr[index] = '#1976d2'
       setcolorRealtime(arr)
     }
+
+
+
 
   return(
   <Grid container sx={{}} spacing={{ md: 12 }} >
@@ -224,6 +235,14 @@ const User = () => {
           </img>
       </Card>
     </Grid>
+    <Button
+        onClick={() => {dispatch(refreshTokenHandler(refreshToken))}}
+        sx={{ m: 2, width: '360px', height: '50px' }}
+        variant="contained" size="large"
+      >
+        refresh token
+      </Button>
+
   </Grid>
   )
 }

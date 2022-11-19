@@ -16,7 +16,7 @@ const NavBar = () => {
     const navigate = useNavigate()
 
     const logoutHandler = () => {
-        dispatch(logout({ refresh: refreshToken }))
+        dispatch(logout(refreshToken))
         navigate('analytic', {replace: true})
     }
 
