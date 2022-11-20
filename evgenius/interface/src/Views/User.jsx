@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typography, Tooltip, Grid, IconButton, Button, Checkbox, ListItemText, ListItemButton, ListItem, List, Card } from "@mui/material";
 import CommentIcon from '@mui/icons-material/Comment'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDatasetCollection, refreshTokenHandler, tokenUpdater } from "../api/userApi"
+import { getUserDatasetCollection, tokenUpdater } from "../api/userApi"
 import { accessTokenSetter } from '../Redux/slice'
 import { useNavigate } from "react-router-dom";
 import { logout } from "../api/userApi";
@@ -235,14 +235,6 @@ const User = () => {
           </img>
       </Card>
     </Grid>
-    <Button
-        onClick={() => {dispatch(refreshTokenHandler(refreshToken))}}
-        sx={{ m: 2, width: '360px', height: '50px' }}
-        variant="contained" size="large"
-      >
-        refresh token
-      </Button>
-
   </Grid>
   )
 }

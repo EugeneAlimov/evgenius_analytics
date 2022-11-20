@@ -1,5 +1,9 @@
+import React, { useRef, useEffect, useState } from "react";
 import FileUpload from "../Components/UI/FileUpload/FileUpload";
-import React from "react";
+
+import influxRequest from "../api/InfluxAPI";
+import { useDispatch, useSelector } from 'react-redux';
+
 import 'chartjs-adapter-luxon';
 import ChartStreaming from 'chartjs-plugin-streaming';
 import { format } from 'date-fns'
@@ -626,6 +630,18 @@ const data = {
 };
 
 const Settings = () => {
+
+  const [data, setData] = useState([])
+  const [dateTimeStart, setDateTimeStart] = useState(Date.now())
+  const [dateTimeEnd, setDateTimeEnd] = useState(Date.now())
+
+  const selectedTags = useSelector((state) => state.login.selectedTags)
+
+
+  const handler = () => {
+    influxRequest(selectedTags, dateTimeStart, dateTimeEnd)
+    .then((response) => setData(response))
+  }
 
   return(
     <>

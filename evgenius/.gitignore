@@ -3,3 +3,5 @@
 /interface/node_modules
 /interface/README.md
 /db.sqlite3
+/analytics/migrations/
+/users/migrations/

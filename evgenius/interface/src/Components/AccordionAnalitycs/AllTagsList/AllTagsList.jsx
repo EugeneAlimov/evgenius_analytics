@@ -72,7 +72,7 @@ const AllTagsList = ({ height, width }) => {
   }
 
   const lisTtagsLength = searchedAndFilteredByGroupTags.length
-  const rowHeith = height - 332
+  const rowHeith = height - 302
 
   const Row = ({ index, style }) => (
     <Tooltip
@@ -105,7 +105,7 @@ const AllTagsList = ({ height, width }) => {
           <ListItemText
             id={searchedAndFilteredByGroupTags[index].id}
             primary={
-              <Typography sx={{m: 0}} paragraph={true}>
+              <Typography sx={{m: 0, overflowWrap: 'break-word'}} paragraph={true} noWrap={false}>
                {searchedAndFilteredByGroupTags[index].name_tag} <br/>
                 
               </Typography>}
@@ -116,20 +116,23 @@ const AllTagsList = ({ height, width }) => {
   )
 
   return(
-    <Paper sx={{ p: 2, m:1, height: height - 164 }} elevation={10} square>
-      <Box component="div" mb={0} p={1} sx={{ border: 'none', minHeight: '10px' }}>
+    <Paper sx={{ p: 2, m: 2, height: height -64, width: '420px' }} elevation={10} square>
+      <Box component="div" mb={0} p={1} sx={{ border: 'none', minHeight: '10px' }}
+      >
         <Typography
           display="block" sx={{ color: '#666666', fontSize: 26, ml: 2 }}
+          
         >
           Please, select a tags from list
           </Typography>
       </Box>
-      <Paper sx={{ m: 0 }} elevation={3} square>
-        <Box component="div" mb={1} p={2} sx={{ border: 'none', minHeight: '10px' }}>
-          <Stack direction="row" spacing={3}>
+      <Paper sx={{ m: 0 }} elevation={10} square>
+        <Box component="div" mb={2} p={2} sx={{ border: 'none', minHeight: '10px' }}>
+          <Stack direction="column" spacing={3}>
             <TextField
               value={searchValue}
               onChange={(event) => setSearchValue(event.currentTarget.value)}
+              sx={{ offset: 100 }}
               id="outlined-search"
               label="Search tag"
               type="search"
@@ -140,7 +143,7 @@ const AllTagsList = ({ height, width }) => {
               disablePortal
               id="combo-box-demo"
               options={ groups }
-              sx={{ width: 300, offset: 100 }}
+              sx={{ offset: 100 }}
               freeSolo
               value={ value }
               onChange={(_, newText) => {setValue(newText)}}
@@ -149,6 +152,7 @@ const AllTagsList = ({ height, width }) => {
           </Stack>
         </Box>
       </Paper>
+      <Paper sx={{ p: 2 }} elevation={10} square>
       <FixedSizeList
         height={rowHeith}
         width={'100%'}
@@ -159,6 +163,7 @@ const AllTagsList = ({ height, width }) => {
       >
         { Row }
       </FixedSizeList>
+      </Paper>
     </Paper>  
   )
 }

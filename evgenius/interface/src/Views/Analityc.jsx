@@ -7,114 +7,24 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import SaveSetComponent from "../Components/SaveSetComponent/SaveSetCamponent";
 import Button from "@mui/material/Button";
+import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
 import Grid2 from '@mui/material/Unstable_Grid2'
 import AllTagsList from "../Components/AccordionAnalitycs/AllTagsList/AllTagsList";
 import SelectedTagsList from "../Components/AccordionAnalitycs/SelectedTagsList/SelectedTagsList";
 import DateTimePickerComponent from "../Components/DateTimePickers/DatePickerComponent/DateTimePickerComponent";
 import { Divider, Stack, Typography, Paper, } from "@mui/material";
-
+import { styled } from "@mui/material/styles";
+import { purple } from "@mui/material/colors";
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 import * as htmlToImage from 'html-to-image';
 import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
 import AlertDialog from "../Components/Notification";
-import influxRequest from "../api/InfluxAPI";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-import { faker } from '@faker-js/faker'
 import { getHours } from "date-fns";
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
-const options = {
-  responsive: true,
-  // update: "quiet",
-  interaction: {
-    mode: "index",
-    intersect: false
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: "Chart.js Line Chart - Multi Axis"
-    }
-  },
-  scales: {
-    y: {
-      type: "linear",
-      display: true,
-      position: "left",
-      backgroundColor: "rgba(255, 99, 132, 0.7)"
-    },
-    y1: {
-      type: "linear",
-      display: true,
-      position: "right",
-      backgroundColor: "rgba(53, 162, 235, 0.7)",
-      grid: {
-        drawOnChartArea: false
-      }
-    },
-    y2: {
-      type: "linear",
-      display: true,
-      position: "right",
-      backgroundColor: "rgba(153, 62, 135, 0.7)",
-      grid: {
-        drawOnChartArea: false
-      }
-    }
-  }
-};
-
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-const data111 = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-      yAxisID: "y"
-    },
-    {
-      label: "Dataset 2",
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-      yAxisID: "y1"
-    },
-    {
-      label: "Dataset 3",
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: "rgb(153, 62, 135)",
-      backgroundColor: "rgba(153, 62, 135, 0.5)",
-      yAxisID: "y2"
-    }
-  ]
-  
-};
 
 const Analytic = () => {
 
@@ -126,7 +36,8 @@ const Analytic = () => {
   const [isHistorical, setIsHistorical] = useState()
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
-  const [data, setData] = useState([])
+  const [drawerState, setDrawerState] = React.useState({ left: false, });
+
 
   const [width, height] = getWindowDimensions()
 
@@ -236,23 +147,55 @@ const Analytic = () => {
     setDateTimeEnd(value)
   }
 
-  const handler = () => {
-    influxRequest(selectedTags, dateTimeStart, dateTimeEnd)
-    .then((response) => setData(response))
+
+  const ColorButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: purple[500],
+    border: "0px",
+    height: height - 76,
+    borderRadius: "0px",
+    "&:hover": {
+      backgroundColor: purple[700]
+    }
+  }));
+
+const toggleDrawer = (anchor, open) => (event) => {
+  if (
+    event &&
+    event.type === 'keydown' &&
+    (event.key === 'Tab' || event.key === 'Shift')
+  ) {
+    return;
   }
+  setDrawerState({ ...drawerState, [anchor]: open });
+}
 
   return(
-    <Grid2 container spacing={2} sx={{m: 0}}>
+  <>
+    <ColorButton
+      onClick={toggleDrawer('left', true)}
+      sx={{ boxShadow: 6, }}
+      variant="contained">
+        <MenuOpenOutlinedIcon />
+    </ColorButton>
+    <SwipeableDrawer
+      sx={{width: '900px'}}
+      disableBackdropTransition={ true }
+      anchor={'left'}
+      open={drawerState['left']}
+      onClose={toggleDrawer('left', false)}
+      onOpen={toggleDrawer('left', true)}
+    >
+
+    <Grid2 container >
       <Grid2 xs={4}>
-        <div id='domEl' ref={domEl} >
-      <AllTagsList height={height} width={width} />
-      </div>
+        <AllTagsList height={height} width={width} />
       </Grid2>
       <Grid2 xs={4}>
-      <SelectedTagsList height={height} width={width} />
+        <SelectedTagsList height={height} width={width} />
       </Grid2>
-      <Grid2 xs={4}>
-        <Paper sx={{ boxShadow: 5, mt: 1, ml: 1, mr: 1, p: 3 }} elevation={10} square>
+      <Grid2 xs={3}>
+        <Paper sx={{ m: 2, p: 3, width: '300px' }} elevation={10} square>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Stack spacing={3}>
           <Typography>Date & Time pickers</Typography>
@@ -268,15 +211,16 @@ const Analytic = () => {
               value={dateTimeEnd}
             />
           </Stack>
-        </LocalizationProvider>
-      </Paper>
-        <SaveSetComponent
-          isPopOpen={ isPopOpen }
-          popAnchorEl={ anchorEl }
-          popPlacement={ placement }
-          closePopperHandle={ closePopperHandle }
-        />
-        <Paper sx={{ boxShadow: 5, mt: 1, ml: 1, mr: 1, p: 3 }} elevation={10} square>
+          </LocalizationProvider>
+          <SaveSetComponent
+            isPopOpen={ isPopOpen }
+            popAnchorEl={ anchorEl }
+            popPlacement={ placement }
+            closePopperHandle={ closePopperHandle }
+          />
+
+        </Paper>
+        <Paper sx={{ mt: 10, m: 2, p: 3, width: '300px' }} elevation={10} square>
           <Button
             onClick={ setDatasetNamehandleClick('right', true) }
             sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
@@ -289,32 +233,52 @@ const Analytic = () => {
             sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto' }}
             variant="contained" size="large" fullWidth={true}
           >
-              Save set as realtime
+            Save set as realtime
           </Button>
           <Button
             // onClick={influxQueryHandler}
             sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
             variant="contained" size="large" color="warning" fullWidth={true}
-            onClick={handler}
-          >
+            // onClick={handler}
+            >
               Show historical Trand
           </Button>
           <Button
-            // onClick={influxQueryHandler}
+              // onClick={influxQueryHandler}
             sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
             variant="contained" size="large" color="success" fullWidth={true}
-            onClick={handler}
+            // onClick={handler}
           >
               Show realtime Trand
           </Button>
-          <Link to='chart'>CHART</Link>
-
-        </Paper>
+          </Paper>
       </Grid2>
-      <AlertDialog alertOpen={alertOpen} setAlertStateHandler={setAlertStateHandler} alertMessage={alertMessage} />
-        {!!data.labels ? <Line updateMode="quiet" options={options} data={data} /> : <></>}
-        <Outlet />
+      <Grid2
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          flexWrap: 'nowrap',
+          alignContent: 'center',
+          alignItems: 'center',
+        }}
+        xs={1}
+      >
+        <ColorButton
+          onClick={toggleDrawer('left', false)}
+          style={{ height: height, }}
+          sx={{ boxShadow: 6, }}
+          variant="contained">
+            <MenuOpenOutlinedIcon
+              style={{ transform: 'rotate(180deg)', }}
+        />
+        </ColorButton>
+      </Grid2>
     </Grid2>
+    </SwipeableDrawer>
+    <AlertDialog alertOpen={alertOpen} setAlertStateHandler={setAlertStateHandler} alertMessage={alertMessage} />
+    <Outlet />
+  </>
   )
 }
 

@@ -19,6 +19,25 @@ const initialState = {
     selectedTags: [],
 }
 
+// const initialStateTags = {
+//     tags: [],
+//     groups: [],
+//     selectedTags: [],
+// }
+
+// const slice1 = createSlice({
+//     name: 'tags',
+//     initialStateTags,
+//     reducers: {
+
+//     },
+//     extraReducers: {
+//         [getUserDatasetCollection.fulfilled]: (state, action) => {
+//             state.userDatasets = action.payload
+//         },
+//     }
+// })
+
 const slice = createSlice({
     name: 'auth',
     initialState,
@@ -58,6 +77,7 @@ const slice = createSlice({
             state.token = { refresh: null, access: null }
             state.isLoggedIn = false
             state.userDatasets = []
+            state.selectedTags = []
         },
         [refreshTokenHandler.fulfilled]: (state, action) => {
             const accessToken = action.payload.access
@@ -67,16 +87,16 @@ const slice = createSlice({
         [getUserDatasetCollection.fulfilled]: (state, action) => {
             state.userDatasets = action.payload
         },
-        [getTagsAndGroupsQuery.fulfilled]: (state, action) => {
-            state.tags = action.payload.tags
-            state.groups = action.payload.groups.map((el) => {
-                let obj = {
-                  id: el.id,
-                  label: el.name,
-                }
-                return obj
-              })
-        }
+        // [getTagsAndGroupsQuery.fulfilled]: (state, action) => {
+        //     state.tags = action.payload.tags
+        //     state.groups = action.payload.groups.map((el) => {
+        //         let obj = {
+        //           id: el.id,
+        //           label: el.name,
+        //         }
+        //         return obj
+        //       })
+        // }
     }
 })
 

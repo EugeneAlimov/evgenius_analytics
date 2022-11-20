@@ -2,7 +2,7 @@ import axios from "axios"
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const getTagsAndGroupsQuery = createAsyncThunk(
-    'auth/tagsAndGroupsLists', async () => {
+    'analytic/tagsAndGroupsLists', async () => {
 
         const arrayOfEndpoints = [
             'http://127.0.0.1:8000/api/v1/analytics/',
