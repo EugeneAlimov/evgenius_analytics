@@ -1,6 +1,8 @@
 .Wraper {
-    position: relative;
+    position: fixed;
+    top: 0;
     height: 76px;
+    width: 100%;
     background-color: #1c1c1c;
     display: flex;
     flex-direction: row;
@@ -8,14 +10,8 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
+    z-index: 999;
 }
-
-/* .DrawerListWraper {
-    display: flex;
-    flex-direction: column;
-    height: 91vh;
-    overflow-y: auto;
-} */
 
 .Ul {
     list-style: none;
@@ -31,7 +27,6 @@
 }
 
 .LinkItem {
-    /* font-size: 20px; */
     color: #fff;
     text-decoration: none;
 }
@@ -41,7 +36,6 @@
 }
 
 .LinkItemActive {
-    /* font-size: 20px; */
     color: rgb(129, 148, 199);
     text-decoration: none;
 }

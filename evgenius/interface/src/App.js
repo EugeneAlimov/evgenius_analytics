@@ -12,8 +12,11 @@ function App() {
     <div className="App">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
           <NavBar />
+          <div style={{marginTop: '76px'}}>
+
+          </div>
       </LocalizationProvider>
-      <Outlet />
+        <Outlet />
     </div>
   );
 }

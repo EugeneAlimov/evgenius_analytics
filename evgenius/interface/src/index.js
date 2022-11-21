@@ -14,7 +14,7 @@ import Analytic from './Views/Analityc';
 import PageNotFound from './Views/PageNotFound';
 import Settings from './Views/Settings';
 import User from './Views/User';
-import Chart from './Views/chart';
+import Chart from './Views/Chart';
 
 const router = createBrowserRouter([
   {

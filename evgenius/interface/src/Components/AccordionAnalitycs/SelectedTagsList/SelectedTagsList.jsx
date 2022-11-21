@@ -26,11 +26,10 @@ const SelectedTagsList = ({ height, width }) => {
           Selected tags
           </Typography>
       </Box>
-      <Paper sx={{ p: 2 }} elevation={10} square>
       <List
       style={{
         overflowY: 'scroll',
-        height: `${height - 166}px`,
+        height: `${height - 146}px`,
         paddingRight: '12px',
         bgcolor: 'background.paper',
       }}
@@ -77,7 +76,6 @@ const SelectedTagsList = ({ height, width }) => {
     )
   }
       </List>
-      </Paper>
     </Paper>  
   )
 }

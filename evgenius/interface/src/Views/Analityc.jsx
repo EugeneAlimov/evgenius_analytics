@@ -147,7 +147,6 @@ const Analytic = () => {
     setDateTimeEnd(value)
   }
 
-
   const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(purple[500]),
     backgroundColor: purple[500],

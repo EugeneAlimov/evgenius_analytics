@@ -72,7 +72,7 @@ const AllTagsList = ({ height, width }) => {
   }
 
   const lisTtagsLength = searchedAndFilteredByGroupTags.length
-  const rowHeith = height - 302
+  const rowHeith = height - 282
 
   const Row = ({ index, style }) => (
     <Tooltip
@@ -126,7 +126,7 @@ const AllTagsList = ({ height, width }) => {
           Please, select a tags from list
           </Typography>
       </Box>
-      <Paper sx={{ m: 0 }} elevation={10} square>
+      <Paper sx={{ m: 0 }} elevation={5} square>
         <Box component="div" mb={2} p={2} sx={{ border: 'none', minHeight: '10px' }}>
           <Stack direction="column" spacing={3}>
             <TextField
@@ -152,7 +152,6 @@ const AllTagsList = ({ height, width }) => {
           </Stack>
         </Box>
       </Paper>
-      <Paper sx={{ p: 2 }} elevation={10} square>
       <FixedSizeList
         height={rowHeith}
         width={'100%'}
@@ -163,7 +162,6 @@ const AllTagsList = ({ height, width }) => {
       >
         { Row }
       </FixedSizeList>
-      </Paper>
     </Paper>  
   )
 }
