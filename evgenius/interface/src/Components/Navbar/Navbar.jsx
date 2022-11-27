@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import routes from "../../routes";
 import classes from './NavBar.module.css'
 import { Grid, Typography } from '@mui/material';
 import { NavLink } from "react-router-dom";
@@ -17,7 +18,7 @@ const NavBar = () => {
 
     const logoutHandler = () => {
         dispatch(logout(refreshToken))
-        navigate('analytic', {replace: true})
+        navigate('analytics', {replace: true})
     }
 
     return(
@@ -28,7 +29,7 @@ const NavBar = () => {
                 </Typography>
                 <ul className={classes.Ul}>
                     <li>
-                        <NavLink end to='analytic'
+                        <NavLink end to={routes.analytics}
                             className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem}
                         >
                             <Typography variant="overline" display="block" sx={{ mr: 1, fontSize: 18, }} >
@@ -44,7 +45,7 @@ const NavBar = () => {
                         </a>
                     </li>
                     <li>
-                        <NavLink to='settings'
+                        <NavLink to={routes.settings}
                             className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem}
                         >
                             <Typography variant="overline" display="block" sx={{ ml: 1, mr: 1, fontSize: 18, }} >
@@ -57,7 +58,7 @@ const NavBar = () => {
                     ?
                     <>
                         <li>
-                            <NavLink to='user' className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem} >
+                            <NavLink to={routes.user }className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem} >
                                 <Typography variant="overline" display="block" sx={{ ml: 1, mr: 1, fontSize: 18, }} >
                                     {userName} Page
                                 </Typography>

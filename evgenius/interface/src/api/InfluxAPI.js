@@ -3,7 +3,7 @@ import chartDataAndOptionsCreater from '../Libs/influxDataCreater'
 
 async function influxRequest(checkedArr, dateTimeStart, dateTimeEnd) {
   const dateTimeStartUTC = dateTimeStart.toISOString()
-  console.log(dateTimeStartUTC);
+
   const dateTimeEndUTC = dateTimeEnd.toISOString()
   const datasets = []
 
@@ -13,7 +13,7 @@ async function influxRequest(checkedArr, dateTimeStart, dateTimeEnd) {
     str = str + `r._field == "${element}" or `
   })
   str = str.slice(0, str.length - 4)
-    const URL = 'http://192.168.8.166:8086/'
+    const URL = 'http://192.168.8.167:8086/'
     const TOKEN = 'AYxGUOAj0Ho1vqmyMeQDpHPaSPYNcTZznrQ9bDJCvNM9fvF6tAepPH6jyxuTaalmbqgZKe98efDVoCFAyu6kJw=='
     const ORG = 'evgenius'
     const BUCKET = 'Line'

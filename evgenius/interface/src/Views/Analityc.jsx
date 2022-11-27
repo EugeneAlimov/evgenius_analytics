@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, lazy } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import getWindowDimensions from '../Libs/getWindowDimensions'
 import { getTagsAndGroupsQuery } from "../api/analitycApi";
@@ -12,7 +12,7 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import AllTagsList from "../Components/AccordionAnalitycs/AllTagsList/AllTagsList";
 import SelectedTagsList from "../Components/AccordionAnalitycs/SelectedTagsList/SelectedTagsList";
 import DateTimePickerComponent from "../Components/DateTimePickers/DatePickerComponent/DateTimePickerComponent";
-import { Divider, Stack, Typography, Paper, } from "@mui/material";
+import { Divider, Stack, Typography, Paper, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -21,10 +21,11 @@ import * as htmlToImage from 'html-to-image';
 import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
 import AlertDialog from "../Components/Notification";
 
-import { getHours } from "date-fns";
-import { Outlet } from "react-router-dom";
+// import { getHours } from "date-fns";
+// import { useNavigate } from "react-router-dom";
+import influxRequest from "../api/InfluxAPI";
 
-
+const Chart = lazy(() =>  import ('./Chart' /* webpackChunkName: 'Chart' */))
 
 const Analytic = () => {
 
@@ -37,6 +38,7 @@ const Analytic = () => {
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
   const [drawerState, setDrawerState] = React.useState({ left: false, });
+  const [data, setData] = useState([])
 
 
   const [width, height] = getWindowDimensions()
@@ -169,14 +171,33 @@ const toggleDrawer = (anchor, open) => (event) => {
   setDrawerState({ ...drawerState, [anchor]: open });
 }
 
+  const influxQueryHandler = () => {
+    influxRequest(selectedTags, dateTimeStart, dateTimeEnd)
+    .then((response) => setData(response))
+  }
+
   return(
   <>
-    <ColorButton
-      onClick={toggleDrawer('left', true)}
-      sx={{ boxShadow: 6, }}
-      variant="contained">
-        <MenuOpenOutlinedIcon />
-    </ColorButton>
+  <Grid2 container>
+    <Grid2 xs={1}>
+        <ColorButton
+          onClick={toggleDrawer('left', true)}
+          sx={{ boxShadow: 6, }}
+          variant="contained">
+            <MenuOpenOutlinedIcon />
+        </ColorButton>
+    </Grid2>
+    <Grid2 xs={11}>
+      <Container >
+        {
+          data.data !== undefined ?
+          <Chart data={data} />
+          : <></>
+          }
+      </Container>
+    </Grid2>
+  </Grid2>
+
     <SwipeableDrawer
       sx={{width: '900px'}}
       disableBackdropTransition={ true }
@@ -235,7 +256,7 @@ const toggleDrawer = (anchor, open) => (event) => {
             Save set as realtime
           </Button>
           <Button
-            // onClick={influxQueryHandler}
+            onClick={influxQueryHandler}
             sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
             variant="contained" size="large" color="warning" fullWidth={true}
             // onClick={handler}
@@ -246,7 +267,7 @@ const toggleDrawer = (anchor, open) => (event) => {
               // onClick={influxQueryHandler}
             sx={{ m: 1, position: 'senter', height: '50px', marginLeft: 'auto', marginRight: 'auto'}}
             variant="contained" size="large" color="success" fullWidth={true}
-            // onClick={handler}
+            // onClick={redirectToChart}
           >
               Show realtime Trand
           </Button>
@@ -276,7 +297,6 @@ const toggleDrawer = (anchor, open) => (event) => {
     </Grid2>
     </SwipeableDrawer>
     <AlertDialog alertOpen={alertOpen} setAlertStateHandler={setAlertStateHandler} alertMessage={alertMessage} />
-    <Outlet />
   </>
   )
 }

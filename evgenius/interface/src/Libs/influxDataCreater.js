@@ -41,7 +41,27 @@ const chartDataAndOptionsCreater = (checkedArr, dataSetArr) => {
             title: {
             // display: true,
             text: "Chart.js Line Chart - Multi Axis"
-            }
+            },
+          // annotationLine,
+          zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true,
+                },
+                pinch: {
+                  enabled: true,
+                },
+                drag: {
+                  enabled: true,
+                },
+                // pan: {
+                //   enabled: true,
+                //   mode: 'x',
+                // },
+              mode: 'xy',
+            },
+          },
+      //   },
         },
         scales: {
           y1: {
@@ -92,7 +112,7 @@ const chartDataAndOptionsCreater = (checkedArr, dataSetArr) => {
 
 
 
-    return [data, options]
+    return {data: data, options: options}
   }
 
 export default chartDataAndOptionsCreater
