@@ -16,6 +16,7 @@ const Analytic = lazy(() =>  import ('./Views/Analityc' /* webpackChunkName: 'An
 const Settings = lazy(() =>  import ('./Views/Settings' /* webpackChunkName: 'Settings' */))
 const User = lazy(() =>  import ('./Views/User' /* webpackChunkName: 'User' */))
 const PageNotFound = lazy(() =>  import ('./Views/PageNotFound' /* webpackChunkName: 'PageNotFound' */))
+const CommonDashBoard = lazy(() =>  import ('./Views/CommonDashBoard' /* webpackChunkName: 'CommonDashBoard' */))
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: routes.analytics,
         element: <Analytic />,
+      },
+      {
+        path: routes.dashBoard,
+        element: <CommonDashBoard />,
       },
       {
         path: routes.settings,

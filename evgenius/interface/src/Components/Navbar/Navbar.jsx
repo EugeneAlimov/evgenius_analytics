@@ -37,6 +37,16 @@ const NavBar = () => {
                             </Typography>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink end to={routes.dashBoard}
+                            className={({ isActive }) => isActive ? classes.LinkItemActive : classes.LinkItem}
+                        >
+                            <Typography variant="overline" display="block" sx={{ mr: 1, fontSize: 18, }} >
+                                Dash board
+                            </Typography>
+                        </NavLink>
+                    </li>
+
                     <li >
                         <a href='/admin/' className={classes.LinkItem} >
                             <Typography variant="overline" display="block" sx={{ ml: 1, mr: 1, fontSize: 18, }} >

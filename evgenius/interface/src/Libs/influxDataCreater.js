@@ -1,7 +1,8 @@
-import { format } from 'date-fns'
+// import { format } from 'date-fns'
 
 const chartDataAndOptionsCreater = (checkedArr, dataSetArr) => {
-
+console.log('dataSetArr: ', dataSetArr);
+console.log('checkedArr: ', checkedArr);
     const BORDERCOLORS = [
         "rgba(239, 71, 111, 0.5)",
         "rgba(255, 209, 102, 0.5)",
@@ -31,6 +32,9 @@ const chartDataAndOptionsCreater = (checkedArr, dataSetArr) => {
     const data = {}
 
     const options = {
+        animation: false,
+        // parsing: true,
+        parsing: false,
         responsive: true,
         interaction: {
             mode: "index",
@@ -38,79 +42,77 @@ const chartDataAndOptionsCreater = (checkedArr, dataSetArr) => {
         },
         stacked: false,
         plugins: {
+          decimation: {
+          enabled: true,
+          // algorithm: 'min-max',
+          algorithm: 'lttb',
+          samples: 80,
+          threshold: 80,
+            },
             title: {
-            // display: true,
             text: "Chart.js Line Chart - Multi Axis"
             },
-          // annotationLine,
           zoom: {
-              zoom: {
-                wheel: {
-                  enabled: true,
-                },
-                pinch: {
-                  enabled: true,
-                },
-                drag: {
-                  enabled: true,
-                },
-                // pan: {
-                //   enabled: true,
-                //   mode: 'x',
-                // },
+            pan: {
+              enabled: true,
               mode: 'xy',
+              overScaleMode: 'xy',
+            },
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+              mode: 'xy',
+              overScaleMode: 'xy',
             },
           },
-      //   },
         },
         scales: {
-          y1: {
-            type: "linear",
-            display: true,
-            position: "left",
-            backgroundColor: "rgba(239, 71, 111, 0.5)",
-            grid: {
-              drawOnChartArea: true
-                }
-            }
-        }
+          x: {
+            type: 'timeseries',
+          },
+          // y: {
+          //   beginAtZero: true,
+          // },
+        },
     }
 
-    const labels = dataSetArr.filter(el => el.table === 0).map(el => format(new Date(el._time), 'MMM do, hh:mm:ss'))
-  
     let numbersOfArrays = checkedArr.length
     let label = ''
-  
+
     const datasets = Array.from({length: numbersOfArrays}, () => {
       return {data: []}
     })
-  
-    dataSetArr.forEach(el => {
-  
+
+    dataSetArr.forEach((el) => {
+
         if (label !== el._field) {
           datasets[el.table].label = el._field
           label = el._field
           datasets[el.table].borderColor = BORDERCOLORS[el.table]
           datasets[el.table].backgroundColor = BACKGROUNDCORORS[el.table]
           datasets[el.table].yAxisID = label
+          datasets[el.table].radius = 0
 
-          options.label = {
+          options.scales[label] = {
+            beginAtZero: true,
             type: "linear",
             display: true,
             position: el.table % 2 ? "left" : "right",
             backgroundColor: BORDERCOLORS[el.table],
             grid: {
               drawOnChartArea: true
-            }
+            },
+            min: 0,
           }
         }
-  
-      datasets[el.table].data.push(Math.round10(el._value, -2))
+      datasets[el.table].data.push(
+        {
+          x: new Date(el._time).getTime(),
+          y: Math.round10(el._value, -2)
+        })
     })
-    data.labels = labels
     data.datasets = datasets
-
-
 
     return {data: data, options: options}
   }

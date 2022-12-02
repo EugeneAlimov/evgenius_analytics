@@ -22,12 +22,14 @@ import React, {
     Legend,
     TimeScale,
     TimeSeriesScale,
+    Decimation,
   } from "chart.js";
   import { annotationLine } from "../Libs/chartJsPlugins";
   import { getElementAtEvent, Line } from "react-chartjs-2";
   import { faker } from '@faker-js/faker'
   import * as zoom from 'chartjs-plugin-zoom'
   import zoomPlugin from 'chartjs-plugin-zoom';
+import { Button } from "@mui/material";
   
   ChartJS.register(
     CategoryScale,
@@ -42,6 +44,7 @@ import React, {
     annotationLine,
     zoom,
     zoomPlugin,
+    Decimation,
   );
   
   // const options = {
@@ -290,21 +293,22 @@ import React, {
   
     const tableDataCreating = (currentArr) => {
       const newTableArr = currentArr.map((el) => {
+
+        const yArr = el.dataset.data.map((el) => { return el.y })
+
         const min = arr => arr.reduce((x, y) => Math.min(x, y))
         const max = arr => arr.reduce((x, y) => Math.max(x, y))
         const summ = arr => arr.reduce((x, y) => {return x + y}, 0)
-  
         return {
           'name': el.dataset.label,
-          'current': el.raw,
+          'current': el.raw.y,
           'time': el.label,
-          'minimum': min(el.dataset.data),
-          'maximum': max(el.dataset.data),
-          'average': summ(el.dataset.data) / el.dataset.data.length,
+          'minimum': min(yArr),
+          'maximum': max(yArr),
+          'average': Math.round10(summ(yArr) / el.dataset.data.length, -2),
         }
       })
         setTableData(newTableArr)
-  
     }
   
     const annotationLine = {
@@ -324,12 +328,15 @@ import React, {
           ctx.strokeStyle = 'rgba(255,99,132, 1)'
           ctx.stroke()
           ctx.restore()
-
           tableDataCreating(chartRef.tooltip.dataPoints)
         }
       }
     }
-  
+
+    const resetChartZoom = () => {
+      chartRef.current.resetZoom()
+    }
+console.log(data.data);
     return(
       <>
         <Paper elevation={10}
@@ -341,49 +348,49 @@ import React, {
             padding: 15
           }}
         >
-             <Line
-            data={data.data}
-            options={data.options} 
-            onClick={onClick}
-            ref={chartRef}
-            plugins={[annotationLine, zoomPlugin]}
-          />
-        {/* <Line
-          data={data.data}
-          options={data.options} 
-          onClick={onClick}
-          ref={chartRef}
-          plugins={[annotationLine, zoomPlugin]}
-        /> */}
+          <Button
+            variant="contained"
+            size="small"
+            onClick={resetChartZoom}
+            >
+              Reset zoom
+            </Button>
+              <Line
+              data={data.data}
+              options={data.options} 
+              onClick={onClick}
+              ref={chartRef}
+              plugins={[annotationLine, zoomPlugin, zoom, Decimation]}
+            /> 
   
-  <TableContainer component={Paper}>
-        <Table  size="small" aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ width: '40px' }} align="left">Name</TableCell>
-              <TableCell style={{ width: '40px' }} align="right" >Current</TableCell>
-              <TableCell style={{ width: '40px' }} align="right">time</TableCell>
-              <TableCell style={{ width: '40px' }} align="right">Minimum</TableCell>
-              <TableCell style={{ width: '40px' }} align="right">Averrage</TableCell>
-              <TableCell style={{ width: '40px' }} align="right">Maximum</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              tableData.map((row, index) => (
-                <TableRow key={index} style={{ width: 40 }}  >
-                <TableCell style={{ width: '40px' }} variant='string' align="left" component="th" scope="row">{row.name}</TableCell>
-                <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.current}</TableCell>
-                <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.time}</TableCell>
-                <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.minimum}</TableCell>
-                <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.maximum}</TableCell>
-                <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.average}</TableCell>
+          <TableContainer component={Paper}>
+            <Table  size="small" aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: '40px' }} align="left">Name</TableCell>
+                  <TableCell style={{ width: '40px' }} align="right" >Current</TableCell>
+                  <TableCell style={{ width: '40px' }} align="right">time</TableCell>
+                  <TableCell style={{ width: '40px' }} align="right">Minimum</TableCell>
+                  <TableCell style={{ width: '40px' }} align="right">Averrage</TableCell>
+                  <TableCell style={{ width: '40px' }} align="right">Maximum</TableCell>
                 </TableRow>
-              ))
-            }
-          </TableBody>
-        </Table>
-      </TableContainer> 
+              </TableHead>
+              <TableBody>
+                {
+                  tableData.map((row, index) => (
+                    <TableRow key={index} style={{ width: 40 }}  >
+                    <TableCell style={{ width: '40px' }} variant='string' align="left" component="th" scope="row">{row.name}</TableCell>
+                    <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.current}</TableCell>
+                    <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.time}</TableCell>
+                    <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.minimum}</TableCell>
+                    <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.maximum}</TableCell>
+                    <TableCell style={{ width: '40px' }} variant='string' align="right" component="th" scope="row">{row.average}</TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            </Table>
+          </TableContainer> 
         </Paper>
       </>
     )   

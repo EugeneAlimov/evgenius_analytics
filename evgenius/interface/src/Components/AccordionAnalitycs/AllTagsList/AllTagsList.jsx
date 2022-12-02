@@ -16,16 +16,16 @@ import {
 } from '@mui/material';
 import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
-import { checkTags } from "../../../Redux/slice";
+import { checkTags } from "../../../Redux/sliceAnalytic";
 import binarySearch from "../../../Libs/binarySearch"
 
 const AllTagsList = ({ height, width }) => {
 
   const dispatch = useDispatch()
 
-  const tags = useSelector((state) => state.login.tags)
-  const groups = useSelector((state) => state.login.groups)
-  const selectedTags = useSelector((state) => state.login.selectedTags)
+  const tags = useSelector((state) => state.analytic.tags)
+  const groups = useSelector((state) => state.analytic.groups)
+  const selectedTags = useSelector((state) => state.analytic.selectedTags)
 
   const [groupFilter, setGroupFilter] = useState(null);
   const [searchValue, setSearchValue] = useState('')

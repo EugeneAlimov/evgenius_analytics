@@ -3,4 +3,5 @@ export default {
     analytics: 'analytics',
     settings: 'settings',
     user: 'user',
+    dashBoard: 'dash-board',
 }

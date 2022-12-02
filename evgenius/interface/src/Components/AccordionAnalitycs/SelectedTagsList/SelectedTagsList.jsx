@@ -1,13 +1,13 @@
 import { Paper, Tooltip, Box, Typography} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkTags } from '../../../Redux/slice';
+import { checkTags } from '../../../Redux/sliceAnalytic';
 
 import { List, ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const SelectedTagsList = ({ height, width }) => {
 
-  const selectedTags = useSelector((state) => state.login.selectedTags)
+  const selectedTags = useSelector((state) => state.analytic.selectedTags)
 
   const dispatch = useDispatch()
 

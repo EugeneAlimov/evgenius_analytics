@@ -1,7 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {
-    getTagsAndGroupsQuery,
-} from '../api/analitycApi'
 import { 
     login, 
     logout,
@@ -14,9 +11,6 @@ const initialState = {
     token: { refresh: null, access: null },
     isLoggedIn: false,
     userDatasets: [],
-    tags: [],
-    groups: [],
-    selectedTags: [],
 }
 
 // const initialStateTags = {

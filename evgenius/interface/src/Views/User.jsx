@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Tooltip, Grid, IconButton, Button, Checkbox, ListItemText, ListItemButton, ListItem, List, Card } from "@mui/material";
+import { Typography, Tooltip, Grid, IconButton, Button, Checkbox, ListItemText, ListItemButton, ListItem, List, Card, Paper } from "@mui/material";
 import CommentIcon from '@mui/icons-material/Comment'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDatasetCollection, tokenUpdater } from "../api/userApi"
@@ -14,7 +14,6 @@ const User = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
 
     const [userSetsHistorical, setUserSetsHistorical] = useState([])
     const [userSetsRealtime, setUserSetsRealtime] = useState([])
@@ -32,7 +31,7 @@ const User = () => {
           dispatch(getUserDatasetCollection(response))
         }).catch(() => {
             dispatch(logout(refreshToken))
-            navigate('/analytic', {replace: true})
+            navigate('/analytics', {replace: true})
         })
     }, [
       navigate,
@@ -92,8 +91,9 @@ const User = () => {
 
 
   return(
-  <Grid container sx={{}} spacing={{ md: 12 }} >
+  <Grid container sx={{}} spacing={{ xs: 2 }} >
     <Grid item md={8}>
+      <Paper sx={{marginLeft: '30px', width: '400px', height: '380px'}}>
       <h2 style={{marginLeft: 30}} >Historical</h2>
       <List sx={{ mt: 2, ml: 2, boxShadow: 5, width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         {userSetsHistorical.map((value, index) => {
@@ -157,8 +157,9 @@ const User = () => {
       >
         Show
       </Button>
+      </Paper>
     </Grid>
-    <Grid item md={2}>
+    <Grid item md={4}>
       <Card
         sx={{ p: 2, mt: 2, boxShadow: 5, width: 400, height: 300}}>
         <img
@@ -171,6 +172,7 @@ const User = () => {
       </Card>
     </Grid>
     <Grid item md={8}>
+    <Paper sx={{marginLeft: '30px', width: '400px',  height: '380px'}}>
       <h2 style={{marginLeft: 30}} >Realtime</h2>
       <List sx={{ mt: 2, ml: 2, boxShadow: 5, width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         {userSetsRealtime.map((value, index) => {
@@ -223,8 +225,9 @@ const User = () => {
       >
         Show
       </Button>
+      </Paper>
     </Grid>
-    <Grid item md={2}>
+    <Grid item md={4}>
       <Card sx={{ p: 2, mt: 2, boxShadow: 5, width: 400, height: 300}}>
         <img
             src={realtimelPreview}

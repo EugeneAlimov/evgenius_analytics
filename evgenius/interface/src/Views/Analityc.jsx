@@ -22,7 +22,6 @@ import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
 import AlertDialog from "../Components/Notification";
 
 // import { getHours } from "date-fns";
-// import { useNavigate } from "react-router-dom";
 import influxRequest from "../api/InfluxAPI";
 
 const Chart = lazy(() =>  import ('./Chart' /* webpackChunkName: 'Chart' */))
@@ -40,14 +39,13 @@ const Analytic = () => {
   const [drawerState, setDrawerState] = React.useState({ left: false, });
   const [data, setData] = useState([])
 
-
   const [width, height] = getWindowDimensions()
 
   const dispatch = useDispatch()
 
   const accessToken = useSelector((state) => state.login.token.access)
   const refreshToken = useSelector((state) => state.login.token.refresh)
-  const selectedTags = useSelector((state) => state.login.selectedTags)
+  const selectedTags = useSelector((state) => state.analytic.selectedTags)
 
   const domEl = useRef(null)
 
@@ -116,6 +114,7 @@ const Analytic = () => {
 
   useEffect(() => {
     dispatch(getTagsAndGroupsQuery())
+
   }, [dispatch])
 
   const setDatasetNamehandleClick = (newPlacement, isHistorical) => (event) => {
