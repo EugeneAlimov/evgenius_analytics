@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../api/userApi';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -6,11 +8,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useDispatch } from 'react-redux';
+import Typography from '@mui/material/Typography';
 import classes from '../../../Components/Navbar/NavBar.module.css'
-import { Typography } from '@mui/material';
-import { login } from '../../../api/userApi';
-import { useNavigate } from 'react-router-dom';
 
 export default function FormDialog() {
   const [username, setUsername] = useState('')
@@ -18,8 +17,6 @@ export default function FormDialog() {
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch()
-
-  const navigate = useNavigate()
 
   const handleClickOpen = () => {
     setOpen(true)

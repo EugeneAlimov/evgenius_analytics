@@ -1,8 +1,8 @@
 import React, {
    useRef,
    useMemo,
-   useEffect,
-   useState
+  //  useEffect,
+  //  useState
 } from "react";
 import * as zoom from 'chartjs-plugin-zoom'
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -19,12 +19,12 @@ import {
   TimeScale,
   TimeSeriesScale,
   Decimation,
-  DecimationAlgorithm,
+  // DecimationAlgorithm,
 } from "chart.js";
 import { annotationLine } from "../Libs/chartJsPlugins";
 import { getElementAtEvent, Line } from "react-chartjs-2";
-import { faker } from '@faker-js/faker'
-import { Paper } from "@mui/material";
+// import { faker } from '@faker-js/faker'
+import Paper from "@mui/material/Paper";
 
 ChartJS.register(
   CategoryScale,
