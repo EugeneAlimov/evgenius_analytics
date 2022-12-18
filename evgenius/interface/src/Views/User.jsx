@@ -34,7 +34,6 @@ const User = () => {
   const [colorRealtime, setcolorRealtime] = useState(["#1976d2"]);
   const [historicalPreview, setHistoricalPreview] = useState();
   const [realtimelPreview, setRealtimePreview] = useState();
-  const [dialogWindowOpen, setDialogWindowOpen] = useState(false);
 
   useEffect(() => {
     tokenUpdater(refreshToken)
@@ -96,10 +95,6 @@ const User = () => {
     const arr = new Array(userSetsRealtime.length).fill("");
     arr[index] = "#1976d2";
     setcolorRealtime(arr);
-  };
-
-  const datasetChangeWindowOpen = () => {
-    setDialogWindowOpen(!dialogWindowOpen);
   };
 
   return (

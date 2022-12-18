@@ -1,63 +1,64 @@
-import React from "react";
-import Grid2 from '@mui/material/Unstable_Grid2'
-import LineChart from "../Components/Charts/LineChart";
-import DuoghntChart from "../Components/Charts/DoughnutChart";
-import { Box } from "@mui/material";
-
-let queryPrime = 'r._field == "PO_Zone 1 Pyrometer - Prime Oven" or r._field == "PO_Zone 2 Pyrometer - Prime Oven" or r._field == "PO_Zone 3 Pyrometer - Prime Oven"'
-let queryFinish = 'r._field == "FO_Zone 1 Pyrometer - Finish Oven" or r._field == "FO_Zone 2 Pyrometer - Finish Oven" or r._field == "FO_Zone 3 Pyrometer - Finish Oven"'
-let titlePrime = 'Prime temperature'
-let titleFinish = 'Finish temperature'
-const labelPrime = {
-    '1': 'Zone1',
-    '2': 'Zone2',
-    '3': 'Zone3',
-}
-const labelFinish = {
-    '1': 'Zone1',
-    '2': 'Zone2',
-    '3': 'Zone3',
-}
-
+import React, { useEffect } from "react";
+import Grid2 from "@mui/material/Unstable_Grid2";
+import Box from "@mui/material/Box";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { dashDataLoader } from "../Redux/wsSlice";
+import Ovens from "../Components/Charts/Ovens";
+import { Container, Stack } from "@mui/material";
+import Speed from "../Components/Charts/Speed";
 
 const CommonDashBoard = () => {
+  const dispatch = useDispatch();
+  const DashValue = useSelector((state) => state.ws.wsGetDashboardData);
 
-    return (
-        <Grid2 container>
-            <Grid2 xs={12}>
-                <Box sx={{
-                    display: 'inline-flex',
-                    flexDirection: 'row',
-                    flexWrap: 'nowrap',
-                    alignContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    justifyContent: 'space-around',
-                    }}
-                >
-                    <Box sx={{ boxShadow: 1, margin: 2, padding: '16px', backgroundColor: '#f9f8f8', width:'18vw' }}>
-                        <DuoghntChart  />
-                    </Box>
-                    <Box sx={{ boxShadow: 1, margin: 2, padding: '16px', backgroundColor: '#f9f8f8', width:'18vw' }}>
-                        <DuoghntChart  />
-                    </Box>
-                    <Box sx={{ boxShadow: 1, margin: 2, padding: '16px', backgroundColor: '#f9f8f8', width:'18vw' }}>
-                        <DuoghntChart  />
-                    </Box>
-                </Box>
-            </Grid2>
-            <Grid2 xs={6}>
-                <Box sx={{ boxShadow: 1, margin: 2, backgroundColor: '#f9f8f8', }}>
-                    <LineChart title={titlePrime} label={labelPrime} query={queryPrime} />
-                </Box>
-            </Grid2>
-            <Grid2 xs={6}>
-                <Box sx={{ boxShadow: 1, margin: 2, backgroundColor: '#f9f8f8', }}>
-                    <LineChart title={titleFinish} label={labelFinish} query={queryFinish} />
-                </Box>
-            </Grid2>
-        </Grid2>
-    )
-}
+  useEffect(() => {
+    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/graph/`);
 
-export default CommonDashBoard
+    socket.onmessage = function (e) {
+      const dashboardData = JSON.parse(e.data);
+      dispatch(dashDataLoader(dashboardData));
+    };
+  }, [dispatch]);
+
+  // const speedRequest = () => {
+  //   let speed = [];
+  //   const URL = "http://192.168.8.167:8086/";
+  //   const TOKEN =
+  //     "AYxGUOAj0Ho1vqmyMeQDpHPaSPYNcTZznrQ9bDJCvNM9fvF6tAepPH6jyxuTaalmbqgZKe98efDVoCFAyu6kJw==";
+  //   const ORG = "evgenius";
+  //   const BUCKET = "Line";
+  //   const MEASUREMENT = "Line";
+  //   const queryApi = new InfluxDB({ url: URL, token: TOKEN }).getQueryApi(ORG);
+  //   const fluxQuery = `from(bucket: "${BUCKET}")
+  //               |> range(start: -600ms, stop: -100ms)
+  //               |> filter(fn: (r) => r._measurement == "${MEASUREMENT}")
+  //               |> filter(fn: (r) => ${speedQuery})
+  //               `;
+  //   const fluxObserver = {
+  //     next(row, tableMeta) {
+  //       const o = tableMeta.toObject(row);
+  //       speed.push(Math.round10(o._value, 0));
+  //     },
+  //     error(error) {
+  //       console.error(error);
+  //       console.log("\nFinished ERROR");
+  //     },
+  //     complete() {
+  //       // console.log(speed);
+  //     },
+  //   };
+  //   /** Execute a query and receive line table metadata and rows. */
+  //   queryApi.queryRows(fluxQuery, fluxObserver);
+  //   return speed;
+  // };
+
+  return (
+    <Stack flexDirection={'column'} spacing={3} >
+      <Speed />
+      <Ovens />
+    </Stack>
+  );
+};
+
+export default CommonDashBoard;

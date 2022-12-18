@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import authReduser from './slice'
 import analyticReduser from './sliceAnalytic'
+import wsReduser from './wsSlice'
 import {
     persistStore,
     persistReducer,
@@ -21,6 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     login: authReduser,
     analytic: analyticReduser,
+    ws: wsReduser
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
