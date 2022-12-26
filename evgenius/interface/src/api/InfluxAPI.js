@@ -26,7 +26,7 @@ async function influxRequest(checkedArr, dateTimeStart, dateTimeEnd) {
         |> filter(fn: (r) => r._measurement == "${MEASUREMENT}")
         |> filter(fn: (r) => ${str})
         `;
-
+console.log(fluxQuery);
   for await (const { values, tableMeta } of queryApi.iterateRows(fluxQuery)) {
     const obj = tableMeta.toObject(values);
     const { table, _field, _value, _time } = obj;
