@@ -6,6 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Ovens from "../Components/Charts/Ovens";
 import Stack from "@mui/material/Stack";
 import Speed from "../Components/Charts/Speed";
+import Alcaly from "../Components/Alcaly"
 
 const CommonDashBoard = () => {
   const theme = useTheme();
@@ -23,7 +24,7 @@ const CommonDashBoard = () => {
   // xl: 1536
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://192.168.8.167:8000/ws/graph/`);
+    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/graph/`);
 
     socket.onmessage = function (e) {
       const dashboardData = JSON.parse(e.data);
@@ -32,9 +33,10 @@ const CommonDashBoard = () => {
   }, [dispatch]);
 
   return (
-    <Stack width={"100vw"} flexDirection={"column"} spacing={3}>
+    <Stack paddingBottom={"10px"} paddingLeft={"5px"} width={"100vw"} flexDirection={"column"} spacing={3}>
       <Speed matchesDownMD={matchesDownMD} matchesDownLG={matchesDownLG} matchesDownXL={matchesDownXL} />
       <Ovens matchesDownLG={matchesDownLG} />
+      <Alcaly />
     </Stack>
   );
 };

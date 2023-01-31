@@ -25,8 +25,11 @@ const style = {
 
 const Speed = ({ matchesDownMD, matchesDownLG, matchesDownXL }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const speed = useSelector((state) => state.ws.wsGetDashboardData.speed);
-  const { speedEntry, speedProcess, speedExit } = speed;
+  const speed = useSelector((state) => state.ws.wsGetDashboardData);
+
+  const speedEntry = speed["ACT_SPEED - ENTRY"];
+  const speedProcess = speed["actual_speed - PROCESS"];
+  const speedExit = speed["ACT_SPEED - EXIT"];
 
   const handleClickOpen = () => {
     setDialogOpen(true);
@@ -194,11 +197,7 @@ const Speed = ({ matchesDownMD, matchesDownLG, matchesDownXL }) => {
       maxWidth="md"
     >
       {/* <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle> */}
-      <DialogContent>
-        {
-          <CoaterHeadRollsSpeed matchesDownXL={false} />
-        }
-      </DialogContent>
+      <DialogContent>{<CoaterHeadRollsSpeed matchesDownXL={false} />}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose} autoFocus>
           Close

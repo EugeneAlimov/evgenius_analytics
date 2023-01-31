@@ -23,12 +23,11 @@ class GraphConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         # print(results)
+        results = []
 
         # async def receive(self, text_data=None, bytes_data=None):
-        for i in range(1000):
+        for i in range(100000):
             print(i)
-
-            results = []
 
             # Query script
             query_api = client.query_api()
@@ -41,34 +40,33 @@ class GraphConsumer(AsyncWebsocketConsumer):
             for table in result:
                 for record in table.records:
                     results.append(
-                        (
-                            # record.get_field(),
-                            round(record.get_value())
-                        )
+                        # (
+                        (record.get_field(), round(record.get_value()))
+                        # )
                     )
 
-            message = {
-                'speed': {
-                    'speedEntry': results[0],
-                    'speedProcess': results[8],
-                    'speedExit': results[1],
-                },
-                'temperature': {
-                    'prime':
-                        [
-                            results[5],
-                            results[6],
-                            results[7]
-                        ],
-                    'finish':
-                        [
-                            results[2],
-                            results[3],
-                            results[4]
-                        ],
-                },
-            }
+            message = dict(results)
+                # 'speed': {
+                #     'speedEntry': results[0],
+                #     'speedProcess': results[8],
+                #     'speedExit': results[1],
+                # },
+                # 'temperature': {
+                #     'prime':
+                #         [
+                #             results[5],
+                #             results[6],
+                #             results[7]
+                #         ],
+                #     'finish':
+                #         [
+                #             results[2],
+                #             results[3],
+                #             results[4]
+                #         ],
+                # },
 
+            print(message)
             await self.send(
                 json.dumps(
                     message

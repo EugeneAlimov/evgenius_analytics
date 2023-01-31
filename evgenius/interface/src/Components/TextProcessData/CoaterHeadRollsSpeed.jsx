@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 
 const CoaterHeadRollsSpeed = ({ matchesDownXL }) => {
   const style = { backgroundColor: "f9f8f800", boxShadow: 2 };
+  
   const styleListItem = {
     display: "flex",
     justifyContent: "space-between",
@@ -15,10 +16,12 @@ const CoaterHeadRollsSpeed = ({ matchesDownXL }) => {
     padding: "0px",
     width: "240px",
   };
+
   const listItemFontStyle = {
     fontSize: "15px",
     lineHeight: "1.6",
   };
+
   const listSubheaderStyle = {
     fontSize: "23px",
     lineHeight: "2.0",
