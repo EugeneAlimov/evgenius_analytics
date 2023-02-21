@@ -38,45 +38,45 @@ console.log(fluxQuery);
   return data;
 }
 
-export const dashRequest = () => {
-  const URL = "http://192.168.8.167:8086/";
-  const TOKEN =
-    "AYxGUOAj0Ho1vqmyMeQDpHPaSPYNcTZznrQ9bDJCvNM9fvF6tAepPH6jyxuTaalmbqgZKe98efDVoCFAyu6kJw==";
-  const ORG = "evgenius";
-  const BUCKET = "Line";
-  const MEASUREMENT = "Line";
-  const queryApi = new InfluxDB({ url: URL, token: TOKEN }).getQueryApi(ORG);
-  let str =
-    'r._field == "FO_Zone 1 Pyrometer - Finish Oven" or r._field == "FO_Zone 2 Pyrometer - Finish Oven" or r._field == "FO_Zone 3 Pyrometer - Finish Oven"';
-  const fluxQuery = `from(bucket: "${BUCKET}")
-  |> range(start: -500ms, stop: -100ms)
-  |> filter(fn: (r) => r._measurement == "${MEASUREMENT}")
-  |> filter(fn: (r) => ${str})
-  `;
-  // console.log(fluxQuery);
-  const response = [];
-  const fluxObserver = {
-    next(row, tableMeta) {
-      const o = tableMeta.toObject(row);
-      // console.log('o: ', o)
-      response.push({ y: Math.round10(o._value, -1), x: o._time, field: o._field });
-      // return response
+// export const dashRequest = () => {
+//   const URL = "http://192.168.8.167:8086/";
+//   const TOKEN =
+//     "AYxGUOAj0Ho1vqmyMeQDpHPaSPYNcTZznrQ9bDJCvNM9fvF6tAepPH6jyxuTaalmbqgZKe98efDVoCFAyu6kJw==";
+//   const ORG = "evgenius";
+//   const BUCKET = "Line";
+//   const MEASUREMENT = "Line";
+//   const queryApi = new InfluxDB({ url: URL, token: TOKEN }).getQueryApi(ORG);
+//   let str =
+//     'r._field == "FO_Zone 1 Pyrometer - Finish Oven" or r._field == "FO_Zone 2 Pyrometer - Finish Oven" or r._field == "FO_Zone 3 Pyrometer - Finish Oven"';
+//   const fluxQuery = `from(bucket: "${BUCKET}")
+//   |> range(start: -500ms, stop: -100ms)
+//   |> filter(fn: (r) => r._measurement == "${MEASUREMENT}")
+//   |> filter(fn: (r) => ${str})
+//   `;
+//   // console.log(fluxQuery);
+//   const response = [];
+//   const fluxObserver = {
+//     next(row, tableMeta) {
+//       const o = tableMeta.toObject(row);
+//       // console.log('o: ', o)
+//       response.push({ y: Math.round10(o._value, -1), x: o._time, field: o._field });
+//       // return response
 
-      // console.log(`${Math.round10(o._value, -1)}`);
-    },
-    error(error) {
-      console.error(error);
-      console.log("\nFinished ERROR");
-    },
-    complete() {
-      console.log("\nFinished SUCCESS");
-    },
-  };
-  // console.log(fluxObserver);
-  /** Execute a query and receive line table metadata and rows. */
-  queryApi.queryRows(fluxQuery, fluxObserver);
+//       // console.log(`${Math.round10(o._value, -1)}`);
+//     },
+//     error(error) {
+//       console.error(error);
+//       console.log("\nFinished ERROR");
+//     },
+//     complete() {
+//       console.log("\nFinished SUCCESS");
+//     },
+//   };
+//   // console.log(fluxObserver);
+//   /** Execute a query and receive line table metadata and rows. */
+//   queryApi.queryRows(fluxQuery, fluxObserver);
 
-  return response;
-};
+//   return response;
+// };
 
 export default influxRequest;

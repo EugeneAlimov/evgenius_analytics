@@ -26,7 +26,7 @@ def download_to_base(request):
     #     if (ws.cell(row=i, column=4)).value.startswith('%'):
     #         groups_list.append(ws.cell(row=i, column=4))
     #     else:
-
+    flag = 0
     for i in range(1, ws.max_row + 1):
 
         name_tag = (ws.cell(row=i, column=1)).value  # выбираем ячейки из таблицы
@@ -65,10 +65,20 @@ def download_to_base(request):
         else:
             """"Для случая когда теги полуены из DB блоков"""
             if (ws.cell(row=i, column=2)).value == 'Struct':
-                name_group = (ws.cell(row=i, column=1)).value
-                if not Group.objects.filter(name=name_group):
-                    Group.objects.create(name=name_group)  # сохраняем name_group в базу
+                if flag == 0:
+                    name_group = ''
+
+                if len(name_group) == 0:
+                    name_group = (ws.cell(row=i, column=1)).value
+                else:
+                    name_group = f'{name_group} - {(ws.cell(row=i, column=1)).value}'
+                flag += 1
                 continue
+
+            if not Group.objects.filter(name=name_group):
+                Group.objects.create(name=name_group)  # сохраняем name_group в базу
+            print('name_group ', name_group)
+            flag = 0
 
             name_group_from_db = Group.objects.get(
                 name=name_group)  # заносим в переменную объект группы для текущей записи

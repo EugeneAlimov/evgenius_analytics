@@ -16,9 +16,10 @@ ChartJS.register(ArcElement, ChartStreaming);
 const style = {
   padding: "5px",
   marginX: "5px",
-  minWidth: "214px",
-  maxWidth: "332px",
-  width: "20vw",
+  width: "276px",
+  // minWidth: "214px",
+  // maxWidth: "332px",
+  // width: "20vw",
   backgroundColor: "f9f8f800",
   boxShadow: 2,
 };
@@ -266,9 +267,9 @@ const Speed = ({ matchesDownMD, matchesDownLG, matchesDownXL }) => {
           alignItems: "center",
           alignContent: "center",
           flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-around",
-          width: "100vw",
+          flexWrap: "nowrap",
+          justifyContent: "flex-start",
+          // width: "100vw",
         }}
       >
         <Box sx={{ ...style }}>
@@ -280,11 +281,6 @@ const Speed = ({ matchesDownMD, matchesDownLG, matchesDownXL }) => {
         <Box sx={{ ...style }}>
           <Doughnut options={optionsExit} data={dataExit} plugins={[gaugeChartText]} />
         </Box>
-        {matchesDownLG ? (
-          <ButtonsBlockSpeed />
-        ) : (
-          <CoaterHeadRollsSpeed matchesDownXL={matchesDownXL} />
-        )}
       </Box>
       <SpeedDialog />
     </>

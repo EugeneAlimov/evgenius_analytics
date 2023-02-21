@@ -6,7 +6,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Ovens from "../Components/Charts/Ovens";
 import Stack from "@mui/material/Stack";
 import Speed from "../Components/Charts/Speed";
-import Alcaly from "../Components/Alcaly"
+import Alcaly from "../Components/Alcaly";
+import Box from "@mui/material/Box";
+
+import Parameters from "../Components/Parameters";
+import CoaterHeadRollsSpeed from "../Components/TextProcessData/CoaterHeadRollsSpeed";
 
 const CommonDashBoard = () => {
   const theme = useTheme();
@@ -33,10 +37,38 @@ const CommonDashBoard = () => {
   }, [dispatch]);
 
   return (
-    <Stack paddingBottom={"10px"} paddingLeft={"5px"} width={"100vw"} flexDirection={"column"} spacing={3}>
-      <Speed matchesDownMD={matchesDownMD} matchesDownLG={matchesDownLG} matchesDownXL={matchesDownXL} />
-      <Ovens matchesDownLG={matchesDownLG} />
-      <Alcaly />
+    <Stack paddingBottom={"10px"} width={"100%"} flexDirection={"column"} spacing={3}>
+      <Box
+        sx={{
+          // paddingLeft: "15px",
+          // paddingRight: "15px",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
+        <Speed
+          matchesDownMD={matchesDownMD}
+          matchesDownLG={matchesDownLG}
+          matchesDownXL={matchesDownXL}
+        />
+        <Parameters />
+      </Box>
+      <Ovens matchesDownLG={matchesDownXL} />
+      <Box
+        sx={{
+          paddingLeft: "15px",
+          paddingRight: "15px",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
+        <Alcaly matchesDownLG={matchesDownLG} />
+        <CoaterHeadRollsSpeed matchesDownLG={false} />
+      </Box>
     </Stack>
   );
 };

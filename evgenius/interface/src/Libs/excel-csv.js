@@ -1,6 +1,7 @@
 import * as XLSX from "xlsx"
 
 function handleFile(fileToParce) {
+    console.log(fileToParce);
     let f = fileToParce
     let reader = new FileReader()
     
@@ -16,9 +17,10 @@ function handleFile(fileToParce) {
     let range = XLSX.utils.decode_range(worksheet['!ref'])                  // Get the range
     let listRange = (Object.values(range)[1]).r
     let i = 1
+    let flag = 0
     let sheetArr = []
-    let group = ''
-console.log('worksheet: ', worksheet);
+    let nameTag = ''
+
     for (i; i < listRange; i++) {
             let A_X_Cell = worksheet[`A${i}`]
             let A_X_Value = String((A_X_Cell ? A_X_Cell.v : undefined))
@@ -36,10 +38,17 @@ console.log('worksheet: ', worksheet);
             let B_Cell_CSV = ''
 
             if (B_X_Value.includes('Struct')) {
-                group = A_X_Value
+                if (flag === 0) {
+                    nameTag = ''
+                }
+                nameTag = `${nameTag} - ${A_X_Value}`
+                flag += 1
                 continue
             }
 
+            flag = 0
+
+            // in case tag table
             if (D_X_Value.includes('%')) {
                 if (C_X_Value === 'Timer') {
                     A_Cell_CSV = 'MD' + D_X_Value.slice(2)
@@ -48,6 +57,7 @@ console.log('worksheet: ', worksheet);
                 }
             B_Cell_CSV = `${A_X_Value} - ${B_X_Value}`
     
+            // in case DB
             } else {
                 let dataType = ''
                 if (B_X_Value === 'Bool') {
@@ -65,13 +75,13 @@ console.log('worksheet: ', worksheet);
                 }
 
                 A_Cell_CSV = `${D_X_Value},${dataType}${C_X_Value}`
-                B_Cell_CSV = `${A_X_Value} - ${group}`
+                B_Cell_CSV = `${A_X_Value}${nameTag}`
 
             }
             const cellArr = []
             cellArr.push(A_Cell_CSV, B_Cell_CSV)
             sheetArr.push(cellArr)
-        }                
+        }
             let CSV_sheet = XLSX.utils.aoa_to_sheet(sheetArr)
             XLSX.utils.sheet_to_csv(CSV_sheet)
             XLSX.utils.book_append_sheet(CSV_book, CSV_sheet)

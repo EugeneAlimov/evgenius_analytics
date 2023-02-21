@@ -6,7 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListSubheader from "@mui/material/ListSubheader";
 import Typography from "@mui/material/Typography";
 
-const CoaterHeadRollsSpeed = ({ matchesDownXL }) => {
+const CoaterHeadRollsSpeed = ({ matchesDownLG }) => {
   const style = { backgroundColor: "f9f8f800", boxShadow: 2 };
   
   const styleListItem = {
@@ -31,13 +31,12 @@ const CoaterHeadRollsSpeed = ({ matchesDownXL }) => {
 
   return (
     <Stack
-      direction={matchesDownXL ? "row" : "column"}
+      direction={matchesDownLG ? "row" : "column"}
       sx={{
-        marginTop: "5px",
-        marginRight: "5px",
+        marginY: "5px",
         alignItems: "center",
-        justifyContent: matchesDownXL ? "space-evenly" : "space-around",
-        width: matchesDownXL ? "95vw" : "570px",
+        justifyContent: matchesDownLG ? "space-evenly" : "space-around",
+        width: matchesDownLG ? "98vw" : "588px",
         ...style,
       }}
       spacing={0}
@@ -58,14 +57,14 @@ const CoaterHeadRollsSpeed = ({ matchesDownXL }) => {
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
-            <Typography sx={{ color: "#05bd05", ...listItemFontStyle }}>Top Pick Up</Typography>
-            <Typography sx={{ color: "#05bd05", ...listItemFontStyle }} fontWeight={700}>
+            <Typography sx={{ color: "#00d52b", ...listItemFontStyle }}>Top Pick Up</Typography>
+            <Typography sx={{ color: "#00d52b", ...listItemFontStyle }} fontWeight={700}>
               {39} m/min
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
-            <Typography sx={{ color: "#f00", ...listItemFontStyle }}>Bottom Applicator</Typography>
-            <Typography sx={{ color: "#f00", ...listItemFontStyle }} fontWeight={700}>
+            <Typography sx={{ color: "#fd0136", ...listItemFontStyle }}>Bottom Applicator</Typography>
+            <Typography sx={{ color: "#fd0136", ...listItemFontStyle }} fontWeight={700}>
               {39} m/min
             </Typography>
           </ListItem>
@@ -89,14 +88,14 @@ const CoaterHeadRollsSpeed = ({ matchesDownXL }) => {
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
-            <Typography sx={{ color: "#05bd05", ...listItemFontStyle }}>Top Pick Up</Typography>
-            <Typography sx={{ color: "#05bd05", ...listItemFontStyle }} fontWeight={700}>
+            <Typography sx={{ color: "#00d52b", ...listItemFontStyle }}>Top Pick Up</Typography>
+            <Typography sx={{ color: "#00d52b", ...listItemFontStyle }} fontWeight={700}>
               {39}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
-            <Typography sx={{ color: "#f00", ...listItemFontStyle }}>Bottom Applicator</Typography>
-            <Typography sx={{ color: "#f00", ...listItemFontStyle }} fontWeight={700}>
+            <Typography sx={{ color: "#fd0136", ...listItemFontStyle }}>Bottom Applicator</Typography>
+            <Typography sx={{ color: "#fd0136", ...listItemFontStyle }} fontWeight={700}>
               {39}%
             </Typography>
           </ListItem>
@@ -108,7 +107,7 @@ const CoaterHeadRollsSpeed = ({ matchesDownXL }) => {
           </ListItem>
         </List>
       </Stack>
-      {matchesDownXL ? <Divider orientation="vertical" flexItem /> : null}
+      {matchesDownLG ? <Divider orientation="vertical" flexItem /> : null}
       <Stack mt={0} direction="row" sx={{ justifyContent: "space-around" }} spacing={5}>
         <List>
           <ListItem sx={{ ...listSubheaderStyle }}>
