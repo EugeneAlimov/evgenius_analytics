@@ -18,6 +18,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { logout } from "../api/userApi";
 import UserDatasetEditComponent from "../Components/UI/Dialog/UserDatasetEditComponent";
+import { Box } from "@mui/system";
 
 const User = () => {
   const refreshToken = useSelector((state) => state.login.token.refresh);
@@ -30,10 +31,36 @@ const User = () => {
   const [userSetsRealtime, setUserSetsRealtime] = useState([]);
   const [historicalChecked, setHistorycalChecked] = useState([]);
   const [realtimeChecked, setRealtimeChecked] = useState([]);
-  const [colorHistorical, setColorHistorical] = useState(["#1976d2"]);
-  const [colorRealtime, setcolorRealtime] = useState(["#1976d2"]);
+  const [colorHistorical, setColorHistorical] = useState([]);
+  const [colorRealtime, setcolorRealtime] = useState([]);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [checkboxDisabled, setcheckboxDisabled] = useState(true);
   const [historicalPreview, setHistoricalPreview] = useState();
   const [realtimelPreview, setRealtimePreview] = useState();
+
+  const paperStyle = {
+    width: "22%",
+    height: "90vh",
+    marginLeft: "30px",
+    mt: "10px",
+  };
+
+  const listStyle = {
+    mt: "20px",
+    mx: "10px",
+    boxShadow: 5,
+    height: "calc(90vh - 93px)",
+    borderRadius: "3px",
+  };
+
+  const buttonStyle = {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "90%",
+    height: "50px",
+    mt: "20px",
+    mb: "20px",
+  };
 
   useEffect(() => {
     tokenUpdater(refreshToken)
@@ -53,6 +80,16 @@ const User = () => {
     const realtime = userDataset.filter((set) => set.is_historical === false);
     setUserSetsHistorical(historical);
     setUserSetsRealtime(realtime);
+    setHistorycalChecked(
+      Array.from(historical, () => {
+        return false;
+      })
+    );
+    setRealtimeChecked(
+      Array.from(realtime, () => {
+        return false;
+      })
+    )
   }, [userDataset]);
 
   useEffect(() => {
@@ -97,142 +134,183 @@ const User = () => {
     setcolorRealtime(arr);
   };
 
+  const buttonsDisabledToggler = () => {
+    setButtonDisabled(!buttonDisabled);
+  };
+
+  const checkboxDisabledToggler = () => {
+    if (!checkboxDisabled) {
+      const newHistoricalChecked = historicalChecked.map(() => false);
+      setHistorycalChecked(newHistoricalChecked);
+    }
+    setcheckboxDisabled(!checkboxDisabled);
+  };
+
   return (
-    <Grid2 container sx={{}} spacing={{ xs: 2 }}>
-      <Grid2 style={{ display: "flex" }} item xs={8}>
-        <Paper sx={{ marginLeft: "30px", width: "400px", height: "380px" }}>
-          <h2 style={{ marginLeft: 30 }}>Historical</h2>
-          <List
-            sx={{
-              mt: 2,
-              ml: 2,
-              boxShadow: 5,
-              width: "100%",
-              maxWidth: 360,
-              bgcolor: "background.paper",
-            }}
-          >
-            {userSetsHistorical.map((value, index) => {
-              const labelId = `checkbox-list-label-${value.id}`;
-              const { date_time_start_diapason, date_time_end_diapason, created, updated, tag } =
-                value;
+    <Box
+      sx={{
+        paddingLeft: "15px",
+        paddingRight: "15px",
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "nowrap",
+        justifyContent: "flex-start",
+      }}
+    >
+      <Paper sx={{ ...paperStyle }}>
+        <h2 style={{ marginLeft: 30 }}>Historical</h2>
+        <List sx={{ ...listStyle }}>
+          {userSetsHistorical.map((value, index) => {
+            const labelId = `checkbox-list-label-${value.id}`;
+            const { date_time_start_diapason, date_time_end_diapason, created, updated, tag } =
+              value;
 
-              const dateStart = new Date(date_time_start_diapason).toLocaleString(); //.split('T')[0]
-              const dateEnd = new Date(date_time_end_diapason).toLocaleString(); //.split('T')[0]
-              const dateCreated = new Date(created).toLocaleString();
-              const dateUpdated = new Date(updated).toLocaleString();
+            const dateStart = new Date(date_time_start_diapason).toLocaleString(); //.split('T')[0]
+            const dateEnd = new Date(date_time_end_diapason).toLocaleString(); //.split('T')[0]
+            const dateCreated = new Date(created).toLocaleString();
+            const dateUpdated = new Date(updated).toLocaleString();
 
-              return (
-                <ListItem key={value.id} disablePadding>
-                  <Checkbox
-                    onClick={handleHistorycalCheck(index)}
-                    checked={historicalChecked[index]}
-                    inputProps={{ "aria-labelledby": labelId }}
+            return (
+              <ListItem key={value.id} disablePadding>
+                <Checkbox
+                  onClick={handleHistorycalCheck(index)}
+                  checked={historicalChecked[index]}
+                  disabled={checkboxDisabled}
+                  inputProps={{ "aria-labelledby": labelId }}
+                />
+                <ListItemButton role={undefined} onClick={handleHistoricalToggle(index)} dense>
+                  <ListItemText
+                    sx={{ color: `${colorHistorical[index]}` }}
+                    id={labelId}
+                    primary={value.name}
                   />
-                  <ListItemButton role={undefined} onClick={handleHistoricalToggle(index)} dense>
-                    <ListItemText
-                      sx={{ color: `${colorHistorical[index]}` }}
-                      id={labelId}
-                      primary={value.name}
-                    />
-                  </ListItemButton>
-                  <Tooltip
-                    placement="right"
-                    title={
-                      <Typography paragraph={true}>
-                        start diapason: {dateStart} <br />
-                        end diapason: {dateEnd} <br />
-                        created: {dateCreated} <br />
-                        updated: {dateUpdated} <br />
-                        {tag.map((t) => {
-                          return <li key={t}>tag: {t}</li>;
-                        })}
-                      </Typography>
-                    }
-                  >
-                    <IconButton aria-label="comments">
-                      <CommentIcon />
-                    </IconButton>
-                  </Tooltip>
-                </ListItem>
-              );
-            })}
-          </List>
-          <Button sx={{ m: 2, width: "360px", height: "50px" }} variant="contained" size="large">
-            Show
-          </Button>
-        </Paper>
-        <UserDatasetEditComponent />
-      </Grid2>
-      <Grid2 item md={4}>
-        <Card sx={{ p: 2, mt: 2, boxShadow: 5, width: 400, height: 300 }}>
-          <img src={historicalPreview} alt="img" width={"400px"} height={"300px"}></img>
-        </Card>
-      </Grid2>
-      <Grid2 item md={8}>
-        <Paper sx={{ marginLeft: "30px", width: "400px", height: "380px" }}>
-          <h2 style={{ marginLeft: 30 }}>Realtime</h2>
-          <List
-            sx={{
-              mt: 2,
-              ml: 2,
-              boxShadow: 5,
-              width: "100%",
-              maxWidth: 360,
-              bgcolor: "background.paper",
-            }}
-          >
-            {userSetsRealtime.map((value, index) => {
-              const labelId = `checkbox-list-label-${value.id}`;
-              const { date_time_start_diapason, date_time_end_diapason, created, updated } = value;
+                </ListItemButton>
+                <Tooltip
+                  placement="right"
+                  title={
+                    <Typography paragraph={true}>
+                      start diapason: {dateStart} <br />
+                      end diapason: {dateEnd} <br />
+                      created: {dateCreated} <br />
+                      updated: {dateUpdated} <br />
+                      {tag.map((t) => {
+                        return <li key={t}>tag: {t}</li>;
+                      })}
+                    </Typography>
+                  }
+                >
+                  <IconButton aria-label="comments">
+                    <CommentIcon />
+                  </IconButton>
+                </Tooltip>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Paper>
+      <Paper sx={{ ...paperStyle }}>
+        <h2 style={{ marginLeft: 30 }}>Realtime</h2>
+        <List sx={{ ...listStyle }}>
+          {userSetsRealtime.map((value, index) => {
+            const labelId = `checkbox-list-label-${value.id}`;
+            const { date_time_start_diapason, date_time_end_diapason, created, updated } = value;
 
-              const dateStart = new Date(date_time_start_diapason).toLocaleString();
-              const dateEnd = new Date(date_time_end_diapason).toLocaleString();
-              const dateCreated = new Date(created).toLocaleString();
-              const dateUpdated = new Date(updated).toLocaleString();
+            const dateStart = new Date(date_time_start_diapason).toLocaleString();
+            const dateEnd = new Date(date_time_end_diapason).toLocaleString();
+            const dateCreated = new Date(created).toLocaleString();
+            const dateUpdated = new Date(updated).toLocaleString();
 
-              return (
-                <ListItem key={value.id} disablePadding>
-                  <Checkbox
-                    onClick={handleRealtimeTCheck(index)}
-                    checked={realtimeChecked[index]}
-                    inputProps={{ "aria-labelledby": labelId }}
+            return (
+              <ListItem key={value.id} disablePadding>
+                <Checkbox
+                  onClick={handleRealtimeTCheck(index)}
+                  checked={realtimeChecked[index]}
+                  inputProps={{ "aria-labelledby": labelId }}
+                  disabled={checkboxDisabled}
+                />
+                <ListItemButton role={undefined} onClick={handleRealtimeToggle(index)} dense>
+                  <ListItemText
+                    sx={{ color: `${colorRealtime[index]}` }}
+                    id={labelId}
+                    primary={value.name}
                   />
-                  <ListItemButton role={undefined} onClick={handleRealtimeToggle(index)} dense>
-                    <ListItemText
-                      sx={{ color: `${colorRealtime[index]}` }}
-                      id={labelId}
-                      primary={value.name}
-                    />
-                  </ListItemButton>
-                  <Tooltip
-                    placement="right"
-                    title={
-                      <Typography paragraph={true}>
-                        start diapason: {dateStart} <br /> end diapason: {dateEnd} <br /> created:{" "}
-                        {dateCreated} <br /> updated: {dateUpdated}
-                      </Typography>
-                    }
-                  >
-                    <IconButton aria-label="comments">
-                      <CommentIcon />
-                    </IconButton>
-                  </Tooltip>
-                </ListItem>
-              );
-            })}
-          </List>
-          <Button sx={{ m: 2, width: "360px", height: "50px" }} variant="contained" size="large">
-            Show
+                </ListItemButton>
+                <Tooltip
+                  placement="right"
+                  title={
+                    <Typography paragraph={true}>
+                      start diapason: {dateStart} <br /> end diapason: {dateEnd} <br /> created:{" "}
+                      {dateCreated} <br /> updated: {dateUpdated}
+                    </Typography>
+                  }
+                >
+                  <IconButton aria-label="comments">
+                    <CommentIcon />
+                  </IconButton>
+                </Tooltip>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Paper>
+      <Paper sx={{ ...paperStyle }}>
+        <h2 style={{ marginLeft: 30 }}>Actions</h2>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Button
+            sx={{ ...buttonStyle }}
+            color="secondary"
+            variant="contained"
+            size="large"
+            onClick={buttonsDisabledToggler}
+          >
+            Change user dataset
           </Button>
-        </Paper>
-      </Grid2>
-      <Grid2 item md={4}>
-        <Card sx={{ p: 2, mt: 2, boxShadow: 5, width: 400, height: 300 }}>
-          <img src={realtimelPreview} alt="img" width={"400px"} height={"300px"}></img>
-        </Card>
-      </Grid2>
-    </Grid2>
+          <Button
+            sx={{ ...buttonStyle }}
+            color="success"
+            variant="contained"
+            size="large"
+            disabled={buttonDisabled}
+          >
+            Rename dataset
+          </Button>
+          <Button
+            sx={{
+              ...buttonStyle,
+              backgroundColor: "#515962",
+              "&:hover": { backgroundColor: "#393c40" },
+            }}
+            variant="contained"
+            size="large"
+            disabled={buttonDisabled}
+            onClick={checkboxDisabledToggler}
+          >
+            Delete dataset
+          </Button>
+          <Button
+            sx={{ ...buttonStyle }}
+            color="warning"
+            variant="contained"
+            size="large"
+            disabled={buttonDisabled}
+          >
+            Cancel
+          </Button>
+          <Button
+            sx={{ ...buttonStyle }}
+            color="error"
+            variant="contained"
+            size="large"
+            disabled={buttonDisabled}
+          >
+            Confirm
+          </Button>
+          <Button sx={{ ...buttonStyle }} color="info" variant="contained" size="large">
+            Show selected dataset
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   );
 };
 
