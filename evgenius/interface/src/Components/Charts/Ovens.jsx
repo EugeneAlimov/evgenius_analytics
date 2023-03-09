@@ -38,8 +38,8 @@ const primeOptions = {
       type: "realtime",
       distribution: "linear",
       realtime: {
-        duration: 60000,
-        delay: 1500,
+        duration: 120000,
+        delay: 2500,
         refresh: 1000,
         frameRate: 60,
       },
@@ -72,8 +72,8 @@ const finishOptions = {
       type: "realtime",
       distribution: "linear",
       realtime: {
-        duration: 60000,
-        delay: 1500,
+        duration: 120000,
+        delay: 2500,
         refresh: 1000,
         frameRate: 60,
       },
@@ -92,7 +92,7 @@ const finishOptions = {
       text: "Finish oven",
     },
     streaming: {
-      duration: 20000,
+      duration: 50000,
     },
   },
 };
@@ -166,15 +166,15 @@ const Ovens = ({ matchesDownLG }) => {
   const ovensTemperature = useSelector((state) => state.ws.wsGetDashboardData);
 
   const temperaturePrime = [
-    ovensTemperature["PO_Zone 1 Pyrometer - Prime Oven"],
-    ovensTemperature["PO_Zone 2 Pyrometer - Prime Oven"],
-    ovensTemperature["PO_Zone 3 Pyrometer - Prime Oven"],
+    ovensTemperature["PO_Zone 1 Pyrometer - RTO_TO_LINE"],
+    ovensTemperature["PO_Zone 2 Pyrometer - RTO_TO_LINE"],
+    ovensTemperature["PO_Zone 3 Pyrometer - RTO_TO_LINE"],
   ];
 
   const temperatureFinish = [
-    ovensTemperature["FO_Zone 1 Pyrometer - Finish Oven"],
-    ovensTemperature["FO_Zone 2 Pyrometer - Finish Oven"],
-    ovensTemperature["FO_Zone 3 Pyrometer - Finish Oven"],
+    ovensTemperature["FO_Zone 1 Pyrometer - RTO_TO_LINE"],
+    ovensTemperature["FO_Zone 2 Pyrometer - RTO_TO_LINE"],
+    ovensTemperature["FO_Zone 3 Pyrometer - RTO_TO_LINE"],
   ];
 
   useEffect(() => {

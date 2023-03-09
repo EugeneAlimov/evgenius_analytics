@@ -6,16 +6,16 @@ from influxdb_client.client import influxdb_client
 
 bucket = "Line"
 org = "evgenius"
-token = "AYxGUOAj0Ho1vqmyMeQDpHPaSPYNcTZznrQ9bDJCvNM9fvF6tAepPH6jyxuTaalmbqgZKe98efDVoCFAyu6kJw=="
+token = "U7e0IXVqgxfD_obXQTce9qi2b7v-bBLs2rJNT1egYoq-4jq9Z5lfODfAwvpTroIKeab-osnFOV7bxRWOyP5svw=="
 measurement = "Line"
 
 # Store the URL of your InfluxDB instance
 url = "http://192.168.8.167:8086/"
 
-query_string = 'ACT_SPEED - ENTRY" or r._field == "actual_speed - PROCESS" or r._field == "ACT_SPEED - EXIT" or \
-    r._field == "PO_Zone 1 Pyrometer - Prime Oven" or r._field == "PO_Zone 2 Pyrometer - Prime Oven" or \
-    r._field == "PO_Zone 3 Pyrometer - Prime Oven" or r._field == "FO_Zone 1 Pyrometer - Finish Oven" or \
-    r._field == "FO_Zone 2 Pyrometer - Finish Oven" or r._field == "FO_Zone 3 Pyrometer - Finish Oven")"'
+query_string = '"ACT_SPEED - ENTRY" or r._field == "actual_speed - PROCESS" or r._field == "ACT_SPEED - EXIT"' \
+               'or r._field == "PO_Zone 1 Pyrometer - RTO_TO_LINE" or r._field == "PO_Zone 2 Pyrometer - RTO_TO_LINE"' \
+               'or r._field == "PO_Zone 3 Pyrometer - RTO_TO_LINE" or r._field == "FO_Zone 1 Pyrometer - RTO_TO_LINE"' \
+               'or r._field == "FO_Zone 2 Pyrometer - RTO_TO_LINE" or r._field == "FO_Zone 3 Pyrometer - RTO_TO_LINE")'
 
 client = influxdb_client.InfluxDBClient(
     url=url,
@@ -29,7 +29,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         # print(results)
-        results = ['vhvj', 'bjuyjhk']
+        results = []
 
         # async def receive(self, text_data=None, bytes_data=None):
         for i in range(100000):
@@ -41,38 +41,16 @@ class GraphConsumer(AsyncWebsocketConsumer):
             |> range(start: -600ms, stop: -100ms)\
             |> filter(fn:(r) => r._measurement == "{measurement}")\
             |> filter(fn:(r) => r._field == {query_string}'
+            print("query ", query)
             result = query_api.query(org=org, query=query)
 
             for table in result:
                 for record in table.records:
                     results.append(
-                        # (
                         (record.get_field(), round(record.get_value()))
-                        # )
                     )
 
             message = dict(results)
-            # 'speed': {
-            #     'speedEntry': results[0],
-            #     'speedProcess': results[8],
-            #     'speedExit': results[1],
-            # },
-            # 'temperature': {
-            #     'prime':
-            #         [
-            #             results[5],
-            #             results[6],
-            #             results[7]
-            #         ],
-            #     'finish':
-            #         [
-            #             results[2],
-            #             results[3],
-            #             results[4]
-            #         ],
-            # },
-
-            # print(message)
             await self.send(
                 json.dumps(
                     message
