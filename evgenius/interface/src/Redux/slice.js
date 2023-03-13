@@ -12,9 +12,6 @@ const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    checkTags: (state, action) => {
-      state.selectedTags = action.payload;
-    },
     accessTokenSetter: (state, action) => {
       state.token.access = action.payload;
     },
@@ -32,7 +29,6 @@ const slice = createSlice({
       state.error = action.payload;
     },
     [logout.fulfilled]: (state) => {
-      console.log("logout");
       state.user = { username: null, password: null };
       state.token = { refresh: null, access: null };
       state.isLoggedIn = false;
@@ -51,4 +47,4 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { checkTags, accessTokenSetter } = slice.actions;
+export const { accessTokenSetter } = slice.actions;

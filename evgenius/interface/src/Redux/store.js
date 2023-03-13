@@ -22,7 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     login: authReduser,
     analytic: analyticReduser,
-    ws: wsReduser
+    ws: wsReduser,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

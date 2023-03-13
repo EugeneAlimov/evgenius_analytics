@@ -15,6 +15,9 @@ const analyticSlice = createSlice({
     checkTags: (state, action) => {
       state.selectedTags = action.payload;
     },
+    checkTagsDashboard: (state, action) => {
+      state.tags = action.payload;
+    },
   },
   extraReducers: {
     [getTagsAndGroupsQuery.fulfilled]: (state, action) => {
@@ -31,4 +34,4 @@ const analyticSlice = createSlice({
 });
 
 export default analyticSlice.reducer;
-export const { checkTags } = analyticSlice.actions;
+export const { checkTags, checkTagsDashboard } = analyticSlice.actions;

@@ -24,6 +24,7 @@ class Tags(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name='Адрес в памяти')
     data_type = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name='Тип данных')
     comment = models.CharField(max_length=100, blank=True, null=False, default='no comment', verbose_name='Комментарий')
+    on_dashboard = models.BooleanField(default=False, verbose_name='Used on dashboard')
 
     def __str__(self):
         return "%s" % self.name_tag

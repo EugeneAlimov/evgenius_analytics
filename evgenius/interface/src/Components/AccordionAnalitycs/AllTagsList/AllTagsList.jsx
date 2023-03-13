@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import {
   Paper,
   ListItem,
@@ -13,121 +13,122 @@ import {
   Stack,
   Autocomplete,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
-import { checkTags } from "../../../Redux/sliceAnalytic";
-import binarySearch from "../../../Libs/binarySearch"
+// import { checkTags } from "../../../Redux/sliceAnalytic";
+import binarySearch from "../../../Libs/binarySearch";
 
-const AllTagsList = ({ height, width }) => {
+const AllTagsList = ({ height, checkTags, selectedTags }) => {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-
-  const tags = useSelector((state) => state.analytic.tags)
-  const groups = useSelector((state) => state.analytic.groups)
-  const selectedTags = useSelector((state) => state.analytic.selectedTags)
+  const tags = useSelector((state) => state.analytic.tags);
+  const groups = useSelector((state) => state.analytic.groups);
+  // const selectedTags = useSelector((state) => state.analytic.selectedTags)
 
   const [groupFilter, setGroupFilter] = useState(null);
-  const [searchValue, setSearchValue] = useState('')
-  const [value, setValue] = useState(null)
-  const [filteredByGroupTags, setFilteredByGroupsTags] = useState([])
-  const [searchedAndFilteredByGroupTags, setSearchedAndFilteredByGroupTags] = useState([])
-
+  const [searchValue, setSearchValue] = useState("");
+  const [value, setValue] = useState(null);
+  const [filteredByGroupTags, setFilteredByGroupsTags] = useState([]);
+  const [searchedAndFilteredByGroupTags, setSearchedAndFilteredByGroupTags] = useState([]);
+  console.log(selectedTags);
   useEffect(() => {
-    setGroupFilter(value)
-  }, [value])
+    setGroupFilter(value);
+  }, [value]);
 
   useEffect(() => {
     if (groupFilter === null) {
-      setFilteredByGroupsTags(tags)
-      return
+      setFilteredByGroupsTags(tags);
+      return;
     }
-    const tagsArr = tags.filter(tag => tag.label === groupFilter.label)
-    setFilteredByGroupsTags(tagsArr)
-  }, [groupFilter, tags])
+    const tagsArr = tags.filter((tag) => tag.label === groupFilter.label);
+    setFilteredByGroupsTags(tagsArr);
+  }, [groupFilter, tags]);
 
   useEffect(() => {
-    const tagsArr = filteredByGroupTags
-    .filter(
-      tag => tag.name_tag
-      .toLowerCase()
-      .includes(searchValue.toLowerCase())
-    )
-    setSearchedAndFilteredByGroupTags(tagsArr)
-  }, [filteredByGroupTags, searchValue])
+    const tagsArr = filteredByGroupTags.filter((tag) =>
+      tag.name_tag.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setSearchedAndFilteredByGroupTags(tagsArr);
+  }, [filteredByGroupTags, searchValue]);
 
   const createCheckedTagsArray = (id) => {
-    let tempArrSelectedTags = [...selectedTags]
+    let tempArrSelectedTags = [...selectedTags];
 
-     const obj = selectedTags.find(el => el.id === id)
-     const elemIndex = binarySearch(tags, id)
+    const obj = selectedTags.find((el) => el.id === id);
+    const elemIndex = binarySearch(tags, id);
 
-     if (!!obj) {
-        tempArrSelectedTags = selectedTags.filter(el => el.id !== id)
-      } else {
-        tempArrSelectedTags.push(tags[elemIndex])
-     }
+    if (!!obj) {
+      tempArrSelectedTags = selectedTags.filter((el) => el.id !== id);
+      console.log(tempArrSelectedTags, obj);
+    } else {
+      tempArrSelectedTags.push(tags[elemIndex]);
+    }
 
-     dispatch(checkTags(tempArrSelectedTags))
-  }
+    dispatch(checkTags(tempArrSelectedTags));
+  };
 
-  const lisTtagsLength = searchedAndFilteredByGroupTags.length
-  const rowHeith = height - 282
+  const lisTtagsLength = searchedAndFilteredByGroupTags.length;
+  const rowHeith = height - 282;
 
   const Row = ({ index, style }) => (
     <Tooltip
-        key={index}
-        placement="right"
-        title={
-          <Typography sx={{m: 0}} paragraph={true}>
-            Address: {searchedAndFilteredByGroupTags[index].address}<br/>
-            Datatype: {searchedAndFilteredByGroupTags[index].data_type}<br/>
-            Tagtable: {searchedAndFilteredByGroupTags[index].tag_table}<br/>
-            Comment: {searchedAndFilteredByGroupTags[index].comment}<br/>
-            Group: {searchedAndFilteredByGroupTags[index].label}
-          </Typography>}
-        style={style} >
-      <ListItem divider dense={true} >
+      key={index}
+      placement="right"
+      title={
+        <Typography sx={{ m: 0 }} paragraph={true}>
+          Address: {searchedAndFilteredByGroupTags[index].address}
+          <br />
+          Datatype: {searchedAndFilteredByGroupTags[index].data_type}
+          <br />
+          Tagtable: {searchedAndFilteredByGroupTags[index].tag_table}
+          <br />
+          Comment: {searchedAndFilteredByGroupTags[index].comment}
+          <br />
+          Group: {searchedAndFilteredByGroupTags[index].label}
+        </Typography>
+      }
+      style={style}
+    >
+      <ListItem divider dense={true}>
         <ListItemButton
           role={undefined}
           onClick={() => createCheckedTagsArray(searchedAndFilteredByGroupTags[index].id)}
           dense={true}
         >
-          <ListItemIcon sx={{ minWidth: '35px' }} >
+          <ListItemIcon sx={{ minWidth: "35px" }}>
             <Checkbox
               edge="start"
-              checked={!!selectedTags.find(el => el.id === searchedAndFilteredByGroupTags[index].id)}
+              checked={
+                !!selectedTags.find((el) => el.id === searchedAndFilteredByGroupTags[index].id)
+              }
               tabIndex={-1}
               disableRipple={true}
-              inputProps={{'aria-labelledby': searchedAndFilteredByGroupTags[index].id}}
+              inputProps={{ "aria-labelledby": searchedAndFilteredByGroupTags[index].id }}
             />
           </ListItemIcon>
           <ListItemText
             id={searchedAndFilteredByGroupTags[index].id}
             primary={
-              <Typography sx={{m: 0, overflowWrap: 'break-word'}} paragraph={true} noWrap={false}>
-               {searchedAndFilteredByGroupTags[index].name_tag} <br/>
-                
-              </Typography>}
+              <Typography sx={{ m: 0, overflowWrap: "break-word" }} paragraph={true} noWrap={false}>
+                {searchedAndFilteredByGroupTags[index].name_tag} <br />
+              </Typography>
+            }
           />
         </ListItemButton>
       </ListItem>
-     </Tooltip>
-  )
+    </Tooltip>
+  );
 
-  return(
-    <Paper sx={{ p: 2, m: 2, height: height -64, width: '420px' }} elevation={10} square>
-      <Box component="div" mb={0} p={1} sx={{ border: 'none', minHeight: '10px' }}
-      >
-        <Typography
-          display="block" sx={{ color: '#666666', fontSize: 26, ml: 2 }}
-          
-        >
+  return (
+    <Paper sx={{ p: 2, m: 2, height: height - 64, width: "420px" }} elevation={10} square>
+      <Box component="div" mb={0} p={1} sx={{ border: "none", minHeight: "10px" }}>
+        <Typography display="block" sx={{ color: "#666666", fontSize: 26, ml: 2 }}>
           Please, select a tags from list
-          </Typography>
+        </Typography>
       </Box>
       <Paper sx={{ m: 0 }} elevation={5} square>
-        <Box component="div" mb={2} p={2} sx={{ border: 'none', minHeight: '10px' }}>
+        <Box component="div" mb={2} p={2} sx={{ border: "none", minHeight: "10px" }}>
           <Stack direction="column" spacing={3}>
             <TextField
               value={searchValue}
@@ -142,29 +143,30 @@ const AllTagsList = ({ height, width }) => {
               size="small"
               disablePortal
               id="combo-box-demo"
-              options={ groups }
+              options={groups}
               sx={{ offset: 100 }}
               freeSolo
-              value={ value }
-              onChange={(_, newText) => {setValue(newText)}}
-              renderInput={(params) => <TextField  {...params} label="Filter by group" />}
+              value={value}
+              onChange={(_, newText) => {
+                setValue(newText);
+              }}
+              renderInput={(params) => <TextField {...params} label="Filter by group" />}
             />
           </Stack>
         </Box>
       </Paper>
       <FixedSizeList
         height={rowHeith}
-        width={'100%'}
+        width={"100%"}
         itemSize={64}
-        itemCount={ lisTtagsLength }
-        layout='vertical'
+        itemCount={lisTtagsLength}
+        layout="vertical"
         overscanCount={8}
       >
-        { Row }
+        {Row}
       </FixedSizeList>
-    </Paper>  
-  )
-}
+    </Paper>
+  );
+};
 
- export default AllTagsList
- 
+export default AllTagsList;

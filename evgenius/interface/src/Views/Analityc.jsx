@@ -1,28 +1,34 @@
 import React, { useRef, useEffect, useState, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import getWindowDimensions from "../Libs/getWindowDimensions";
-import { getTagsAndGroupsQuery } from "../api/analitycApi";
+//MUI//
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
-import SaveSetComponent from "../Components/SaveSetComponent/SaveSetCamponent";
 import Button from "@mui/material/Button";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import AllTagsList from "../Components/AccordionAnalitycs/AllTagsList/AllTagsList";
-import SelectedTagsList from "../Components/AccordionAnalitycs/SelectedTagsList/SelectedTagsList";
-import DateTimePickerComponent from "../Components/DateTimePickers/DatePickerComponent/DateTimePickerComponent";
-import { Divider, Stack, Typography, Paper, Container, Box } from "@mui/material";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-
-import * as htmlToImage from "html-to-image";
-import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
+//conponents//
+import SaveSetComponent from "../Components/SaveSetComponent/SaveSetCamponent";
+import AllTagsList from "../Components/AccordionAnalitycs/AllTagsList/AllTagsList";
+import SelectedTagsList from "../Components/AccordionAnalitycs/SelectedTagsList/SelectedTagsList";
+import DateTimePickerComponent from "../Components/DateTimePickers/DatePickerComponent/DateTimePickerComponent";
 import AlertDialog from "../Components/Notification";
-
+//utils//
 // import { getHours } from "date-fns";
+import * as htmlToImage from "html-to-image";
+import getWindowDimensions from "../Libs/getWindowDimensions";
 import influxRequest from "../api/InfluxAPI";
+import { getTagsAndGroupsQuery } from "../api/analitycApi";
+import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
+import { checkTags } from "../Redux/sliceAnalytic";
 
 const Chart = lazy(() => import("./Chart" /* webpackChunkName: 'Chart' */));
 
@@ -191,10 +197,10 @@ const Analytic = () => {
       >
         <Grid2 container>
           <Grid2 xs={4}>
-            <AllTagsList height={height} width={width} />
+            <AllTagsList height={height} checkTags={checkTags} selectedTags={selectedTags} />
           </Grid2>
           <Grid2 xs={4}>
-            <SelectedTagsList height={height} width={width} />
+            <SelectedTagsList height={height} width={width} checkTags={checkTags} selectedTags={selectedTags} />
           </Grid2>
           <Grid2 xs={3}>
             <Paper sx={{ m: 2, p: 3, width: "300px" }} elevation={10} square>
