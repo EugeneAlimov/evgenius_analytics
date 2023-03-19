@@ -1,6 +1,5 @@
 import { Paper, Tooltip, Box, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-// import { checkTags } from "../../../Redux/sliceAnalytic";
+import { useDispatch } from "react-redux";
 
 import { List, ListItem, ListItemText, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";

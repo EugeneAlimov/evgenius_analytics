@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
-// import { checkTags } from "../../../Redux/sliceAnalytic";
 import binarySearch from "../../../Libs/binarySearch";
 
 const AllTagsList = ({ height, checkTags, selectedTags }) => {
@@ -24,14 +23,13 @@ const AllTagsList = ({ height, checkTags, selectedTags }) => {
 
   const tags = useSelector((state) => state.analytic.tags);
   const groups = useSelector((state) => state.analytic.groups);
-  // const selectedTags = useSelector((state) => state.analytic.selectedTags)
 
   const [groupFilter, setGroupFilter] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [value, setValue] = useState(null);
   const [filteredByGroupTags, setFilteredByGroupsTags] = useState([]);
   const [searchedAndFilteredByGroupTags, setSearchedAndFilteredByGroupTags] = useState([]);
-  console.log(selectedTags);
+
   useEffect(() => {
     setGroupFilter(value);
   }, [value]);

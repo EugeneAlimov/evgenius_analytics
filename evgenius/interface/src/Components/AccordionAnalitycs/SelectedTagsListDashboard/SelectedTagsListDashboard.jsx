@@ -1,32 +1,36 @@
-import { Paper, Tooltip, Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash"
 
+import { Paper, Tooltip, Box, Typography } from "@mui/material";
 import { List, ListItem, ListItemText, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState } from "react";
-import binarySearch from "../../../Libs/binarySearch";
-import { checkTagsDashboard } from "../../../Redux/sliceAnalytic";
 
-const SelectedTagsListDashboard = ({ height, checkTags, selectedTags }) => {
+import binarySearch from "../../../Libs/binarySearch";
+
+import { saveTagsDashboard } from "../../../Redux/sliceAnalytic";
+
+const SelectedTagsListDashboard = ({ height }) => {
+  const [filteredList, setFilteredList] = useState([]);
+
   const dispatch = useDispatch();
   const tags = useSelector((state) => state.analytic.tags);
-
-  const [tagsOnDashboard, setTagsOnDashboard] = useState([]);
 
   useEffect(() => {
     const dashTags = tags.filter((el) => el.on_dashboard === true);
 
-    setTagsOnDashboard(dashTags);
+    setFilteredList(dashTags);
   }, [tags]);
 
   const removeSelectedTagHandler = (id) => {
-    const newTags = JSON.parse(JSON.stringify(tags));
-    const elemIndex = binarySearch(newTags, id);
+    // const newTags = _.cloneDeep(tags)
+    // const elemIndex = binarySearch(newTags, id);
 
-    const onDash = newTags[elemIndex].on_dashboard;
-    newTags[elemIndex].on_dashboard = !onDash;
+    // const onDash = newTags[elemIndex].on_dashboard;
+    // newTags[elemIndex].on_dashboard = !onDash;
 
-    dispatch(checkTagsDashboard(newTags));
+    // dispatch(saveTagsDashboard(newTags));
+    dispatch(saveTagsDashboard(id));
   };
 
   return (
@@ -44,7 +48,7 @@ const SelectedTagsListDashboard = ({ height, checkTags, selectedTags }) => {
           bgcolor: "background.paper",
         }}
       >
-        {tagsOnDashboard.map((value, index) => {
+        {filteredList.map((value) => {
           const labelId = `checkbox-list-label-${value}`;
           const { id, name_tag, tag_table, address, data_type, comment, label } = value;
 

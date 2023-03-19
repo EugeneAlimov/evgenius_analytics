@@ -20,3 +20,22 @@ export const uploadFile = async (file) => {
     console.log("error: ", error.response.data);
   }
 };
+
+export const setTagstoDashboard = async (tagsOnDashboard, accessToken) => {
+  try {
+    const request = await axios.put(
+      "http://127.0.0.1:8000/tags-to-ws/",
+      {
+        label: tagsOnDashboard,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    
+    return request;
+  } catch (error) {
+    console.log("error: ", error.response.data);
+  }
+};
