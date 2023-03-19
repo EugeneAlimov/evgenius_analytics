@@ -197,10 +197,18 @@ const Analytic = () => {
       >
         <Grid2 container>
           <Grid2 xs={4}>
-            <AllTagsList height={height} checkTags={checkTags} selectedTags={selectedTags} />
+            <AllTagsList
+              height={height}
+              checkTags={checkTags}
+              selectedTags={selectedTags} />
           </Grid2>
           <Grid2 xs={4}>
-            <SelectedTagsList height={height} width={width} checkTags={checkTags} selectedTags={selectedTags} />
+            <SelectedTagsList
+              height={height}
+              width={width}
+              checkTags={checkTags}
+              selectedTags={selectedTags}
+            />
           </Grid2>
           <Grid2 xs={3}>
             <Paper sx={{ m: 2, p: 3, width: "300px" }} elevation={10} square>

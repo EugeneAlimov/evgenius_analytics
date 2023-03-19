@@ -16,8 +16,7 @@ import {
 } from "@mui/material";
 import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
-import binarySearch from "../../../Libs/binarySearch";
-import { checkTagsDashboard } from "../../../Redux/sliceAnalytic";
+import { saveTagsDashboard } from "../../../Redux/sliceAnalytic";
 
 const AllTagsListDashboard = ({ height }) => {
   const dispatch = useDispatch();
@@ -35,31 +34,24 @@ const AllTagsListDashboard = ({ height }) => {
     setGroupFilter(value);
   }, [value]);
 
+  //Filter tags array by group
   useEffect(() => {
     if (groupFilter === null) {
       setFilteredByGroupsTags(tags);
       return;
     }
+
     const tagsArr = tags.filter((tag) => tag.label === groupFilter.label);
     setFilteredByGroupsTags(tagsArr);
   }, [groupFilter, tags]);
 
+  //Search tag on a filtered array
   useEffect(() => {
     const tagsArr = filteredByGroupTags.filter((tag) =>
       tag.name_tag.toLowerCase().includes(searchValue.toLowerCase())
     );
     setSearchedAndFilteredByGroupTags(tagsArr);
   }, [filteredByGroupTags, searchValue]);
-
-  const createCheckedTagsArray = (id) => {
-    const newTags = JSON.parse(JSON.stringify(tags));
-    const elemIndex = binarySearch(newTags, id);
-
-    const onDash = newTags[elemIndex].on_dashboard;
-    newTags[elemIndex].on_dashboard = !onDash;
-
-    dispatch(checkTagsDashboard(newTags));
-  };
 
   const lisTtagsLength = searchedAndFilteredByGroupTags.length;
   const rowHeith = height - 282;
@@ -86,7 +78,7 @@ const AllTagsListDashboard = ({ height }) => {
       <ListItem divider dense={true}>
         <ListItemButton
           role={undefined}
-          onClick={() => createCheckedTagsArray(searchedAndFilteredByGroupTags[index].id)}
+          onClick={() => dispatch(saveTagsDashboard(searchedAndFilteredByGroupTags[index].id))}
           dense={true}
         >
           <ListItemIcon sx={{ minWidth: "35px" }}>

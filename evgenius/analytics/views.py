@@ -1,7 +1,11 @@
 # # Create your views here.
-from django.http import JsonResponse, HttpResponse
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+import json
+
+from django.http import HttpResponse
+from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from analytics.models import Tags, Group
 from analytics.serializers import TagsSerializer, GroupSerializer, UserSetsSerializer
@@ -44,3 +48,17 @@ class UserSetsViewSet(viewsets.ModelViewSet):
 
         response = UserDataset.objects.filter(user=user)
         return response
+
+
+class WSTagsUpdateView(APIView):
+    def put(self, request, format=None):
+        for i in request.data['label']:
+            pk = Tags.objects.get(id=i['id'])
+            serializer = TagsSerializer(pk, data=i)
+            if serializer.is_valid():
+                serializer.save()
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data, status.HTTP_200_OK)
+        # return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        return Response(status.HTTP_200_OK)
