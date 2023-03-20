@@ -20,6 +20,7 @@
     "chartjs-plugin-streaming": "^2.0.0",
     "chartjs-plugin-zoom": "^1.2.1",
     "date-fns": "^2.29.3",
+    "formik": "^2.2.9",
     "html-to-image": "^1.10.8",
     "luxon": "^3.1.0",
     "plotly.js": "^2.16.1",

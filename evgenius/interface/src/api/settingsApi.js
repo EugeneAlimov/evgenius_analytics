@@ -21,15 +21,14 @@ export const uploadFile = async (file) => {
   }
 };
 
-export const setTagstoDashboard = async (tagsOnDashboard, accessToken) => {
+export const setTagstoDashboard = async (tagsOnDashboard) => {
   try {
     const request = await axios.put(
       "http://127.0.0.1:8000/tags-to-ws/",
       {
         label: tagsOnDashboard,
         headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${accessToken}`,
+          // Authorization: `Bearer ${accessToken}`,
         },
       }
     );

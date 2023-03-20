@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
+
 import { saveTagsDashboard } from "../Redux/sliceAnalytic";
 import _ from "lodash";
+import getCookie from "../Libs/getCookie"
 
 import getWindowDimensions from "../Libs/getWindowDimensions";
 import handleFile from "../Libs/excel-csv";
@@ -30,6 +33,17 @@ const Settings = () => {
   const [file, setFile] = useState();
   const [width, height] = getWindowDimensions();
 
+  const toWSTags = () => {
+    const tempArr = [];
+    comparedArr.forEach((element, index) => {
+      if (element.on_dashboard !== tags[index].on_dashboard) {
+        tempArr.push(tags[index]);
+      }
+    });
+    console.log("tempArr ", tempArr);
+    setTagstoDashboard(tempArr);
+  };
+
   useEffect(() => {
     const dashTags = _.cloneDeep(tags);
 
@@ -42,17 +56,6 @@ const Settings = () => {
 
   const toAnalityc = () => {
     uploadFile(file);
-  };
-
-  const toWSTags = () => {
-    const tempArr = [];
-    comparedArr.forEach((element, index) => {
-      if (element.on_dashboard !== tags[index].on_dashboard) {
-        tempArr.push(tags[index]);
-      }
-    });
-    console.log("tempArr ", tempArr);
-    setTagstoDashboard(tempArr, accessToken);
   };
 
   return (
