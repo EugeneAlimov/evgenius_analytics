@@ -55,6 +55,8 @@ class WSTagsUpdateView(APIView):
             serializer = TagsSerializer(pk, data=i)
             if serializer.is_valid():
                 serializer.save()
+            else:
+                return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
         # if serializer.is_valid():
         #     serializer.save()
         #     return Response(serializer.data, status.HTTP_200_OK)

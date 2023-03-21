@@ -7,8 +7,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 
-const UserDatasetEditComponent = () => {
+const UserDatasetEditComponent = ({ buttonStyle }) => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -22,15 +23,16 @@ const UserDatasetEditComponent = () => {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      {/* <Box> */}
       <Button
-        sx={{ m: 2, width: "300px", height: "50px" }}
+        sx={{ ...buttonStyle }}
         variant="contained"
         color="warning"
         size="large"
         onClick={handleClickOpen}
       >
-        Change dataset
+        Change user dataset
       </Button>
       <Dialog
         fullScreen={fullScreen}
@@ -54,6 +56,7 @@ const UserDatasetEditComponent = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* </Box> */}
     </div>
   );
 };
