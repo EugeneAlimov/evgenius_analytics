@@ -5,8 +5,8 @@ export const getTagsAndGroupsQuery = createAsyncThunk(
     'analytic/tagsAndGroupsLists', async () => {
 
         const arrayOfEndpoints = [
-            'http://127.0.0.1:8000/api/v1/analytics/',
-            'http://127.0.0.1:8000/api/v1/groups/'
+            'http://192.168.8.167/api/v1/analytics/',
+            'http://192.168.8.167/api/v1/groups/'
         ]
 
     const tagsAndGroupsLists = await Promise

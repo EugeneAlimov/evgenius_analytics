@@ -114,9 +114,9 @@ const Analytic = () => {
     );
   };
 
-  useEffect(() => {
-    dispatch(getTagsAndGroupsQuery());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getTagsAndGroupsQuery());
+  // }, [dispatch]);
 
   const setDatasetNamehandleClick = (newPlacement, isHistorical) => (event) => {
     setAnchorEl(event.currentTarget);

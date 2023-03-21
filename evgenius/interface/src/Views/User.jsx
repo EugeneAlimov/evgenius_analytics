@@ -41,6 +41,7 @@ const User = () => {
     height: "90vh",
     marginLeft: "30px",
     mt: "10px",
+    
   };
 
   const listStyle = {
@@ -254,6 +255,8 @@ const User = () => {
       <Paper sx={{ ...paperStyle }}>
         <h2 style={{ marginLeft: 30 }}>Actions</h2>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <UserDatasetEditComponent buttonStyle={buttonStyle} />
+
           <Button
             sx={{ ...buttonStyle }}
             color="secondary"
