@@ -28,7 +28,7 @@ const CommonDashBoard = () => {
   // xl: 1536
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://192.168.8.167/ws/graph/`);
+    const socket = new WebSocket(`ws://192.168.8.167:8001/ws/graph/`);
 
     socket.onmessage = function (e) {
       const dashboardData = JSON.parse(e.data);

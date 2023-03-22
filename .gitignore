@@ -4,7 +4,7 @@
 /static
 /static_files
 /evgenius/interface/node_modules/
-/evgenius/interface/build/
+#/evgenius/interface/build/
 /evgenius/analytics/migrations/
 /evgenius/users/migrations/
 /evgenius/media/
