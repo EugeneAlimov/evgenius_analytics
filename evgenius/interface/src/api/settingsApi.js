@@ -28,7 +28,7 @@ export const setTagstoDashboard = async (tagsOnDashboard) => {
       {
         label: tagsOnDashboard,
         headers: {
-          // Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
