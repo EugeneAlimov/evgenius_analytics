@@ -13,22 +13,17 @@ measurement = "Line"
 # Store the URL of your InfluxDB instance
 url = "http://192.168.8.167:8086/"
 
-# query_string = '"ACT_SPEED - ENTRY" or r._field == "actual_speed - PROCESS" or r._field == "ACT_SPEED - EXIT"' \
-#                'or r._field == "PO_Zone 1 Pyrometer - RTO_TO_LINE" or r._field == "PO_Zone 2 Pyrometer - RTO_TO_LINE"' \
-#                'or r._field == "PO_Zone 3 Pyrometer - RTO_TO_LINE" or r._field == "FO_Zone 1 Pyrometer - RTO_TO_LINE"' \
-#                'or r._field == "FO_Zone 2 Pyrometer - RTO_TO_LINE" or r._field == "FO_Zone 3 Pyrometer - RTO_TO_LINE")'
-
-
 query_string = ''
 query_elements = Tags.objects.filter(on_dashboard=True)
-last_el = len(query_elements)
+
+last_el_number = len(query_elements)
 ind = 1
 add_query_row = ' or r._field == '
 
 for el in query_elements:
-    query_string += f'"{el}"'
+    query_string += f'"{el} - {el.label}"'
     query_string += add_query_row
-    if ind == last_el:
+    if ind == last_el_number:
         query_string += f'"{el}"'
         break
     ind += 1
@@ -53,7 +48,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
             query = f'from(bucket: "{bucket}")\
             |> range(start: -600ms, stop: -100ms)\
             |> filter(fn:(r) => r._measurement == "{measurement}")\
-            |> filter(fn:(r) => r._field == {query_string}'
+            |> filter(fn:(r) => r._field == {query_string})'
 
             result = query_api.query(org=org, query=query)
 
