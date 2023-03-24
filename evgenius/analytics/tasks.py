@@ -20,13 +20,6 @@ def download_to_base(request):
     об этом"""
 
     name_group = ''
-    groups_list = []
-
-    # for i in range(1, ws.max_row + 1):
-    #     if (ws.cell(row=i, column=4)).value.startswith('%'):
-    #         groups_list.append(ws.cell(row=i, column=4))
-    #     else:
-    flag = 0
     for i in range(1, ws.max_row + 1):
 
         name_tag = (ws.cell(row=i, column=1)).value  # выбираем ячейки из таблицы
@@ -65,20 +58,25 @@ def download_to_base(request):
         else:
             """"Для случая когда теги полуены из DB блоков"""
             if (ws.cell(row=i, column=2)).value == 'Struct':
-                if flag == 0:
-                    name_group = ''
 
-                if len(name_group) == 0:
-                    name_group = (ws.cell(row=i, column=1)).value
-                else:
-                    name_group = f'{name_group} - {(ws.cell(row=i, column=1)).value}'
-                flag += 1
+                cell_num = 5
+                trig = True
+
+                while trig:
+                    cell = str((ws.cell(row=i, column=cell_num)).value)
+
+                    if cell == 'None':
+                        name_group = name_group[3:len(name_group)]
+                        trig = False
+                    else:
+                        if cell_num == 5:
+                            name_group = ''
+                        name_group = f'{name_group} - {cell}'
+                        cell_num += 1
                 continue
 
             if not Group.objects.filter(name=name_group):
                 Group.objects.create(name=name_group)  # сохраняем name_group в базу
-            print('name_group ', name_group)
-            flag = 0
 
             name_group_from_db = Group.objects.get(
                 name=name_group)  # заносим в переменную объект группы для текущей записи
@@ -89,7 +87,7 @@ def download_to_base(request):
                 continue
             if data_type == 'Bool':
                 x = '.DBX'
-            elif data_type == 'Real' or data_type == 'Time_Of_Day' or data_type == 'Date_And_Time' or data_type == 'DInt' or data_type == 'IEC_TIMER':
+            elif data_type == 'Real' or data_type == 'Time_Of_Day' or data_type == 'Date_And_Time' or data_type == "DInt" or data_type == 'IEC_TIMER':
                 x = '.DBD'
             elif data_type == 'Int' or 'Word':
                 x = '.DBW'

@@ -51,9 +51,11 @@ class GraphConsumer(AsyncWebsocketConsumer):
             |> filter(fn:(r) => r._field == {query_string})'
 
             result = query_api.query(org=org, query=query)
-
+            print(result)
             for table in result:
                 for record in table.records:
+                    print(record)
+
                     results.append(
                         (record.get_field(), round(record.get_value()))
                     )

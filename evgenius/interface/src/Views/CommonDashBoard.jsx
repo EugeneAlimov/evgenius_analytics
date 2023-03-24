@@ -32,6 +32,9 @@ const CommonDashBoard = () => {
 
     socket.onmessage = function (e) {
       const dashboardData = JSON.parse(e.data);
+
+      console.log('dashboardData ', dashboardData);
+
       dispatch(dashDataLoader(dashboardData));
     };
   }, [dispatch]);

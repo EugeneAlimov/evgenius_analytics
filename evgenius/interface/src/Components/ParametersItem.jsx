@@ -27,7 +27,7 @@ const ParametersItem = ({ content, section }) => {
     color: "#212121a3",
   };
 
-  console.log(content);
+  // console.log(content);
 
   return (
     <Box

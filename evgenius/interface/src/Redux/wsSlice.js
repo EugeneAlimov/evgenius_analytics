@@ -9,6 +9,7 @@ const wsSlice = createSlice({
   initialState,
   reducers: {
     dashDataLoader: (state, action) => {
+      console.log('action.payload ', action.payload);
       state.wsGetDashboardData = action.payload;
     },
   },

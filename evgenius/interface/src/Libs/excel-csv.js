@@ -1,7 +1,6 @@
 import * as XLSX from "xlsx";
 
 function handleFile(fileToParce) {
-  // console.log(fileToParce);
   let f = fileToParce;
   let reader = new FileReader();
 
@@ -9,10 +8,11 @@ function handleFile(fileToParce) {
     let data = new Uint8Array(fileToParce.target.result);
     let workbook = XLSX.read(data, { type: "array" });
     let CSV_book = XLSX.utils.book_new(); // Create new book
+
     CSV_book.Props = {
-      // Set properties book
       Title: "Node-red TagsList",
     };
+
     let first_sheet_name = workbook.SheetNames[0]; // Get Sheet name
     let worksheet = workbook.Sheets[first_sheet_name]; // Get worksheet
     let range = XLSX.utils.decode_range(worksheet["!ref"]); // Get the range
@@ -20,9 +20,8 @@ function handleFile(fileToParce) {
     let i = 1;
     let sheetArr = [];
     let nameTag = "";
-    console.log(range);
+
     for (i; i < listRange; i++) {
-      // console.log(i);
       let A_X_Cell = worksheet[`A${i}`];
       let A_X_Value = String(A_X_Cell ? A_X_Cell.v : undefined);
       if (A_X_Value.includes("Spare")) {
@@ -37,28 +36,6 @@ function handleFile(fileToParce) {
 
       let A_Cell_CSV = "";
       let B_Cell_CSV = "";
-
-      // if (B_X_Value.includes("Struct")) {
-      //   let cellNum = 4;
-      //   let flag = true;
-
-      //   while (flag) {
-      //     let cellref = XLSX.utils.encode_cell({ c: cellNum, r: i - 1 });
-      //     let cell = worksheet[`${cellref}`];
-      //     let cell_Value = String(cell ? cell.v : undefined).trim();
-
-      //     switch (cell_Value) {
-      //       case "undefined":
-      //         flag = false;
-      //         break;
-      //       default:
-      //         if (cellNum === 4) nameTag = "";
-      //         nameTag = `${nameTag} - ${cell_Value}`;
-      //         cellNum += 1;
-      //     }
-      //   }
-      //   continue
-      // }
 
       // in case tag table
       if (D_X_Value.includes("%")) {
@@ -103,11 +80,11 @@ function handleFile(fileToParce) {
           dataType = "DI";
         } else if (B_X_Value === "Dint") {
           dataType = "DW";
-        }else if (B_X_Value === "Real") {
+        } else if (B_X_Value === "Real") {
           dataType = "R";
         } else if (B_X_Value === "Time") {
           dataType = "DW";
-        } 
+        }
 
         if (!dataType.includes("X")) {
           if (C_X_Value.includes(".0")) {
