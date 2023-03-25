@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-// axios.defaults.baseURL = 'http://192.168.8.167/api/v1/'
+// axios.defaults.baseURL = 'api/v1/'
 // axios.defaults.timeout = 1500
 
 // export const registrate = createAsyncThunk(
@@ -32,7 +32,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const login = createAsyncThunk("auth/login", async (credentials) => {
   try {
-    const request = await axios.post("http://192.168.8.167/api/v1/token/", credentials);
+    const request = await axios.post("api/v1/token/", credentials);
     const user = request.config.data;
     const authToken = request.data;
     // token.set(authToken.access)
@@ -45,7 +45,7 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
 export const logout = createAsyncThunk("auth/logout", async (refreshToken) => {
   try {
     console.log("kjhgfdzdxfcg");
-    await axios.post("http://192.168.8.167/api/v1/token/blacklist/", {
+    await axios.post("api/v1/token/blacklist/", {
       refresh: refreshToken,
     });
     return;
@@ -54,7 +54,7 @@ export const logout = createAsyncThunk("auth/logout", async (refreshToken) => {
 
 export const refreshTokenHandler = createAsyncThunk("auth/refreshToken", async (refreshToken) => {
   try {
-    const request = await axios.post("http://192.168.8.167/api/v1/token/refresh/", {
+    const request = await axios.post("api/v1/token/refresh/", {
       refresh: refreshToken,
     });
     const authToken = request.data;
@@ -68,7 +68,7 @@ export const getUserDatasetCollection = createAsyncThunk(
   "auth/userDataset",
   async (accessToken) => {
     try {
-      const request = await axios.get("http://192.168.8.167/api/v1/user-dataset/", {
+      const request = await axios.get("api/v1/user-dataset/", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -105,7 +105,7 @@ export const userDatasetSave = async (
   formData.append("dataset_image", image);
 
   try {
-    const request = await axios.post("http://192.168.8.167/api/v1/user-dataset/", formData, {
+    const request = await axios.post("api/v1/user-dataset/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${accessToken}`,
@@ -119,7 +119,7 @@ export const userDatasetSave = async (
 };
 
 export const tokenUpdater = async (refreshToken) => {
-  const response = await axios.post("http://192.168.8.167/api/v1/token/refresh/", {
+  const response = await axios.post("api/v1/token/refresh/", {
     refresh: refreshToken,
   });
 

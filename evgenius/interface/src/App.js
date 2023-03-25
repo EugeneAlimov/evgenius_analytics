@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import "./index.css";
 import NavBar from "./Components/Navbar/Navbar";
+import axioxDefault from "./api/axioxDefault";
 import mathRound from "./Libs/mathRound";
 import { Outlet } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";

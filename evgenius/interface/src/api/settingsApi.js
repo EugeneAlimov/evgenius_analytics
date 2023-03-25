@@ -6,7 +6,7 @@ export const uploadFile = async (file) => {
 
   try {
     const request = await axios.post(
-      "http://192.168.8.167/api/v1/pars-tags-list/",
+      "api/v1/pars-tags-list/",
 
       formData,
       {
@@ -24,7 +24,7 @@ export const uploadFile = async (file) => {
 export const setTagstoDashboard = async (tagsOnDashboard) => {
   try {
     const request = await axios.put(
-      "http://192.168.8.167/tags-to-ws/",
+      "tags-to-ws/",
       {
         label: tagsOnDashboard,
         headers: {

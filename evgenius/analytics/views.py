@@ -1,5 +1,7 @@
 # # Create your views here.
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -48,6 +50,7 @@ class UserSetsViewSet(viewsets.ModelViewSet):
         return response
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class WSTagsUpdateView(APIView):
     def put(self, request, format=None):
         for i in request.data['label']:
