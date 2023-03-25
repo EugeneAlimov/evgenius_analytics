@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDatasetCollection, tokenUpdater } from "../api/userApi";
 import { accessTokenSetter } from "../Redux/slice";
 import { useNavigate } from "react-router-dom";
+
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -14,9 +14,12 @@ import ListItem from "@mui/material/ListItem";
 import List from "@mui/material/List";
 import Paper from "@mui/material/Paper";
 import CommentIcon from "@mui/icons-material/Comment";
-import { logout } from "../api/userApi";
+import Box from "@mui/system/Box";
+
 import UserDatasetEditComponent from "../Components/UI/Dialog/UserDatasetEditComponent";
-import { Box } from "@mui/system";
+
+import { logout } from "../api/userApi";
+import { getUserDatasetCollection, tokenUpdater } from "../api/userApi";
 
 const User = () => {
   const refreshToken = useSelector((state) => state.login.token.refresh);
@@ -33,8 +36,8 @@ const User = () => {
   const [colorRealtime, setcolorRealtime] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [checkboxDisabled, setcheckboxDisabled] = useState(true);
-  const [historicalPreview, setHistoricalPreview] = useState();
-  const [realtimelPreview, setRealtimePreview] = useState();
+  // const [historicalPreview, setHistoricalPreview] = useState();
+  // const [realtimelPreview, setRealtimePreview] = useState();
 
   const paperStyle = {
     width: "22%",
@@ -91,19 +94,19 @@ const User = () => {
     )
   }, [userDataset]);
 
-  useEffect(() => {
-    if (!userSetsHistorical.length) {
-      return;
-    }
-    setHistoricalPreview(userSetsHistorical[0].dataset_image);
-  }, [userSetsHistorical]);
+  // useEffect(() => {
+  //   if (!userSetsHistorical.length) {
+  //     return;
+  //   }
+  //   setHistoricalPreview(userSetsHistorical[0].dataset_image);
+  // }, [userSetsHistorical]);
 
-  useEffect(() => {
-    if (!userSetsRealtime.length) {
-      return;
-    }
-    setRealtimePreview(userSetsRealtime[0].dataset_image);
-  }, [userSetsRealtime]);
+  // useEffect(() => {
+  //   if (!userSetsRealtime.length) {
+  //     return;
+  //   }
+  //   setRealtimePreview(userSetsRealtime[0].dataset_image);
+  // }, [userSetsRealtime]);
 
   const handleHistorycalCheck = (position) => () => {
     const updateCheckedState = historicalChecked.map((item, index) =>
@@ -120,14 +123,14 @@ const User = () => {
   };
 
   const handleHistoricalToggle = (index) => () => {
-    setHistoricalPreview(userSetsHistorical[index].dataset_image);
+    // setHistoricalPreview(userSetsHistorical[index].dataset_image);
     const arr = new Array(userSetsHistorical.length).fill("");
     arr[index] = "#1976d2";
     setColorHistorical(arr);
   };
 
   const handleRealtimeToggle = (index) => () => {
-    setRealtimePreview(userSetsRealtime[index].dataset_image);
+    // setRealtimePreview(userSetsRealtime[index].dataset_image);
     const arr = new Array(userSetsRealtime.length).fill("");
     arr[index] = "#1976d2";
     setcolorRealtime(arr);
