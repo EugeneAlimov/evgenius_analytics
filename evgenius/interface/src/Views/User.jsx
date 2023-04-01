@@ -34,8 +34,9 @@ const User = () => {
   const [realtimeChecked, setRealtimeChecked] = useState([]);
   const [colorHistorical, setColorHistorical] = useState([]);
   const [colorRealtime, setcolorRealtime] = useState([]);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [buttonsDisabled, setButtonsDisabled] = useState(true);
   const [checkboxDisabled, setcheckboxDisabled] = useState(true);
+  const [tagToChange, setTagToChange] = useState("");
   // const [historicalPreview, setHistoricalPreview] = useState();
   // const [realtimelPreview, setRealtimePreview] = useState();
 
@@ -44,7 +45,6 @@ const User = () => {
     height: "90vh",
     marginLeft: "30px",
     mt: "10px",
-    
   };
 
   const listStyle = {
@@ -91,7 +91,7 @@ const User = () => {
       Array.from(realtime, () => {
         return false;
       })
-    )
+    );
   }, [userDataset]);
 
   // useEffect(() => {
@@ -107,6 +107,28 @@ const User = () => {
   //   }
   //   setRealtimePreview(userSetsRealtime[0].dataset_image);
   // }, [userSetsRealtime]);
+
+  const datasetItemColorChangerButtonsDisabler = (
+    datasetSetColor,
+    datasetCleanColor,
+    index = 0,
+    stateChangerSetColor,
+    stateChangerCleanColor,
+    isCleaner,
+    buttonDisabler,
+    isDisabled
+  ) => {
+    const arr = new Array(datasetSetColor.length).fill("");
+    if (!isCleaner) {
+      arr[index] = "#1976d2";
+    }
+    stateChangerSetColor(arr);
+
+    const newArr = new Array(datasetCleanColor.length).fill("");
+    stateChangerCleanColor(newArr);
+
+    buttonDisabler(isDisabled);
+  };
 
   const handleHistorycalCheck = (position) => () => {
     const updateCheckedState = historicalChecked.map((item, index) =>
@@ -124,20 +146,44 @@ const User = () => {
 
   const handleHistoricalToggle = (index) => () => {
     // setHistoricalPreview(userSetsHistorical[index].dataset_image);
-    const arr = new Array(userSetsHistorical.length).fill("");
-    arr[index] = "#1976d2";
-    setColorHistorical(arr);
+
+    datasetItemColorChangerButtonsDisabler(
+      userSetsHistorical,
+      userSetsRealtime,
+      index,
+      setColorHistorical,
+      setcolorRealtime,
+      false,
+      setButtonsDisabled,
+      false
+    );
+    setTagToChange(userSetsHistorical[index]);
   };
 
   const handleRealtimeToggle = (index) => () => {
     // setRealtimePreview(userSetsRealtime[index].dataset_image);
-    const arr = new Array(userSetsRealtime.length).fill("");
-    arr[index] = "#1976d2";
-    setcolorRealtime(arr);
+
+    datasetItemColorChangerButtonsDisabler(
+      userSetsRealtime,
+      userSetsHistorical,
+      index,
+      setcolorRealtime,
+      setColorHistorical,
+      false,
+      setButtonsDisabled,
+      false
+    );
+    setTagToChange(userSetsRealtime[index]);
   };
 
-  const buttonsDisabledToggler = () => {
-    setButtonDisabled(!buttonDisabled);
+  const canselToggler = () => {
+    const arr = new Array(userSetsHistorical.length).fill("");
+    setColorHistorical(arr);
+
+    const newArr = new Array(userSetsRealtime.length).fill("");
+    setcolorRealtime(newArr);
+
+    setButtonsDisabled(true);
   };
 
   const checkboxDisabledToggler = () => {
@@ -164,8 +210,14 @@ const User = () => {
         <List sx={{ ...listStyle }}>
           {userSetsHistorical.map((value, index) => {
             const labelId = `checkbox-list-label-${value.id}`;
-            const { date_time_start_diapason, date_time_end_diapason, created, updated, tag } =
-              value;
+            const {
+              date_time_start_diapason,
+              date_time_end_diapason,
+              created,
+              updated,
+              tag,
+              comment,
+            } = value;
 
             const dateStart = new Date(date_time_start_diapason).toLocaleString(); //.split('T')[0]
             const dateEnd = new Date(date_time_end_diapason).toLocaleString(); //.split('T')[0]
@@ -195,6 +247,7 @@ const User = () => {
                       end diapason: {dateEnd} <br />
                       created: {dateCreated} <br />
                       updated: {dateUpdated} <br />
+                      comment: {comment} <br />
                       {tag.map((t) => {
                         return <li key={t}>tag: {t}</li>;
                       })}
@@ -215,7 +268,14 @@ const User = () => {
         <List sx={{ ...listStyle }}>
           {userSetsRealtime.map((value, index) => {
             const labelId = `checkbox-list-label-${value.id}`;
-            const { date_time_start_diapason, date_time_end_diapason, created, updated } = value;
+            const {
+              date_time_start_diapason,
+              date_time_end_diapason,
+              created,
+              updated,
+              tag,
+              comment,
+            } = value;
 
             const dateStart = new Date(date_time_start_diapason).toLocaleString();
             const dateEnd = new Date(date_time_end_diapason).toLocaleString();
@@ -241,8 +301,14 @@ const User = () => {
                   placement="right"
                   title={
                     <Typography paragraph={true}>
-                      start diapason: {dateStart} <br /> end diapason: {dateEnd} <br /> created:{" "}
-                      {dateCreated} <br /> updated: {dateUpdated}
+                      start diapason: {dateStart} <br />
+                      end diapason: {dateEnd} <br />
+                      created: {dateCreated} <br />
+                      updated: {dateUpdated} <br />
+                      comment: {comment} <br />
+                      {tag.map((t) => {
+                        return <li key={t}>tag: {t}</li>;
+                      })}
                     </Typography>
                   }
                 >
@@ -258,26 +324,12 @@ const User = () => {
       <Paper sx={{ ...paperStyle }}>
         <h2 style={{ marginLeft: 30 }}>Actions</h2>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <UserDatasetEditComponent buttonStyle={buttonStyle} />
+          <UserDatasetEditComponent
+            disabled={buttonsDisabled}
+            buttonStyle={buttonStyle}
+            tagToChange={tagToChange}
+          />
 
-          <Button
-            sx={{ ...buttonStyle }}
-            color="secondary"
-            variant="contained"
-            size="large"
-            onClick={buttonsDisabledToggler}
-          >
-            Change user dataset
-          </Button>
-          <Button
-            sx={{ ...buttonStyle }}
-            color="success"
-            variant="contained"
-            size="large"
-            disabled={buttonDisabled}
-          >
-            Rename dataset
-          </Button>
           <Button
             sx={{
               ...buttonStyle,
@@ -286,7 +338,7 @@ const User = () => {
             }}
             variant="contained"
             size="large"
-            disabled={buttonDisabled}
+            disabled={buttonsDisabled}
             onClick={checkboxDisabledToggler}
           >
             Delete dataset
@@ -296,7 +348,8 @@ const User = () => {
             color="warning"
             variant="contained"
             size="large"
-            disabled={buttonDisabled}
+            disabled={buttonsDisabled}
+            onClick={canselToggler}
           >
             Cancel
           </Button>
@@ -305,11 +358,17 @@ const User = () => {
             color="error"
             variant="contained"
             size="large"
-            disabled={buttonDisabled}
+            disabled={buttonsDisabled}
           >
             Confirm
           </Button>
-          <Button sx={{ ...buttonStyle }} color="info" variant="contained" size="large">
+          <Button
+            sx={{ ...buttonStyle }}
+            color="info"
+            variant="contained"
+            size="large"
+            disabled={buttonsDisabled}
+          >
             Show selected dataset
           </Button>
         </Box>

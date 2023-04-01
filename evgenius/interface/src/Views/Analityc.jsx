@@ -29,6 +29,7 @@ import influxRequest from "../api/InfluxAPI";
 import { getTagsAndGroupsQuery } from "../api/analitycApi";
 import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
 import { checkTags } from "../Redux/sliceAnalytic";
+import DateTimePickers from "../Components/DateTimePickers/DateTimePickers";
 
 const Chart = lazy(() => import("./Chart" /* webpackChunkName: 'Chart' */));
 
@@ -197,10 +198,7 @@ const Analytic = () => {
       >
         <Grid2 container>
           <Grid2 xs={4}>
-            <AllTagsList
-              height={height}
-              checkTags={checkTags}
-              selectedTags={selectedTags} />
+            <AllTagsList height={height} checkTags={checkTags} selectedTags={selectedTags} />
           </Grid2>
           <Grid2 xs={4}>
             <SelectedTagsList
@@ -211,7 +209,15 @@ const Analytic = () => {
             />
           </Grid2>
           <Grid2 xs={3}>
-            <Paper sx={{ m: 2, p: 3, width: "300px" }} elevation={10} square>
+            <DateTimePickers
+              labelStart={"Start date & time"}
+              handlerStart={dateTimeStartHandler}
+              valueStart={dateTimeStart}
+              labelEnd={"End date & time"}
+              handlerEnd={dateTimeEndHandler}
+              valueEnd={dateTimeEnd}
+            />
+            {/* <Paper sx={{ m: 2, p: 3, width: "300px" }} elevation={10} square>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Stack spacing={3}>
                   <Typography>Date & Time pickers</Typography>
@@ -227,14 +233,14 @@ const Analytic = () => {
                     value={dateTimeEnd}
                   />
                 </Stack>
-              </LocalizationProvider>
+              </LocalizationProvider> */}
               <SaveSetComponent
                 isPopOpen={isPopOpen}
                 popAnchorEl={anchorEl}
                 popPlacement={placement}
                 closePopperHandle={closePopperHandle}
               />
-            </Paper>
+            {/* </Paper> */}
             <Paper sx={{ mt: 10, m: 2, p: 3, width: "300px" }} elevation={10} square>
               <Button
                 onClick={setDatasetNamehandleClick("right", true)}

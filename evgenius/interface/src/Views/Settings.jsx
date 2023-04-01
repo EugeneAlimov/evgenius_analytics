@@ -5,6 +5,7 @@ import _ from "lodash";
 
 import getWindowDimensions from "../Libs/getWindowDimensions";
 import handleFile from "../Libs/excel-csv";
+import greedOptimisation from "../Libs/greedOptimisation";
 import { setTagstoDashboard, uploadFile } from "../api/settingsApi";
 
 import Paper from "@mui/material/Paper";
@@ -23,6 +24,8 @@ const Settings = () => {
 
   const [file, setFile] = useState();
   const [width, height] = getWindowDimensions();
+  const [priceFile, setPriceFile] = useState();
+
 
   const toWSTags = () => {
     const tempArr = [];
@@ -88,6 +91,15 @@ const Settings = () => {
           To dashboard
         </Button>
         <FileUpload />
+        <Input type="file" onChange={(event) => setPriceFile(event.currentTarget.files[0])}></Input>
+        <Button
+          sx={{ m: 2, width: "360px", height: "50px" }}
+          variant="contained"
+          size="large"
+          onClick={() => greedOptimisation(priceFile)}
+        >
+          Разобрать файл
+        </Button>
       </Paper>
       <AllTagsListDashboard height={height} />
       <SelectedTagsListDashboard height={height} />

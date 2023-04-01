@@ -3,7 +3,7 @@ import { DesktopDateTimePicker } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
 
 const DateTimePickerComponent = ({ label, handler, value }) => {
-
+console.log('value ', value);
     return (
       <DesktopDateTimePicker
         inputFormat="yy:MM:dd-HH:mm:ss"

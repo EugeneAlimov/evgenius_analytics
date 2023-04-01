@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     dispatch(getTagsAndGroupsQuery());
   }, [dispatch]);
-console.log('qwqwqwqw');
+
   return (
     <div className="App">
       <LocalizationProvider dateAdapter={AdapterDateFns}>

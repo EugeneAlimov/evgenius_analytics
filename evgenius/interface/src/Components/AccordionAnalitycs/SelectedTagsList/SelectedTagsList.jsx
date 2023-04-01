@@ -5,8 +5,7 @@ import { List, ListItem, ListItemText, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const SelectedTagsList = ({ height, checkTags, selectedTags }) => {
-  // const selectedTags = useSelector((state) => state.analytic.selectedTags);
-console.log(selectedTags);
+
   const dispatch = useDispatch();
 
   const removeSelectedTagHandler = (index) => {

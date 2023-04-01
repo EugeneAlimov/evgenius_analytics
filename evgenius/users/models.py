@@ -10,11 +10,12 @@ class UserDataset(models.Model):
     is_historical = models.BooleanField(default=True, verbose_name='Historical dataset')
     date_time_start_diapason = models.DateTimeField(blank=True, null=True, default=None, verbose_name='Beginning time')
     date_time_end_diapason = models.DateTimeField(blank=True, null=True, default=None, verbose_name='Ending time')
-    url = models.SlugField(blank=True, null=True, default='qwert', max_length=200)
+    # url = models.SlugField(blank=True, null=True, default='qwert', max_length=200)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     updated = models.DateTimeField(auto_now=True, verbose_name='Updated')
     # dataset_image = models.ImageField(upload_to='dataset_images/%Y/%m/%d')
     user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE)
+    comment = models.CharField(max_length=100, blank=True, null=True, default=None, verbose_name='Comment')
 
     def __str__(self):
         return "%s" % self.name
