@@ -19,12 +19,15 @@ const analyticSlice = createSlice({
     checkTags: (state, action) => {
       const tags = state.tags;
       const id = action.payload;
-      let tempArrSelectedTags = _.cloneDeep(tags);
-      const obj = state.selectedTags.find((el) => el.id === id);
+      const selectedTags = state.selectedTags;
+      const obj = selectedTags.find((el) => el.id === id);
       const elemIndex = binarySearch(tags, id);
+
+      let tempArrSelectedTags = _.cloneDeep(selectedTags);
 
       if (!!obj) {
         tempArrSelectedTags = state.selectedTags.filter((el) => el.id !== id);
+        console.log("tempArrSelectedTags ", tempArrSelectedTags);
       } else {
         tempArrSelectedTags.push(tags[elemIndex]);
       }
@@ -36,6 +39,7 @@ const analyticSlice = createSlice({
       const index = action.payload;
 
       let tempArrSelectedTags = _.cloneDeep(selectedTags);
+
       tempArrSelectedTags.splice(index, 1);
 
       state.selectedTags = tempArrSelectedTags;
