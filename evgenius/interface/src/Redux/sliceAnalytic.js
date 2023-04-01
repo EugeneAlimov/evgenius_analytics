@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getTagsAndGroupsQuery } from "../api/analitycApi";
 
-import _ from "lodash"
+import _ from "lodash";
 import binarySearch from "../Libs/binarySearch";
 
 const initialState = {
@@ -17,17 +17,38 @@ const analyticSlice = createSlice({
   initialState,
   reducers: {
     checkTags: (state, action) => {
-      state.selectedTags = action.payload;
+      const tags = state.tags;
+      const id = action.payload;
+      let tempArrSelectedTags = _.cloneDeep(tags);
+      const obj = state.selectedTags.find((el) => el.id === id);
+      const elemIndex = binarySearch(tags, id);
+
+      if (!!obj) {
+        tempArrSelectedTags = state.selectedTags.filter((el) => el.id !== id);
+      } else {
+        tempArrSelectedTags.push(tags[elemIndex]);
+      }
+
+      state.selectedTags = tempArrSelectedTags;
+    },
+    unCheckTags: (state, action) => {
+      const selectedTags = state.selectedTags;
+      const index = action.payload;
+
+      let tempArrSelectedTags = _.cloneDeep(selectedTags);
+      tempArrSelectedTags.splice(index, 1);
+
+      state.selectedTags = tempArrSelectedTags;
     },
     saveTagsDashboard: (state, action) => {
-      const tags = state.tags
-      const id = action.payload
-      const newTags = _.cloneDeep(tags)
+      const tags = state.tags;
+      const id = action.payload;
+      const newTags = _.cloneDeep(tags);
       const elemIndex = binarySearch(newTags, id);
-  
+
       const onDash = newTags[elemIndex].on_dashboard;
       newTags[elemIndex].on_dashboard = !onDash;
-  
+
       state.tags = newTags;
     },
   },
@@ -46,4 +67,4 @@ const analyticSlice = createSlice({
 });
 
 export default analyticSlice.reducer;
-export const { checkTags, saveTagsDashboard } = analyticSlice.actions;
+export const { checkTags, unCheckTags, saveTagsDashboard } = analyticSlice.actions;

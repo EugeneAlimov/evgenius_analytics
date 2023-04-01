@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, lazy } from "react";
+import React, { useRef, useState, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 //MUI//
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -7,11 +7,8 @@ import Button from "@mui/material/Button";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -28,7 +25,7 @@ import getWindowDimensions from "../Libs/getWindowDimensions";
 import influxRequest from "../api/InfluxAPI";
 import { getTagsAndGroupsQuery } from "../api/analitycApi";
 import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
-import { checkTags } from "../Redux/sliceAnalytic";
+import { checkTags, unCheckTags } from "../Redux/sliceAnalytic";
 import DateTimePickers from "../Components/DateTimePickers/DateTimePickers";
 
 const Chart = lazy(() => import("./Chart" /* webpackChunkName: 'Chart' */));
@@ -115,10 +112,6 @@ const Analytic = () => {
     );
   };
 
-  // useEffect(() => {
-  //   dispatch(getTagsAndGroupsQuery());
-  // }, [dispatch]);
-
   const setDatasetNamehandleClick = (newPlacement, isHistorical) => (event) => {
     setAnchorEl(event.currentTarget);
     setPopOpen(true);
@@ -204,7 +197,7 @@ const Analytic = () => {
             <SelectedTagsList
               height={height}
               width={width}
-              checkTags={checkTags}
+              unCheckTags={unCheckTags}
               selectedTags={selectedTags}
             />
           </Grid2>
@@ -217,30 +210,12 @@ const Analytic = () => {
               handlerEnd={dateTimeEndHandler}
               valueEnd={dateTimeEnd}
             />
-            {/* <Paper sx={{ m: 2, p: 3, width: "300px" }} elevation={10} square>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Stack spacing={3}>
-                  <Typography>Date & Time pickers</Typography>
-                  <DateTimePickerComponent
-                    label={"Start date & time"}
-                    handler={dateTimeStartHandler}
-                    value={dateTimeStart}
-                  />
-                  <Divider />
-                  <DateTimePickerComponent
-                    label={"End date & time"}
-                    handler={dateTimeEndHandler}
-                    value={dateTimeEnd}
-                  />
-                </Stack>
-              </LocalizationProvider> */}
               <SaveSetComponent
                 isPopOpen={isPopOpen}
                 popAnchorEl={anchorEl}
                 popPlacement={placement}
                 closePopperHandle={closePopperHandle}
               />
-            {/* </Paper> */}
             <Paper sx={{ mt: 10, m: 2, p: 3, width: "300px" }} elevation={10} square>
               <Button
                 onClick={setDatasetNamehandleClick("right", true)}

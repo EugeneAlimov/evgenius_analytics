@@ -4,7 +4,7 @@ const initialState = {
   wsGetDashboardData: {},
 };
 
-const wsSlice = createSlice({
+const sliceWS = createSlice({
   name: "ws",
   initialState,
   reducers: {
@@ -16,5 +16,5 @@ const wsSlice = createSlice({
   extraReducers: {},
 });
 
-export default wsSlice.reducer;
-export const { dashDataLoader } = wsSlice.actions;
+export default sliceWS.reducer;
+export const { dashDataLoader } = sliceWS.actions;

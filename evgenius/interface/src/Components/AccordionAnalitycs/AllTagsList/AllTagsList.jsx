@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   Paper,
   ListItem,
@@ -16,7 +17,6 @@ import {
 } from "@mui/material";
 import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
-import binarySearch from "../../../Libs/binarySearch";
 
 const AllTagsList = ({ height, checkTags, selectedTags }) => {
   const dispatch = useDispatch();
@@ -34,6 +34,7 @@ const AllTagsList = ({ height, checkTags, selectedTags }) => {
     setGroupFilter(value);
   }, [value]);
 
+  //Filter tags array by group
   useEffect(() => {
     if (groupFilter === null) {
       setFilteredByGroupsTags(tags);
@@ -43,28 +44,13 @@ const AllTagsList = ({ height, checkTags, selectedTags }) => {
     setFilteredByGroupsTags(tagsArr);
   }, [groupFilter, tags]);
 
+  //Search tag on a filtered array
   useEffect(() => {
     const tagsArr = filteredByGroupTags.filter((tag) =>
       tag.name_tag.toLowerCase().includes(searchValue.toLowerCase())
     );
     setSearchedAndFilteredByGroupTags(tagsArr);
   }, [filteredByGroupTags, searchValue]);
-
-  const createCheckedTagsArray = (id) => {
-    let tempArrSelectedTags = [...selectedTags];
-
-    const obj = selectedTags.find((el) => el.id === id);
-    const elemIndex = binarySearch(tags, id);
-
-    if (!!obj) {
-      tempArrSelectedTags = selectedTags.filter((el) => el.id !== id);
-      console.log(tempArrSelectedTags, obj);
-    } else {
-      tempArrSelectedTags.push(tags[elemIndex]);
-    }
-
-    dispatch(checkTags(tempArrSelectedTags));
-  };
 
   const lisTtagsLength = searchedAndFilteredByGroupTags.length;
   const rowHeith = height - 282;
@@ -91,7 +77,7 @@ const AllTagsList = ({ height, checkTags, selectedTags }) => {
       <ListItem divider dense={true}>
         <ListItemButton
           role={undefined}
-          onClick={() => createCheckedTagsArray(searchedAndFilteredByGroupTags[index].id)}
+          onClick={() => dispatch(checkTags(searchedAndFilteredByGroupTags[index].id))}
           dense={true}
         >
           <ListItemIcon sx={{ minWidth: "35px" }}>

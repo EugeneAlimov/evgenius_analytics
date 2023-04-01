@@ -1,18 +1,19 @@
-import { Paper, Tooltip, Box, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 
-import { List, ListItem, ListItemText, IconButton } from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Tooltip from "@mui/material/Tooltip";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const SelectedTagsList = ({ height, checkTags, selectedTags }) => {
+const SelectedTagsList = ({ height, unCheckTags, selectedTags }) => {
 
   const dispatch = useDispatch();
-
-  const removeSelectedTagHandler = (index) => {
-    let tempArrSelectedTags = [...selectedTags];
-    tempArrSelectedTags.splice(index, 1);
-    dispatch(checkTags(tempArrSelectedTags));
-  };
 
   return (
     <Paper sx={{ p: 2, m: 2, height: height - 64, width: "420px" }} elevation={10} square>
@@ -61,7 +62,7 @@ const SelectedTagsList = ({ height, checkTags, selectedTags }) => {
                   }
                 />
                 <IconButton
-                  onClick={() => removeSelectedTagHandler(index)}
+                  onClick={() => dispatch(unCheckTags(index))}
                   edge="end"
                   aria-label="comments"
                 >

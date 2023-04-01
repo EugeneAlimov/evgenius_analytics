@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { dashDataLoader } from "../Redux/wsSlice";
+import { dashDataLoader } from "../Redux/sliceWS";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Ovens from "../Components/Charts/Ovens";
