@@ -13,9 +13,9 @@ async function influxRequest(checkedArr, dateTimeStart, dateTimeEnd) {
     str = str + `r._field == "${element}" or `;
   });
   str = str.slice(0, str.length - 4);
-  const URL = "http://192.168.8.167:8086/";
+  const URL = "http://192.168.8.101:8086/";
   const TOKEN =
-    "AYxGUOAj0Ho1vqmyMeQDpHPaSPYNcTZznrQ9bDJCvNM9fvF6tAepPH6jyxuTaalmbqgZKe98efDVoCFAyu6kJw==";
+    "U7e0IXVqgxfD_obXQTce9qi2b7v-bBLs2rJNT1egYoq-4jq9Z5lfODfAwvpTroIKeab-osnFOV7bxRWOyP5svw==";
   const ORG = "evgenius";
   const BUCKET = "Line";
   const MEASUREMENT = "Line";
@@ -39,7 +39,7 @@ console.log(fluxQuery);
 }
 
 // export const dashRequest = () => {
-//   const URL = "http://192.168.8.167:8086/";
+//   const URL = "http://192.168.8.101:8086/";
 //   const TOKEN =
 //     "AYxGUOAj0Ho1vqmyMeQDpHPaSPYNcTZznrQ9bDJCvNM9fvF6tAepPH6jyxuTaalmbqgZKe98efDVoCFAyu6kJw==";
 //   const ORG = "evgenius";

@@ -11,7 +11,7 @@ token = "U7e0IXVqgxfD_obXQTce9qi2b7v-bBLs2rJNT1egYoq-4jq9Z5lfODfAwvpTroIKeab-osn
 measurement = "Line"
 
 # Store the URL of your InfluxDB instance
-url = "http://192.168.8.167:8086/"
+url = "http://192.168.8.101:8086/"
 
 query_string = ''
 query_elements = Tags.objects.filter(on_dashboard=True)
