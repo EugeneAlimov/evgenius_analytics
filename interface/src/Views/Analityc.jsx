@@ -23,7 +23,6 @@ import AlertDialog from "../Components/Notification";
 import * as htmlToImage from "html-to-image";
 import getWindowDimensions from "../Libs/getWindowDimensions";
 import influxRequest from "../api/InfluxAPI";
-import { getTagsAndGroupsQuery } from "../api/analitycApi";
 import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
 import { checkTags, unCheckTags } from "../Redux/sliceAnalytic";
 import DateTimePickers from "../Components/DateTimePickers/DateTimePickers";

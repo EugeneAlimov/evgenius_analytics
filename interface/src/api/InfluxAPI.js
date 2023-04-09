@@ -1,5 +1,6 @@
 import { InfluxDB } from "@influxdata/influxdb-client-browser";
 import chartDataAndOptionsCreater from "../Libs/influxDataCreater";
+import { influxUrl } from "./axioxDefault";
 
 async function influxRequest(checkedArr, dateTimeStart, dateTimeEnd) {
   const dateTimeStartUTC = dateTimeStart.toISOString();
@@ -13,7 +14,7 @@ async function influxRequest(checkedArr, dateTimeStart, dateTimeEnd) {
     str = str + `r._field == "${element}" or `;
   });
   str = str.slice(0, str.length - 4);
-  const URL = "http://192.168.8.101:8086/";
+  const URL = `http://${influxUrl}`;
   const TOKEN =
     "U7e0IXVqgxfD_obXQTce9qi2b7v-bBLs2rJNT1egYoq-4jq9Z5lfODfAwvpTroIKeab-osnFOV7bxRWOyP5svw==";
   const ORG = "evgenius";

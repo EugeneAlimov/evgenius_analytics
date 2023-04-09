@@ -1,37 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import _ from "lodash"
-
 import { Paper, Tooltip, Box, Typography } from "@mui/material";
 import { List, ListItem, ListItemText, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import binarySearch from "../../../Libs/binarySearch";
-
-import { saveTagsDashboard } from "../../../Redux/sliceAnalytic";
-
-const SelectedTagsListDashboard = ({ height }) => {
-  const [filteredList, setFilteredList] = useState([]);
-
-  const dispatch = useDispatch();
-  const tags = useSelector((state) => state.analytic.tags);
-
-  useEffect(() => {
-    const dashTags = tags.filter((el) => el.on_dashboard === true);
-
-    setFilteredList(dashTags);
-  }, [tags]);
-
-  const removeSelectedTagHandler = (id) => {
-    // const newTags = _.cloneDeep(tags)
-    // const elemIndex = binarySearch(newTags, id);
-
-    // const onDash = newTags[elemIndex].on_dashboard;
-    // newTags[elemIndex].on_dashboard = !onDash;
-
-    // dispatch(saveTagsDashboard(newTags));
-    // dispatch(saveTagsDashboard(id));
-  };
+const SelectedTagsListDashboard = ({ height, checkededTags, unCheckHandler }) => {
 
   return (
     <Paper sx={{ p: 2, m: 2, height: height - 64, width: "420px" }} elevation={10} square>
@@ -48,7 +19,7 @@ const SelectedTagsListDashboard = ({ height }) => {
           bgcolor: "background.paper",
         }}
       >
-        {filteredList.map((value) => {
+        {checkededTags.map((value) => {
           const labelId = `checkbox-list-label-${value}`;
           const { id, name_tag, tag_table, address, data_type, comment, label } = value;
 
@@ -80,7 +51,7 @@ const SelectedTagsListDashboard = ({ height }) => {
                   }
                 />
                 <IconButton
-                  onClick={() => removeSelectedTagHandler(id)}
+                  onClick={() => unCheckHandler(id)}
                   edge="end"
                   aria-label="comments"
                 >

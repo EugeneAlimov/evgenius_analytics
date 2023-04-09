@@ -20,9 +20,9 @@ const analyticSlice = createSlice({
       const tags = state.tags;
       const id = action.payload;
       const selectedTags = state.selectedTags;
+
       const obj = selectedTags.find((el) => el.id === id);
       const elemIndex = binarySearch(tags, id);
-
       let tempArrSelectedTags = _.cloneDeep(selectedTags);
 
       if (!!obj) {
@@ -30,7 +30,6 @@ const analyticSlice = createSlice({
       } else {
         tempArrSelectedTags.push(tags[elemIndex]);
       }
-
       state.selectedTags = tempArrSelectedTags;
     },
     unCheckTags: (state, action) => {
@@ -45,22 +44,23 @@ const analyticSlice = createSlice({
     },
     checkTagsDashboard: (state, action) => {
       const id = action.payload;
-      const tagsOnDashboard = state.tagsOnDashboard;
-
       let tags = _.cloneDeep(state.tags);
-      let tempArrSelectedTags = _.cloneDeep(tagsOnDashboard);
-
-      const obj = tagsOnDashboard.find((el) => el.id === id);
       const elemIndex = binarySearch(tags, id);
+      const tagsOnDashboard = state.tagsOnDashboard
+
+      let tempArrSelectedTags = _.cloneDeep(state.tagsOnDashboard);
+      const obj = tagsOnDashboard.find((el) => el.id === id);
 
       if (!!obj) {
         tempArrSelectedTags = tagsOnDashboard.filter((el) => el.id !== id);
       } else {
-        tags[elemIndex]["on_dashboard"] = true;
         tempArrSelectedTags.push(tags[elemIndex]);
       }
 
-      state.tagsOnDashboard = tempArrSelectedTags;
+      tags[elemIndex]["on_dashboard"] = !tags[elemIndex]["on_dashboard"];
+      
+      state.tags = tags
+      state.tagsOnDashboard = tempArrSelectedTags
     },
     unCheckTagsDashboard: (state, action) => {
       const tagsOnDashboard = state.tagsOnDashboard;
@@ -79,6 +79,24 @@ const analyticSlice = createSlice({
       state.tagsOnDashboard = tempArrSelectedTags;
       state.tags = tags;
     },
+
+    // unCheckTagsDashboard: (state, action) => {
+    //   const tagsOnDashboard = state.tagsOnDashboard;
+    //   const index = action.payload;
+
+    //   let tags = _.cloneDeep(state.tags);
+    //   let tempArrSelectedTags = _.cloneDeep(tagsOnDashboard);
+
+    //   const id = tempArrSelectedTags[index]['id'];
+    //   const elemIndex = binarySearch(tags, id);
+
+    //   tags[elemIndex]["on_dashboard"] = false;
+
+    //   tempArrSelectedTags.splice(index, 1);
+
+    //   state.tagsOnDashboard = tempArrSelectedTags;
+    //   state.tags = tags;
+    // },
   },
   extraReducers: {
     [getTagsAndGroupsQuery.fulfilled]: (state, action) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import _ from "lodash";
 
@@ -7,8 +7,6 @@ import getWindowDimensions from "../Libs/getWindowDimensions";
 import handleFile from "../Libs/excel-csv";
 import greedOptimisation from "../Libs/greedOptimisation";
 import { setTagstoDashboard, uploadFile } from "../api/settingsApi";
-
-import { checkTagsDashboard, unCheckTagsDashboard } from "../Redux/sliceAnalytic";
 
 import Paper from "@mui/material/Paper";
 import Input from "@mui/material/Input";
@@ -18,34 +16,69 @@ import Button from "@mui/material/Button";
 import AllTagsListDashboard from "../Components/AccordionAnalitycs/AllTagsListDashboard/AllTagsListDashboard";
 import SelectedTagsListDashboard from "../Components/AccordionAnalitycs/SelectedTagsListDashboard/SelectedTagsListDashboard";
 import FileUpload from "../Components/UI/FileUpload/FileUpload";
-import AllTagsList from "../Components/AccordionAnalitycs/AllTagsList/AllTagsList";
-import SelectedTagsList from "../Components/AccordionAnalitycs/SelectedTagsList/SelectedTagsList";
+import binarySearch from "../Libs/binarySearch";
+import { getTagsAndGroupsQuery } from "../api/analitycApi";
 
 const Settings = () => {
-  const [comparedArr, setCompareArr] = useState([]);
-
   const tags = useSelector((state) => state.analytic.tags);
-  const tagsOnDashboard = useSelector((state) => state.analytic.tagsOnDashboard);
 
   const [file, setFile] = useState();
   const [width, height] = getWindowDimensions();
   const [priceFile, setPriceFile] = useState();
+  const [checkededTags, setCheckedTagsList] = useState([]);
+  const [comparedArr, setCompareArr] = useState([]);
+  const [tagsArr, setTagsArr] = useState([]);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const dashTags = _.cloneDeep(tags);
+    setCompareArr(dashTags);
+  }, [tags]);
+
+  useEffect(() => {
+    const newTagsArr = _.cloneDeep(tags);
+    setTagsArr(newTagsArr);
+  }, [tags]);
+
+  useEffect(() => {
+    const newTagsArr = tagsArr.filter((el) => el.on_dashboard === true);
+    setCheckedTagsList(newTagsArr);
+  }, [tagsArr]);
+
+  useEffect(() => {
+    const selectedTags = tags.filter((el) => el.on_dashboard === true);
+    setCheckedTagsList(selectedTags);
+  }, [tags]);
+
+    console.log("newArr ", 'newArr');
 
   const toWSTags = () => {
     const tempArr = [];
     comparedArr.forEach((element, index) => {
-      if (element.on_dashboard !== tags[index].on_dashboard) {
-        tempArr.push(tags[index]);
+      if (element.on_dashboard !== tagsArr[index].on_dashboard) {
+        tempArr.push(tagsArr[index]);
       }
-    });
-    setTagstoDashboard(tagsOnDashboard).finally();
+    }
+    );
+    setTagstoDashboard(tempArr)
+    .finally(() => dispatch(getTagsAndGroupsQuery()));
   };
-console.log('qwere');
-  useEffect(() => {
-    const dashTags = _.cloneDeep(tags);
 
-    setCompareArr(dashTags);
-  }, []);
+  const checkHandler = (id) => {
+    const elemIndex = binarySearch(tagsArr, id);
+    const newTagsArr = [...tagsArr];
+    newTagsArr[elemIndex]["on_dashboard"] = !newTagsArr[elemIndex]["on_dashboard"];
+    setTagsArr(newTagsArr);
+  };
+
+  const unCheckHandler = (id) => {
+    const newTagsArr = [...tagsArr]
+    const objIndex = binarySearch(newTagsArr, id)
+
+    newTagsArr[objIndex].on_dashboard = false
+    setTagsArr(newTagsArr);
+  }
 
   const exselToCsv = () => {
     handleFile(file);
@@ -102,27 +135,27 @@ console.log('qwere');
           Разобрать файл
         </Button>
       </Paper>
-      <AllTagsList
+      {/* <AllTagsList
         height={height}
-        checkTags={checkTagsDashboard}
-        selectedTags={tagsOnDashboard}
-        checked={'on_dashboard'}
+        checkTags={checkHandler}
+        selectedTags={tags.filter((el) => el.on_dashboard === true)}
+        checked={"on_dashboard"}
       />
       <SelectedTagsList
         height={height}
         unCheckTags={unCheckTagsDashboard}
-        selectedTags={tagsOnDashboard}
-      />
-      {/* <AllTagsListDashboard
+        selectedTags={tags.filter((el) => el.on_dashboard === true)}
+      /> */}
+      <AllTagsListDashboard
         height={height}
-        checkTags={checkTagsDashboard}
-        selectedTags={tagsOnDashboard}
+        tagsArr={tagsArr}
+        checkHandler={checkHandler}
       />
       <SelectedTagsListDashboard
         height={height}
-        unCheckTags={unCheckTagsDashboard}
-        selectedTags={tagsOnDashboard}
-      /> */}
+        unCheckHandler={unCheckHandler}
+        checkededTags={checkededTags}
+      />
     </Box>
   );
 };

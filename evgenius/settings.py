@@ -147,9 +147,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_DIR = path.join(BASE_DIR, 'static/')
+STATIC_DIR = path.join(BASE_DIR, 'interface/build/static/')
 
-STATIC_ROOT = 'interface/build/static/'
+STATIC_ROOT = 'static/'
 
 STATICFILES_DIRS = [STATIC_DIR]
 

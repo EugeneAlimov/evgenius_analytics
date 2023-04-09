@@ -18,10 +18,7 @@ import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
 import { saveTagsDashboard } from "../../../Redux/sliceAnalytic";
 
-const AllTagsListDashboard = ({ height }) => {
-  const dispatch = useDispatch();
-
-  const tags = useSelector((state) => state.analytic.tags);
+const AllTagsListDashboard = ({ height, checkHandler, tagsArr }) => {
   const groups = useSelector((state) => state.analytic.groups);
 
   const [groupFilter, setGroupFilter] = useState(null);
@@ -37,13 +34,13 @@ const AllTagsListDashboard = ({ height }) => {
   //Filter tags array by group
   useEffect(() => {
     if (groupFilter === null) {
-      setFilteredByGroupsTags(tags);
+      setFilteredByGroupsTags(tagsArr);
       return;
     }
 
-    const tagsArr = tags.filter((tag) => tag.label === groupFilter.label);
-    setFilteredByGroupsTags(tagsArr);
-  }, [groupFilter, tags]);
+    const newTagsArr = tagsArr.filter((tag) => tag.label === groupFilter.label);
+    setFilteredByGroupsTags(newTagsArr);
+  }, [groupFilter, tagsArr]);
 
   //Search tag on a filtered array
   useEffect(() => {
@@ -78,7 +75,7 @@ const AllTagsListDashboard = ({ height }) => {
       <ListItem divider dense={true}>
         <ListItemButton
           role={undefined}
-          // onClick={() => dispatch(saveTagsDashboard(searchedAndFilteredByGroupTags[index].id))}
+          onClick={() => checkHandler(searchedAndFilteredByGroupTags[index].id )}
           dense={true}
         >
           <ListItemIcon sx={{ minWidth: "35px" }}>

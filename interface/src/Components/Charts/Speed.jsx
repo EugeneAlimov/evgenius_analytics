@@ -24,7 +24,7 @@ const style = {
   boxShadow: 2,
 };
 
-const Speed = ({ matchesDownMD, matchesDownLG, matchesDownXL }) => {
+const Speed = ({ matchesDownMD, matchesDownLG }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const speed = useSelector((state) => state.ws.wsGetDashboardData);
 
