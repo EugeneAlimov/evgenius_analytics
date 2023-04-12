@@ -31,6 +31,11 @@ const Settings = () => {
 
   const dispatch = useDispatch()
 
+  const allTagsListStyle = {
+    rowHeithCoeff: 282,
+    listHeithCoeff: 64,
+  }
+
   useEffect(() => {
     const dashTags = _.cloneDeep(tags);
     setCompareArr(dashTags);
@@ -50,8 +55,6 @@ const Settings = () => {
     const selectedTags = tags.filter((el) => el.on_dashboard === true);
     setCheckedTagsList(selectedTags);
   }, [tags]);
-
-    console.log("newArr ", 'newArr');
 
   const toWSTags = () => {
     const tempArr = [];
@@ -135,21 +138,11 @@ const Settings = () => {
           Разобрать файл
         </Button>
       </Paper>
-      {/* <AllTagsList
-        height={height}
-        checkTags={checkHandler}
-        selectedTags={tags.filter((el) => el.on_dashboard === true)}
-        checked={"on_dashboard"}
-      />
-      <SelectedTagsList
-        height={height}
-        unCheckTags={unCheckTagsDashboard}
-        selectedTags={tags.filter((el) => el.on_dashboard === true)}
-      /> */}
       <AllTagsListDashboard
         height={height}
         tagsArr={tagsArr}
         checkHandler={checkHandler}
+        style={allTagsListStyle}
       />
       <SelectedTagsListDashboard
         height={height}

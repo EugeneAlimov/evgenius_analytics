@@ -51,6 +51,11 @@ const Analytic = () => {
 
   const domEl = useRef(null);
 
+  const allTagsListStyle = {
+    rowHeithCoeff: 282,
+    listHeithCoeff: 64,
+  }
+
   const setAlertStateHandler = (value) => {
     setAlertOpen(value);
   };
@@ -194,7 +199,7 @@ const Analytic = () => {
               height={height}
               checkTags={checkTags}
               selectedTags={selectedTags}
-              checked={'id'}
+              style={allTagsListStyle}
             />
           </Grid2>
           <Grid2 xs={4}>

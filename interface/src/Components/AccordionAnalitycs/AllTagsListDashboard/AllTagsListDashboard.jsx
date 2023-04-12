@@ -16,9 +16,9 @@ import {
 } from "@mui/material";
 import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
-import { saveTagsDashboard } from "../../../Redux/sliceAnalytic";
+import getWindowDimentions from "../../../Libs/getWindowDimensions";
 
-const AllTagsListDashboard = ({ height, checkHandler, tagsArr }) => {
+const AllTagsListDashboard = ({ checkHandler, tagsArr }) => {
   const groups = useSelector((state) => state.analytic.groups);
 
   const [groupFilter, setGroupFilter] = useState(null);
@@ -26,6 +26,7 @@ const AllTagsListDashboard = ({ height, checkHandler, tagsArr }) => {
   const [value, setValue] = useState(null);
   const [filteredByGroupTags, setFilteredByGroupsTags] = useState([]);
   const [searchedAndFilteredByGroupTags, setSearchedAndFilteredByGroupTags] = useState([]);
+  const [width, height] = getWindowDimentions();
 
   useEffect(() => {
     setGroupFilter(value);
@@ -75,7 +76,7 @@ const AllTagsListDashboard = ({ height, checkHandler, tagsArr }) => {
       <ListItem divider dense={true}>
         <ListItemButton
           role={undefined}
-          onClick={() => checkHandler(searchedAndFilteredByGroupTags[index].id )}
+          onClick={() => checkHandler(searchedAndFilteredByGroupTags[index].id)}
           dense={true}
         >
           <ListItemIcon sx={{ minWidth: "35px" }}>

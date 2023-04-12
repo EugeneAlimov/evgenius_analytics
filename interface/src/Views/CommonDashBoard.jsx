@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 
 import Parameters from "../Components/Parameters";
 import CoaterHeadRollsSpeed from "../Components/TextProcessData/CoaterHeadRollsSpeed";
-import { baseURL, wsPort } from "../api/axioxDefault";
+import { wsURL } from "../api/axioxDefault";
 
 const CommonDashBoard = () => {
   const theme = useTheme();
@@ -29,12 +29,12 @@ const CommonDashBoard = () => {
   // xl: 1536
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://${baseURL}:${wsPort}/ws/graph/`);
+    const socket = new WebSocket(`ws://${wsURL}/ws/graph/`);
 
     socket.onmessage = function (e) {
       const dashboardData = JSON.parse(e.data);
 
-      console.log('dashboardData ', dashboardData);
+      // console.log('dashboardData ', dashboardData);
 
       dispatch(dashDataLoader(dashboardData));
     };

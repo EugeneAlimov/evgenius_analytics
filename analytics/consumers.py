@@ -39,27 +39,24 @@ class GraphConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
 
-        results = []
-
         for i in range(100000):
-
+            results = []
             # Query script
             query_api = client.query_api()
             query = f'from(bucket: "{bucket}")\
             |> range(start: -600ms, stop: -100ms)\
             |> filter(fn:(r) => r._measurement == "{measurement}")\
             |> filter(fn:(r) => r._field == {query_string})'
+            print('query_string ', query_string)
 
             result = query_api.query(org=org, query=query)
-            print(result)
             for table in result:
                 for record in table.records:
-                    print(record)
 
                     results.append(
-                        (record.get_field(), round(record.get_value()))
+                        (record.get_field(), round(record.get_value(), 2))
                     )
-
+            print(results)
             message = dict(results)
             await self.send(
                 json.dumps(

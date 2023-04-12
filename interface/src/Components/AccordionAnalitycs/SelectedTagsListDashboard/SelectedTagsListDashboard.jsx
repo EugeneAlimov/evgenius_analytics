@@ -1,8 +1,10 @@
 import { Paper, Tooltip, Box, Typography } from "@mui/material";
 import { List, ListItem, ListItemText, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import getWindowDimentions from "../../../Libs/getWindowDimensions";
 
-const SelectedTagsListDashboard = ({ height, checkededTags, unCheckHandler }) => {
+const SelectedTagsListDashboard = ({ checkededTags, unCheckHandler }) => {
+  const [width, height] = getWindowDimentions();
 
   return (
     <Paper sx={{ p: 2, m: 2, height: height - 64, width: "420px" }} elevation={10} square>

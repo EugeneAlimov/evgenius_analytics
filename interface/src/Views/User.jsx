@@ -194,6 +194,8 @@ const User = () => {
     setcheckboxDisabled(!checkboxDisabled);
   };
 
+  
+
   return (
     <Box
       sx={{
@@ -249,7 +251,7 @@ const User = () => {
                       updated: {dateUpdated} <br />
                       comment: {comment} <br />
                       {tag.map((t) => {
-                        return <li key={t}>tag: {t}</li>;
+                        return <li key={t.name_tag}>tag: {t.name_tag}</li>;
                       })}
                     </Typography>
                   }
@@ -307,7 +309,7 @@ const User = () => {
                       updated: {dateUpdated} <br />
                       comment: {comment} <br />
                       {tag.map((t) => {
-                        return <li key={t}>tag: {t}</li>;
+                        return <li key={t.name_tag}>tag: {t.name_tag}</li>;
                       })}
                     </Typography>
                   }

@@ -49,6 +49,36 @@ class UserSetsViewSet(viewsets.ModelViewSet):
         response = UserDataset.objects.filter(user=user)
         return response
 
+    def update(self, request, *args, **kwargs):
+        print(request.data)
+        user_dataset = request.data
+        pk = UserDataset.objects.get(id=user_dataset['id'])
+        print('pk ', pk)
+        serializer = UserSetsSerializer(pk, data=user_dataset)
+        # print('serializer ', serializer)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        return Response(status.HTTP_200_OK)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UserSetUpdateView(APIView):
+    def put(self, request, pk, format=None):
+        print('request ', request.data)
+        user_dataset = request.data
+        serializer = UserSetsSerializer(pk, data=user_dataset)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data, status.HTTP_200_OK)
+        # return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        return Response(status.HTTP_200_OK)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class WSTagsUpdateView(APIView):

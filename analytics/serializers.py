@@ -1,3 +1,5 @@
+from drf_writable_nested import WritableNestedModelSerializer
+
 from users.models import *
 from rest_framework import serializers
 from .models import *
@@ -20,7 +22,6 @@ class TagsSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-
     label = serializers.SlugRelatedField(
         many=True,
         slug_field='name_tag',
@@ -30,20 +31,35 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = '__all__'
+
         # fields = ('name', 'label')
+
+        # def create(self, validated_data):
+        #     tracks_data = validated_data.pop('tracks')
+        #     set_ = UserDataset.objects.create(**validated_data)
+        #     for track_data in tracks_data:
+        #         UserDataset.objects.create(album=set_, **track_data)
+        #     return set_
 
 
 class UserSetsSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    tag = serializers.SlugRelatedField(
-        many=True,
-        slug_field='name_tag',
-        queryset=Tags.objects.all()
+    tag = TagsSerializer(
+        read_only=True,
+        many=True
     )
 
     class Meta:
         model = UserDataset
-        image = serializers.ImageField(source="image.url")
+        # image = serializers.ImageField(source="image.url")
+
         fields = '__all__'
 
 
+# class UserSetsSerializer(WritableNestedModelSerializer):
+#     # tags = TagsSerializer(many=True)
+#     user_sets = UserSetsSerializer(many=True)
+#
+#     class Meta:
+#         model = UserDataset
+#         fields = '__all__'

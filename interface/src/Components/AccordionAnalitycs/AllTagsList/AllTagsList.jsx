@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import getWindowDimentions from "../../../Libs/getWindowDimensions";
+
 import {
   Paper,
   ListItem,
@@ -18,12 +20,13 @@ import {
 import { FixedSizeList } from "react-window";
 import { useEffect } from "react";
 
-const AllTagsList = ({ height, checkTags, selectedTags }) => {
+const AllTagsList = ({ checkTags, selectedTags, style }) => {
   const dispatch = useDispatch();
 
   const tags = useSelector((state) => state.analytic.tags);
   const groups = useSelector((state) => state.analytic.groups);
 
+  const [width, height] = getWindowDimentions();
   const [groupFilter, setGroupFilter] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [value, setValue] = useState(null);
@@ -53,7 +56,7 @@ const AllTagsList = ({ height, checkTags, selectedTags }) => {
   }, [filteredByGroupTags, searchValue]);
 
   const lisTtagsLength = searchedAndFilteredByGroupTags.length;
-  const rowHeith = height - 282;
+  const rowHeith = height - style.rowHeithCoeff;
 
   const Row = ({ index, style }) => (
     <Tooltip
@@ -105,7 +108,7 @@ const AllTagsList = ({ height, checkTags, selectedTags }) => {
   );
 
   return (
-    <Paper sx={{ p: 2, m: 2, height: height - 64, width: "420px" }} elevation={10} square>
+    <Paper sx={{ p: 2, m: 2, height: height - style.listHeithCoeff, width: "420px" }} elevation={10} square>
       <Box component="div" mb={0} p={1} sx={{ border: "none", minHeight: "10px" }}>
         <Typography display="block" sx={{ color: "#666666", fontSize: 26, ml: 2 }}>
           Please, select a tags from list

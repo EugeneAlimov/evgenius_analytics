@@ -11,7 +11,10 @@ import Typography from "@mui/material/Typography";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const SelectedTagsList = ({ height, unCheckTags, selectedTags }) => {
+import getWindowDimentions from "../../../Libs/getWindowDimensions";
+
+const SelectedTagsList = ({ unCheckTags, selectedTags }) => {
+  const [width, height] = getWindowDimentions();
 
   const dispatch = useDispatch();
 

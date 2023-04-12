@@ -44,7 +44,6 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
 
 export const logout = createAsyncThunk("auth/logout", async (refreshToken) => {
   try {
-    console.log("kjhgfdzdxfcg");
     await axios.post("api/v1/token/blacklist/", {
       refresh: refreshToken,
     });
@@ -124,4 +123,47 @@ export const tokenUpdater = async (refreshToken) => {
   });
 
   return response.data.access;
+};
+
+export const userDatasetUpdater = async (
+  accessToken,
+  checkededTags,
+  tagToChange,
+  dateTimeStart,
+  dateTimeEnd,
+  nameFieldVavue,
+  commentFieldVavue
+) => {
+  const pk = tagToChange.id;
+  const tempTag = { ...tagToChange };
+  tempTag.tag = [...checkededTags];
+
+  const formData = new FormData();
+
+  // tempTag.tag.forEach((element) => {
+  //   formData.append("tag", element);
+  // });
+
+  formData.append("name", nameFieldVavue);
+  // formData.append("is_historical", true);
+  formData.append("date_time_start_diapason", dateTimeStart);
+  formData.append("date_time_end_diapason", dateTimeEnd);
+  formData.append("url", nameFieldVavue);
+  formData.append("comment", commentFieldVavue);
+  formData.append("id", tagToChange.id);
+
+  // formData.append("dataset_image", image);
+
+  formData.append("tag", JSON.stringify(checkededTags));
+  try {
+    const request = await axios.put(`api/v1/user-dataset/${tagToChange.id}/`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return request.data;
+  } catch (error) {
+    console.log(error.response.data);
+  }
 };

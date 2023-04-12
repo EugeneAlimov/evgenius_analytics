@@ -62,41 +62,6 @@ const analyticSlice = createSlice({
       state.tags = tags
       state.tagsOnDashboard = tempArrSelectedTags
     },
-    unCheckTagsDashboard: (state, action) => {
-      const tagsOnDashboard = state.tagsOnDashboard;
-      const index = action.payload;
-
-      let tags = _.cloneDeep(state.tags);
-      let tempArrSelectedTags = _.cloneDeep(tagsOnDashboard);
-
-      const id = tempArrSelectedTags[index]['id'];
-      const elemIndex = binarySearch(tags, id);
-
-      tags[elemIndex]["on_dashboard"] = false;
-
-      tempArrSelectedTags.splice(index, 1);
-
-      state.tagsOnDashboard = tempArrSelectedTags;
-      state.tags = tags;
-    },
-
-    // unCheckTagsDashboard: (state, action) => {
-    //   const tagsOnDashboard = state.tagsOnDashboard;
-    //   const index = action.payload;
-
-    //   let tags = _.cloneDeep(state.tags);
-    //   let tempArrSelectedTags = _.cloneDeep(tagsOnDashboard);
-
-    //   const id = tempArrSelectedTags[index]['id'];
-    //   const elemIndex = binarySearch(tags, id);
-
-    //   tags[elemIndex]["on_dashboard"] = false;
-
-    //   tempArrSelectedTags.splice(index, 1);
-
-    //   state.tagsOnDashboard = tempArrSelectedTags;
-    //   state.tags = tags;
-    // },
   },
   extraReducers: {
     [getTagsAndGroupsQuery.fulfilled]: (state, action) => {

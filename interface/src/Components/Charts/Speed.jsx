@@ -32,8 +32,6 @@ const Speed = ({ matchesDownMD, matchesDownLG }) => {
   const speedProcess = speed["actual_speed - PROCESS"];
   const speedExit = speed["ACT_SPEED - EXIT"];
 
-  console.log('speed ', speed);
-
   const handleClickOpen = () => {
     setDialogOpen(true);
   };
