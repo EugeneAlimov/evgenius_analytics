@@ -28,9 +28,9 @@ const Speed = ({ matchesDownMD, matchesDownLG }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const speed = useSelector((state) => state.ws.wsGetDashboardData);
 
-  const speedEntry = speed["ACT_SPEED - ENTRY"];
-  const speedProcess = speed["actual_speed - PROCESS"];
-  const speedExit = speed["ACT_SPEED - EXIT"];
+  const speedEntry = Math.round10(speed["ACT_SPEED - ENTRY"]);
+  const speedProcess = Math.round10(speed["actual_speed - PROCESS"]);
+  const speedExit = Math.round10(speed["ACT_SPEED - EXIT"]);
 
   const handleClickOpen = () => {
     setDialogOpen(true);

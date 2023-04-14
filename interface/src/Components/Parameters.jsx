@@ -5,7 +5,7 @@ import ParametersItem from "./ParametersItem";
 
 const Parameters = () => {
   const parameters = useSelector((state) => state.ws.wsGetDashboardData);
-  console.log('parameters ', parameters);
+
   const entry = [
     {
       name: "Thinkness",
@@ -19,37 +19,37 @@ const Parameters = () => {
     },
     {
       name: "Tention",
-      value: parameters["ACT_TEnSIOn - ENTRY - ACCUMULATOR"],
+      value: Math.round10(parameters["SET_TENSION - ENTRY"], -1),
       unit: "kN",
     },
     {
       name: "Unc 1 len",
-      value: parameters["UNCOILER1_ACT_LENGTH - Length_Measurement_DB"],
+      value: Math.round10(parameters["UNCOILER1_ACT_LENGTH - Length_Measurement_DB"], -1),
       unit: "m",
     },
     {
       name: "Unc 2 len",
-      value: parameters["UNCOILER2_ACT_LENGTH - Length_Measurement_DB"],
+      value: Math.round10(parameters["UNCOILER2_ACT_LENGTH - Length_Measurement_DB"], -1),
       unit: "m",
     },
     {
       name: "Bridle 1 load",
-      value: parameters["ROLL1_ACT_CURRENT - ENTRY - BRIDLE1"],
+      value: Math.round10(parameters["ROLL1_ACT_CURRENT - ENTRY - BRIDLE1"], -1),
       unit: "%",
     },
     {
       name: "Bridle 2 load",
-      value: parameters["ROLL1_ACT_CURRENT - PROCESS - BRIDLE2"],
+      value: Math.round10(parameters["ROLL1_ACT_CURRENT - PROCESS - BRIDLE2"], -1),
       unit: "%",
     },
     {
       name: "Acc tention",
-      value: parameters["ACT_TEnSIOn - ENTRY - ACCUMULATOR"],
+      value: Math.round10(parameters["ACT_TEnSIOn - ENTRY - ACCUMULATOR"], -1),
       unit: "kN",
     },
     {
       name: "Acc position",
-      value: parameters["ACT_HEIGHT - ENTRY - ACCUMULATOR"],
+      value: Math.round10(parameters["ACT_HEIGHT - ENTRY - ACCUMULATOR"], -2),
       unit: "%",
     },
   ];
@@ -57,27 +57,27 @@ const Parameters = () => {
   const process = [
     {
       name: "Tention",
-      value: parameters["set_tension - PROCESS"],
+      value: Math.round10(parameters["set_tension - PROCESS"], -1),
       unit: "kN",
     },
     {
       name: "Bridle 3 load",
-      value: parameters["ROLL1_ACT_CURRENT - PROCESS - BRIDLE3"],
+      value: Math.round10(parameters["ROLL1_ACT_CURRENT - PROCESS - BRIDLE3"], -1),
       unit: "%",
     },
     {
       name: "Bridle 4 load",
-      value: parameters["ROLL1_ACT_CURRENT - PROCESS - BRIDLE4"],
+      value: Math.round10(parameters["ROLL1_ACT_CURRENT - PROCESS - BRIDLE4"], -1),
       unit: "%",
     },
     {
       name: "PO carenary",
-      value: parameters["prime_oven_catenary_act - PROCESS"],
+      value: Math.round10(parameters["prime_oven_catenary_act - PROCESS"]),
       unit: "%",
     },
     {
       name: "FO catenary",
-      value: parameters["finish_oven_catenary_act - PROCESS"],
+      value: Math.round10(parameters["finish_oven_catenary_act - PROCESS"]),
       unit: "%",
     },
   ];
@@ -95,32 +95,32 @@ const Parameters = () => {
     },
     {
       name: "Tention",
-      value: parameters["ACT_TENSION - EXIT - ACCUMULATOR"],
+      value: Math.round10(parameters["ACTIVE_TENSIOT_SET - LINE_AXIS_DATA - RECOILER"] / 1000),
       unit: "kN",
     },
     {
       name: "Bridle 5 load",
-      value: parameters["ROLL1_ACT_CURRENT - EXIT - BRIDLE5"],
+      value: Math.round10(parameters["ROLL1_ACT_CURRENT - EXIT - BRIDLE5"], -1),
       unit: "%",
     },
     {
       name: "Recoiler load",
-      value: parameters["ACT_CURRENT - EXIT - RECOILER"],
+      value: Math.round10(parameters["ACT_CURRENT - EXIT - RECOILER"], -1),
       unit: "%",
     },
     {
       name: "Diam.",
-      value: parameters["ACT_DIAMETER - EXIT - RECOILER"],
+      value: parameters["ACT_DIAMETER - EXIT - RECOILER"] * 1000,
       unit: "mm",
     },
     {
       name: "Acc tention",
-      value: parameters["ACT_TENSION - EXIT - ACCUMULATOR"],
+      value: Math.round10(parameters["ACT_TENSION - EXIT - ACCUMULATOR"], -1),
       unit: "kN",
     },
     {
       name: "Acc position",
-      value: parameters["ACT_HEIGHT - EXIT - ACCUMULATOR"],
+      value: Math.round10(parameters["ACT_HEIGHT - EXIT - ACCUMULATOR"], -1),
       unit: "%",
     },
   ];

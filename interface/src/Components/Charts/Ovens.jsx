@@ -166,15 +166,15 @@ const Ovens = ({ matchesDownLG }) => {
   const ovensTemperature = useSelector((state) => state.ws.wsGetDashboardData);
 
   const temperaturePrime = [
-    ovensTemperature["PO_Zone 1 Pyrometer - RTO_TO_LINE"],
-    ovensTemperature["PO_Zone 2 Pyrometer - RTO_TO_LINE"],
-    ovensTemperature["PO_Zone 3 Pyrometer - RTO_TO_LINE"],
+    Math.round10(ovensTemperature["PO_Zone 1 Pyrometer - RTO_TO_LINE"]),
+    Math.round10(ovensTemperature["PO_Zone 2 Pyrometer - RTO_TO_LINE"]),
+    Math.round10(ovensTemperature["PO_Zone 3 Pyrometer - RTO_TO_LINE"]),
   ];
 
   const temperatureFinish = [
-    ovensTemperature["FO_Zone 1 Pyrometer - RTO_TO_LINE"],
-    ovensTemperature["FO_Zone 2 Pyrometer - RTO_TO_LINE"],
-    ovensTemperature["FO_Zone 3 Pyrometer - RTO_TO_LINE"],
+    Math.round10(ovensTemperature["FO_Zone 1 Pyrometer - RTO_TO_LINE"]),
+    Math.round10(ovensTemperature["FO_Zone 2 Pyrometer - RTO_TO_LINE"]),
+    Math.round10(ovensTemperature["FO_Zone 3 Pyrometer - RTO_TO_LINE"]),
   ];
 
   useEffect(() => {
