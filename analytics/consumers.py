@@ -54,7 +54,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                 for record in table.records:
 
                     results.append(
-                        (record.get_field(), round(record.get_value(), 2))
+                        (record.get_field(), round(record.get_value(), 3))
                     )
             print(results)
             message = dict(results)
