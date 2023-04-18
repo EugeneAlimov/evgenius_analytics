@@ -1,4 +1,7 @@
 # # Create your views here.
+import json
+
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -50,33 +53,15 @@ class UserSetsViewSet(viewsets.ModelViewSet):
         return response
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         user_dataset = request.data
-        pk = UserDataset.objects.get(id=user_dataset['id'])
-        print('pk ', pk)
-        serializer = UserSetsSerializer(pk, data=user_dataset)
-        # print('serializer ', serializer)
+        tag = json.loads(user_dataset['tag'])
+        user_dataset.update({'tag': tag})
+        pk = UserDataset.objects.get(id=user_dataset.get('id'))
+        serializer = UserSetsSerializer(pk, data=user_dataset, context={'request': request})
         if serializer.is_valid():
             serializer.save()
         else:
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-        return Response(status.HTTP_200_OK)
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class UserSetUpdateView(APIView):
-    def put(self, request, pk, format=None):
-        print('request ', request.data)
-        user_dataset = request.data
-        serializer = UserSetsSerializer(pk, data=user_dataset)
-        if serializer.is_valid():
-            serializer.save()
-        else:
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-        # if serializer.is_valid():
-        #     serializer.save()
-        #     return Response(serializer.data, status.HTTP_200_OK)
-        # return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
         return Response(status.HTTP_200_OK)
 
 
@@ -90,8 +75,4 @@ class WSTagsUpdateView(APIView):
                 serializer.save()
             else:
                 return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-        # if serializer.is_valid():
-        #     serializer.save()
-        #     return Response(serializer.data, status.HTTP_200_OK)
-        # return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
         return Response(status.HTTP_200_OK)

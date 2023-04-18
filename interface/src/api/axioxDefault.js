@@ -7,6 +7,7 @@ import axios from "axios";
 // export default axios.defaults.baseURL = "http://127.0.0.1:8000/";
 
 export const wsURL = "192.168.8.101:8001"
+// export const wsURL = "127.0.0.1:8000"
 
 export const baseURL = "http://192.168.8.101"
 export const basePort = ":80"

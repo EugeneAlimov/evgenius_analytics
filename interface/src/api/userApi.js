@@ -134,25 +134,19 @@ export const userDatasetUpdater = async (
   nameFieldVavue,
   commentFieldVavue
 ) => {
-  const pk = tagToChange.id;
   const tempTag = { ...tagToChange };
-  tempTag.tag = [...checkededTags];
-
+  const dtStart = typeof dateTimeStart === "string" ? dateTimeStart : dateTimeStart.toISOString();
+  const dtEnd = typeof dateTimeEnd === "string" ? dateTimeEnd : dateTimeEnd.toISOString();
   const formData = new FormData();
 
-  // tempTag.tag.forEach((element) => {
-  //   formData.append("tag", element);
-  // });
-
+  tempTag.tag = [...checkededTags];
   formData.append("name", nameFieldVavue);
-  // formData.append("is_historical", true);
-  formData.append("date_time_start_diapason", dateTimeStart);
-  formData.append("date_time_end_diapason", dateTimeEnd);
+  formData.append("date_time_start_diapason", dtStart);
+  formData.append("date_time_end_diapason", dtEnd);
   formData.append("url", nameFieldVavue);
   formData.append("comment", commentFieldVavue);
   formData.append("id", tagToChange.id);
-
-  // formData.append("dataset_image", image);
+  formData.append("user", tagToChange.user);
 
   formData.append("tag", JSON.stringify(checkededTags));
   try {

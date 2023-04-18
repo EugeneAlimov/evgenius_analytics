@@ -11,6 +11,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 import DateTimePickers from "../../DateTimePickers/DateTimePickers";
 import AllTagsListUserDataset from "../../AccordionAnalitycs/AllTagsListUserDataset/AllTagsListUserDataset";
@@ -22,13 +24,17 @@ import { userDatasetUpdater } from "../../../api/userApi";
 
 const UserDatasetEditComponent = ({ buttonStyle, disabled, tagToChange }) => {
   const [open, setOpen] = useState(false);
-  const [nameFieldVavue, setNameFieldValue] = useState("");
-  const [commentFieldVavue, setCommentFieldValue] = useState("");
-  const [dateTimeStart, setDateTimeStart] = useState("");
-  const [dateTimeEnd, setDateTimeEnd] = useState("");
-  const theme = useTheme();
-  const [width, height] = getWindowDimensions();
+  const [nameFieldVavue, setNameFieldValue] = useState();
+  const [commentFieldVavue, setCommentFieldValue] = useState();
+  const [dateTimeStart, setDateTimeStart] = useState(Date.now());
+  const [dateTimeEnd, setDateTimeEnd] = useState(Date.now());
   const [checkededTags, setCheckedTags] = useState([]);
+  const [historical, setHistorical] = useState();
+
+  console.log("tagToChange ", tagToChange);
+  const theme = useTheme();
+
+  const [width, height] = getWindowDimensions();
 
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -43,7 +49,8 @@ const UserDatasetEditComponent = ({ buttonStyle, disabled, tagToChange }) => {
   useEffect(() => {
     setDateTimeStart(tagToChange.date_time_start_diapason);
     setDateTimeEnd(tagToChange.date_time_end_diapason);
-  }, [tagToChange.date_time_start_diapason, tagToChange.date_time_end_diapason]);
+    setHistorical(tagToChange.is_historical)
+  }, [tagToChange.date_time_start_diapason, tagToChange.date_time_end_diapason, tagToChange.is_historical]);
 
   useEffect(() => {
     setCheckedTags(tagToChange.tag);
@@ -69,6 +76,10 @@ const UserDatasetEditComponent = ({ buttonStyle, disabled, tagToChange }) => {
   };
 
   const handleClickOpen = () => {
+    setNameFieldValue(tagToChange.name);
+    setCommentFieldValue(tagToChange.comment);
+    setDateTimeStart(tagToChange.date_time_start_diapason);
+    setDateTimeEnd(tagToChange.date_time_end_diapason);
     setOpen(true);
   };
 
@@ -133,14 +144,25 @@ const UserDatasetEditComponent = ({ buttonStyle, disabled, tagToChange }) => {
                   onChange={(event) => setCommentFieldValue(event.currentTarget.value)}
                 />
               </Box>
-              <DateTimePickers
-                labelStart={"Start date & time"}
-                handlerStart={dateTimeStartHandler}
-                valueStart={dateTimeStart}
-                labelEnd={"End date & time"}
-                handlerEnd={dateTimeEndHandler}
-                valueEnd={dateTimeEnd}
+              <FormControlLabel
+                sx={{ marginY: "25px", marginLeft: "15px" }}
+                control={
+                  <Checkbox
+                  onClick={() => setHistorical(!historical)}
+                  checked={tagToChange.is_historical}
+                  />}
+                label="Historical"
               />
+              {tagToChange.is_historical ? (
+                <DateTimePickers
+                  labelStart={"Start date & time"}
+                  handlerStart={dateTimeStartHandler}
+                  valueStart={dateTimeStart}
+                  labelEnd={"End date & time"}
+                  handlerEnd={dateTimeEndHandler}
+                  valueEnd={dateTimeEnd}
+                />
+              ) : null}
             </Box>
             <AllTagsListUserDataset
               height={height}
@@ -182,7 +204,7 @@ const UserDatasetEditComponent = ({ buttonStyle, disabled, tagToChange }) => {
                 dateTimeStart,
                 dateTimeEnd,
                 nameFieldVavue,
-                commentFieldVavue,
+                commentFieldVavue
               )
             }
           >
