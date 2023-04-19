@@ -6,32 +6,34 @@ import Typography from "@mui/material/Typography";
 
 const ParametersItem = ({ content, section }) => {
   const listItemFontStyle = {
-    fontSize: "15px",
+    fontSize: "17px",
     lineHeight: "1.6",
   };
 
   const styleListItem = {
-    marginX: "15px",
-    display: "flex",
+    // marginX: "15px",
+    // display: "flex",
     justifyContent: "space-between",
-    alignItems: "space-around",
+    // alignItems: "space-around",
     padding: "0px",
-    width: "154px",
+    width: "204px",
   };
 
   const listSubheaderStyle = {
-    marginLeft: "10px",
+    marginTop: "10px",
     fontSize: "23px",
-    lineHeight: "2.0",
+    lineHeight: "1.2",
     padding: "0px",
     color: "#212121a3",
+    letterSpacing: "12px",
   };
 
   return (
     <Box
       sx={{
+        padding: "0px",
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         flexWrap: "nowrap",
         justifyContent: "space-evenly",
         alignItems: "center",
@@ -41,17 +43,21 @@ const ParametersItem = ({ content, section }) => {
         boxShadow: 2,
       }}
     >
-      <Typography sx={{ ...listSubheaderStyle }} fontWeight={700}>{section}</Typography>
-      <List>
-        {content.map((el) => (
-          <ListItem sx={{ ...styleListItem }} key={el.name}>
-            <Typography sx={{ ...listItemFontStyle }}>{el.name}</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
-              {el.value} {el.unit}
-            </Typography>
-          </ListItem>
-        ))}
-      </List>
+      <Typography sx={{ ...listSubheaderStyle }} fontWeight={700}>
+        {section}
+      </Typography>
+      <Box sx={{ marginY: "auto" }}>
+        <List>
+          {content.map((el) => (
+            <ListItem sx={{ ...styleListItem }} key={el.name}>
+              <Typography sx={{ ...listItemFontStyle }}>{el.name}</Typography>
+              <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+                {el.value} {el.unit}
+              </Typography>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Box>
   );
 };

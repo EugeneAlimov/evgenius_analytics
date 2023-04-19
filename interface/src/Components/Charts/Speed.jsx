@@ -65,7 +65,7 @@ const Speed = ({ matchesDownMD, matchesDownLG }) => {
 
       textLabel("0", left + 2, yCoords + 20, 20, "top", "left");
       textLabel("50", right, yCoords + 20, 20, "top", "right");
-      textLabel(score, xCoords, yCoords, matchesDownLG ? 50 : 120, "bottom", "center");
+      textLabel(score, xCoords, yCoords, matchesDownLG ? 90 : 120, "bottom", "center");
     },
   };
 

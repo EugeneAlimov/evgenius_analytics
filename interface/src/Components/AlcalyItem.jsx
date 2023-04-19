@@ -21,7 +21,7 @@ const AlcalyItem = ({ data }) => {
   };
 
   const listItemFontStyle = {
-    fontSize: "15px",
+    fontSize: "17px",
     lineHeight: "1.6",
   };
 

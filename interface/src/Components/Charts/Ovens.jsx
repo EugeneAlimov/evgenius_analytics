@@ -72,7 +72,7 @@ const finishOptions = {
       type: "realtime",
       distribution: "linear",
       realtime: {
-        duration: 120000,
+        duration: 600000,
         delay: 2500,
         refresh: 1000,
         frameRate: 60,
