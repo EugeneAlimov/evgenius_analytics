@@ -224,27 +224,69 @@ const CoaterHeadRollsSpeed = ({ matchesDownLG }) => {
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Applicator</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.prime.topAPPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.prime.topAPPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {prime[1].topApplicator}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
-            <Typography sx={{ color: "#00d52b", ...listItemFontStyle }}>Top Pick Up</Typography>
-            <Typography sx={{ color: "#00d52b", ...listItemFontStyle }} fontWeight={700}>
+            <Typography sx={{ ...listItemFontStyle }}>Top Pick Up</Typography>
+            <Typography
+              color={() => {
+                if (motorStatus.prime.topPU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.prime.topPU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {prime[1].topPickUp}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
-            <Typography sx={{ color: "#fd0136", ...listItemFontStyle }}>
-              Bottom Applicator
-            </Typography>
-            <Typography sx={{ color: "#fd0136", ...listItemFontStyle }} fontWeight={700}>
+            <Typography sx={{ ...listItemFontStyle }}>Bottom Applicator</Typography>
+            <Typography
+              color={() => {
+                if (motorStatus.prime.bottomAPPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.prime.bottomAPPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {prime[1].bottomApplicator}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Bottom Pick Up</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.prime.bottomPU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.prime.bottomPU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {prime[1].bottomPickUp}%
             </Typography>
           </ListItem>
@@ -260,38 +302,104 @@ const CoaterHeadRollsSpeed = ({ matchesDownLG }) => {
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Applicator A</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topA_APPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topA_APPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[0].applicatorA} m/min
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Pick Up A</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topA_PU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topA_PU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[0].pickUpA} m/min
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Applicator B</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topB_APPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topB_APPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[0].applicatorB} m/min
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Pick Up B</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topB_PU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topB_PU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[0].pickUpB} m/min
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Bottom Applicator C</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.bottomAPPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.bottomAPPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[0].applicatorC} m/min
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Bottom Pick Up C</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
-              {finish[0].pickUpB} m/min
+            <Typography
+              color={() => {
+                if (motorStatus.finish.bottomPU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.bottomPU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
+              {finish[0].pickUpC} m/min
             </Typography>
           </ListItem>
         </List>
@@ -303,37 +411,103 @@ const CoaterHeadRollsSpeed = ({ matchesDownLG }) => {
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Applicator A</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topA_APPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topA_APPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[1].applicatorA}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Pick Up A</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topA_PU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topA_PU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[1].pickUpA}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Applicator B</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topB_APPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topB_APPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[1].applicatorB}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Top Pick Up B</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.topB_PU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.topB_PU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[1].pickUpB}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Bottom Applicator C</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.bottomAPPL === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.bottomAPPL === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[1].applicatorC}%
             </Typography>
           </ListItem>
           <ListItem sx={{ ...styleListItem }}>
             <Typography sx={{ ...listItemFontStyle }}>Bottom Pick Up B</Typography>
-            <Typography sx={{ ...listItemFontStyle }} fontWeight={700}>
+            <Typography
+              color={() => {
+                if (motorStatus.finish.bottomPU === 65537) {
+                  return "#00d52b";
+                }
+                if (motorStatus.finish.bottomPU === 131072) {
+                  return "#fd0136";
+                }
+              }}
+              sx={{ ...listItemFontStyle }}
+              fontWeight={700}
+            >
               {finish[1].pickUpC}%
             </Typography>
           </ListItem>

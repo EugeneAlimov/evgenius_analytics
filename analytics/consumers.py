@@ -47,16 +47,13 @@ class GraphConsumer(AsyncWebsocketConsumer):
             |> range(start: -600ms, stop: -100ms)\
             |> filter(fn:(r) => r._measurement == "{measurement}")\
             |> filter(fn:(r) => r._field == {query_string})'
-            print('query_string ', query_string)
 
             result = query_api.query(org=org, query=query)
             for table in result:
                 for record in table.records:
-
                     results.append(
                         (record.get_field(), round(record.get_value(), 3))
                     )
-            print(results)
             message = dict(results)
             await self.send(
                 json.dumps(
