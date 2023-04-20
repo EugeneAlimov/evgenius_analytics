@@ -55,7 +55,7 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         (record.get_field(), round(record.get_value(), 3))
                     )
 
-            query_api = client.query_api()
+            # query_api = client.query_api()
             query = f'from(bucket: "{bucket}")\
             |> range(start: -10m)\
             |> filter(fn:(r) => r._measurement == "{measurement}")\
