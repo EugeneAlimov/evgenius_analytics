@@ -34,9 +34,11 @@ const CommonDashBoard = () => {
     socket.onmessage = function (e) {
       const dashboardData = JSON.parse(e.data);
 
-      // console.log('dashboardData ', dashboardData);
-
       dispatch(dashDataLoader(dashboardData));
+
+      return () => {
+        socket.close()
+      }
     };
   }, [dispatch]);
 
@@ -44,8 +46,6 @@ const CommonDashBoard = () => {
     <Stack paddingBottom={"10px"} width={"100%"} flexDirection={"column"} spacing={3}>
       <Box
         sx={{
-          // paddingLeft: "15px",
-          // paddingRight: "15px",
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",

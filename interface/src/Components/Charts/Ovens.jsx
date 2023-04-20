@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import {
@@ -42,6 +42,7 @@ const primeOptions = {
         delay: 2500,
         refresh: 1000,
         frameRate: 60,
+        ttl: 600000,
       },
     },
     y: {
@@ -76,6 +77,7 @@ const finishOptions = {
         delay: 2500,
         refresh: 1000,
         frameRate: 60,
+        ttl: 600000,
       },
     },
     y: {
@@ -156,6 +158,8 @@ const dataFinish = {
 };
 
 const Ovens = ({ matchesDownLG }) => {
+  const [firstTimeRender, setFirstTimeRender] = useState(false);
+
   const style = {
     width: matchesDownLG ? "95vw" : "48.5vw",
     marginTop: "5px",
@@ -165,49 +169,6 @@ const Ovens = ({ matchesDownLG }) => {
 
   const ovens = useSelector((state) => state.ws.wsGetDashboardData);
   const ovensArr = ovens.oven;
-
-  useEffect(() => {
-    console.log(ovensArr);
-    if (!ovensArr) {
-      return
-    }
-    ovensArr.forEach((element) => {
-      switch (element.field) {
-        case "PO_Zone 1 Pyrometer - RTO_TO_LINE":
-          dataPrime.datasets[0].data.push({ x: Date.parse(element.x), y: element.y });
-          break;
-
-        case "PO_Zone 2 Pyrometer - RTO_TO_LINE":
-          dataPrime.datasets[1].data.push({ x: Date.parse(element.x), y: element.y });
-          break;
-
-        case "PO_Zone 3 Pyrometer - RTO_TO_LINE":
-          dataPrime.datasets[2].data.push({ x: Date.parse(element.x), y: element.y });
-          break;
-
-        case "FO_Zone 1 Pyrometer - RTO_TO_LINE":
-          dataFinish.datasets[0].data.push({ x: Date.parse(element.x), y: element.y });
-          break;
-
-        case "FO_Zone 2 Pyrometer - RTO_TO_LINE":
-          dataFinish.datasets[1].data.push({ x: Date.parse(element.x), y: element.y });
-          break;
-
-        case "FO_Zone 3 Pyrometer - RTO_TO_LINE":
-          dataFinish.datasets[2].data.push({ x: Date.parse(element.x), y: element.y });
-          break;
-
-        default:
-          break;
-      }
-    });
-  }, []);
-
-  console.log("111 ", dataFinish.datasets[0].data);
-  console.log("111 ", dataPrime.datasets[0].data);
-
-  // console.log("22222", FO1);
-
   const ovensTemperature = useSelector((state) => state.ws.wsGetDashboardData);
 
   const temperaturePrime = [
@@ -223,6 +184,46 @@ const Ovens = ({ matchesDownLG }) => {
   ];
 
   useEffect(() => {
+    if (!!ovensArr) {
+      ovensArr.forEach((element) => {
+        switch (element.field) {
+          case "PO_Zone 1 Pyrometer - RTO_TO_LINE":
+            dataPrime.datasets[0].data.push({ x: Date.parse(element.x), y: element.y });
+            break;
+
+          case "PO_Zone 2 Pyrometer - RTO_TO_LINE":
+            dataPrime.datasets[1].data.push({ x: Date.parse(element.x), y: element.y });
+            break;
+
+          case "PO_Zone 3 Pyrometer - RTO_TO_LINE":
+            dataPrime.datasets[2].data.push({ x: Date.parse(element.x), y: element.y });
+            break;
+
+          case "FO_Zone 1 Pyrometer - RTO_TO_LINE":
+            dataFinish.datasets[0].data.push({ x: Date.parse(element.x), y: element.y });
+            break;
+
+          case "FO_Zone 2 Pyrometer - RTO_TO_LINE":
+            dataFinish.datasets[1].data.push({ x: Date.parse(element.x), y: element.y });
+            break;
+
+          case "FO_Zone 3 Pyrometer - RTO_TO_LINE":
+            dataFinish.datasets[2].data.push({ x: Date.parse(element.x), y: element.y });
+            break;
+
+          default:
+            break;
+        }
+      });
+      setFirstTimeRender(true);
+    }
+  }, [ovensArr]);
+
+  useEffect(() => {
+    if (!!!firstTimeRender) {
+      return;
+    }
+
     const time = Date.now();
     dataPrime.datasets.forEach((element, index) => {
       element.data.push({
