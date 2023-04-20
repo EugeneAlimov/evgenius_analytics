@@ -38,11 +38,11 @@ client = influxdb_client.InfluxDBClient(
 class GraphConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
+        query_api = client.query_api()
 
         for i in range(100000):
             results = []
             # Query script
-            query_api = client.query_api()
             query = f'from(bucket: "{bucket}")\
             |> range(start: -600ms)\
             |> filter(fn:(r) => r._measurement == "{measurement}")\
