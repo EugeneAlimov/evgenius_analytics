@@ -167,6 +167,10 @@ const Ovens = ({ matchesDownLG }) => {
   const ovensArr = ovens.oven;
 
   useEffect(() => {
+    console.log(ovensArr);
+    if (!ovensArr) {
+      return
+    }
     ovensArr.forEach((element) => {
       switch (element.field) {
         case "PO_Zone 1 Pyrometer - RTO_TO_LINE":
