@@ -103,7 +103,7 @@ const CoaterHeadRollsSpeed = ({ matchesDownLG }) => {
       bottomPU: parameters["Motor_status - FINISH_COATER - Bottom_PICKUP"],
     },
   };
-  console.log(motorStatus);
+
   const style = { backgroundColor: "f9f8f800", boxShadow: 2 };
 
   const styleListItem = {

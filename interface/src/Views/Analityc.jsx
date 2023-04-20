@@ -40,7 +40,7 @@ const Analytic = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [drawerState, setDrawerState] = React.useState({ left: false });
   const [data, setData] = useState([]);
-
+console.log(data);
   const [width, height] = getWindowDimensions();
 
   const dispatch = useDispatch();
