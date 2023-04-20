@@ -55,31 +55,31 @@ class GraphConsumer(AsyncWebsocketConsumer):
                         (record.get_field(), round(record.get_value(), 3))
                     )
 
-            # query_api = client.query_api()
-            query = f'from(bucket: "{bucket}")\
-            |> range(start: -10m)\
-            |> filter(fn:(r) => r._measurement == "{measurement}")\
-            |> filter(fn:(r) => r._field == "PO_Zone 1 Pyrometer - RTO_TO_LINE" \
-            or r._field == "PO_Zone 2 Pyrometer - RTO_TO_LINE" \
-            or r._field == "PO_Zone 3 Pyrometer - RTO_TO_LINE" \
-            or r._field == "FO_Zone 1 Pyrometer - RTO_TO_LINE" \
-            or r._field == "FO_Zone 2 Pyrometer - RTO_TO_LINE" \
-            or r._field == "FO_Zone 3 Pyrometer - RTO_TO_LINE")\
-            |> window(every: 1s)'
+            if i == 0:
+                query = f'from(bucket: "{bucket}")\
+                |> range(start: -10m)\
+                |> filter(fn:(r) => r._measurement == "{measurement}")\
+                |> filter(fn:(r) => r._field == "PO_Zone 1 Pyrometer - RTO_TO_LINE" \
+                or r._field == "PO_Zone 2 Pyrometer - RTO_TO_LINE" \
+                or r._field == "PO_Zone 3 Pyrometer - RTO_TO_LINE" \
+                or r._field == "FO_Zone 1 Pyrometer - RTO_TO_LINE" \
+                or r._field == "FO_Zone 2 Pyrometer - RTO_TO_LINE" \
+                or r._field == "FO_Zone 3 Pyrometer - RTO_TO_LINE")\
+                |> window(every: 1s)'
 
-            result_oven = query_api.query(org=org, query=query)
-            results_oven = []
-            for table in result_oven:
-                table_records = table.records[0]
-                field = table_records.get_field()
-                value = table_records.get_value()
-                time = table_records.get_time()
+                result_oven = query_api.query(org=org, query=query)
+                results_oven = []
+                for table in result_oven:
+                    table_records = table.records[0]
+                    field = table_records.get_field()
+                    value = table_records.get_value()
+                    time = table_records.get_time()
 
-                results_oven.append(
-                    {'field': field, 'y': round(value, 0), 'x': str(time)}
-                )
+                    results_oven.append(
+                        {'field': field, 'y': round(value, 0), 'x': str(time)}
+                    )
 
-            results.append(('oven', results_oven))
+                results.append(('oven', results_oven))
             message = dict(results)
             await self.send(
                 json.dumps(
