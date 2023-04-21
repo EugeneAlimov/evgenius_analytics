@@ -1,4 +1,4 @@
-import React, { useRef, useState, lazy } from "react";
+import React, { useRef, useState, useEffect, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 //MUI//
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -18,6 +18,7 @@ import AllTagsList from "../Components/AccordionAnalitycs/AllTagsList/AllTagsLis
 import SelectedTagsList from "../Components/AccordionAnalitycs/SelectedTagsList/SelectedTagsList";
 import DateTimePickerComponent from "../Components/DateTimePickers/DatePickerComponent/DateTimePickerComponent";
 import AlertDialog from "../Components/Notification";
+import DateTimePickers from "../Components/DateTimePickers/DateTimePickers";
 //utils//
 // import { getHours } from "date-fns";
 import * as htmlToImage from "html-to-image";
@@ -25,7 +26,7 @@ import getWindowDimensions from "../Libs/getWindowDimensions";
 import influxRequest from "../api/InfluxAPI";
 import { refreshTokenHandler, userDatasetSave } from "../api/userApi";
 import { checkTags, unCheckTags } from "../Redux/sliceAnalytic";
-import DateTimePickers from "../Components/DateTimePickers/DateTimePickers";
+import { getTagsAndGroupsQuery } from "../api/analitycApi";
 
 const Chart = lazy(() => import("./Chart" /* webpackChunkName: 'Chart' */));
 
@@ -40,7 +41,6 @@ const Analytic = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [drawerState, setDrawerState] = React.useState({ left: false });
   const [data, setData] = useState([]);
-console.log(data);
   const [width, height] = getWindowDimensions();
 
   const dispatch = useDispatch();
@@ -50,6 +50,10 @@ console.log(data);
   const selectedTags = useSelector((state) => state.analytic.selectedTags);
 
   const domEl = useRef(null);
+
+  useEffect(() => {
+    dispatch(getTagsAndGroupsQuery());
+  }, [dispatch]);
 
   const allTagsListStyle = {
     rowHeithCoeff: 282,

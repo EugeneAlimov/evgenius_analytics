@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import "./App.css";
 import "./index.css";
 import NavBar from "./Components/Navbar/Navbar";
@@ -8,14 +7,13 @@ import mathRound from "./Libs/mathRound";
 import { Outlet } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { getTagsAndGroupsQuery } from "./api/analitycApi";
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getTagsAndGroupsQuery());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getTagsAndGroupsQuery());
+  // }, [dispatch]);
 
   return (
     <div className="App">

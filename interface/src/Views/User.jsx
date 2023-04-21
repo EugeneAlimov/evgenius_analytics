@@ -20,6 +20,7 @@ import UserDatasetEditComponent from "../Components/UI/Dialog/UserDatasetEditCom
 
 import { logout } from "../api/userApi";
 import { getUserDatasetCollection, tokenUpdater } from "../api/userApi";
+import { getTagsAndGroupsQuery } from "../api/analitycApi";
 
 const User = () => {
   const refreshToken = useSelector((state) => state.login.token.refresh);
@@ -75,6 +76,10 @@ const User = () => {
         navigate("/analytics", { replace: true });
       });
   }, [navigate, dispatch, refreshToken]);
+
+  useEffect(() => {
+    dispatch(getTagsAndGroupsQuery());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!userDataset) return;

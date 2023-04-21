@@ -37,6 +37,11 @@ const Settings = () => {
   }
 
   useEffect(() => {
+    dispatch(getTagsAndGroupsQuery());
+  }, [dispatch]);
+
+
+  useEffect(() => {
     const dashTags = _.cloneDeep(tags);
     setCompareArr(dashTags);
   }, [tags]);

@@ -12,78 +12,142 @@ const CoaterHeadRollsSpeed = ({ matchesDownLG }) => {
   const prime = [
     {
       name: "Prime coater speed:",
-      topApplicator: Math.round10(
+      topApplicator: !!Math.round10(
         parameters["act_speed - PROCESS - PRIME_COATER - TOP_HEAD - APPL_ROLL"]
-      ),
-      topPickUp: Math.round10(
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - PRIME_COATER - TOP_HEAD - APPL_ROLL"])
+        : 0,
+      topPickUp: !!Math.round10(
         parameters["act_speed - PROCESS - PRIME_COATER - TOP_HEAD - PU_ROLL"]
-      ),
-      bottomApplicator: Math.round10(
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - PRIME_COATER - TOP_HEAD - PU_ROLL"])
+        : 0,
+      bottomApplicator: !!Math.round10(
         parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - APPL_ROLL"]
-      ),
-      bottomPickUp: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - APPL_ROLL"]
+          )
+        : 0,
+      bottomPickUp: !!Math.round10(
         parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - PU_ROLL"]
-      ),
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - PU_ROLL"]
+          )
+        : 0,
     },
     {
       name: "Prime coater ratio:",
-      topApplicator: Math.round10(
+      topApplicator: !!Math.round10(
         parameters["act_speed_percent - PROCESS - PRIME_COATER - TOP_HEAD - APPL_ROLL"]
-      ),
-      topPickUp: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - PRIME_COATER - TOP_HEAD - APPL_ROLL"]
+          )
+        : 0,
+      topPickUp: !!Math.round10(
         parameters["act_speed_percent - PROCESS - PRIME_COATER - TOP_HEAD - PU_ROLL"]
-      ),
-      bottomApplicator: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - PRIME_COATER - TOP_HEAD - PU_ROLL"]
+          )
+        : 0,
+      bottomApplicator: !!Math.round10(
         parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - APPL_ROLL"]
-      ),
-      bottomPickUp: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - APPL_ROLL"]
+          )
+        : 0,
+      bottomPickUp: !!Math.round10(
         parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - PU_ROLL"]
-      ),
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - PRIME_COATER - BOTTOM_HEAD - PU_ROLL"]
+          )
+        : 0,
     },
   ];
 
   const finish = [
     {
       name: "Finish coater speed:",
-      applicatorA: Math.round10(
+      applicatorA: !!Math.round10(
         parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_A - APPL_ROLL"]
-      ),
-      pickUpA: Math.round10(
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_A - APPL_ROLL"])
+        : 0,
+      pickUpA: !!Math.round10(
         parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_A - PU_ROLL"]
-      ),
-      applicatorB: Math.round10(
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_A - PU_ROLL"])
+        : 0,
+      applicatorB: !!Math.round10(
         parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_B - APPL_ROLL"]
-      ),
-      pickUpB: Math.round10(
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_B - APPL_ROLL"])
+        : 0,
+      pickUpB: !!Math.round10(
         parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_B - PU_ROLL"]
-      ),
-      applicatorC: Math.round10(
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - FINISH_COATER - TOP_HEAD_B - PU_ROLL"])
+        : 0,
+      applicatorC: !!Math.round10(
         parameters["act_speed - PROCESS - FINISH_COATER - BOTTOM_HEAD - APPL_ROLL"]
-      ),
-      pickUpC: Math.round10(
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - FINISH_COATER - BOTTOM_HEAD - APPL_ROLL"])
+        : 0,
+      pickUpC: !!Math.round10(
         parameters["act_speed - PROCESS - FINISH_COATER - BOTTOM_HEAD - PU_ROLL"]
-      ),
+      )
+        ? Math.round10(parameters["act_speed - PROCESS - FINISH_COATER - BOTTOM_HEAD - PU_ROLL"])
+        : 0,
     },
     {
       name: "Finish coater ratio:",
-      applicatorA: Math.round10(
+      applicatorA: !!Math.round10(
         parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_A - APPL_ROLL"]
-      ),
-      pickUpA: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_A - APPL_ROLL"]
+          )
+        : 0,
+      pickUpA: !!Math.round10(
         parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_A - PU_ROLL"]
-      ),
-      applicatorB: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_A - PU_ROLL"]
+          )
+        : 0,
+      applicatorB: !!Math.round10(
         parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_B - APPL_ROLL"]
-      ),
-      pickUpB: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_B - APPL_ROLL"]
+          )
+        : 0,
+      pickUpB: !!Math.round10(
         parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_B - PU_ROLL"]
-      ),
-      applicatorC: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - FINISH_COATER - TOP_HEAD_B - PU_ROLL"]
+          )
+        : 0,
+      applicatorC: !!Math.round10(
         parameters["act_speed_percent - PROCESS - FINISH_COATER - BOTTOM_HEAD - APPL_ROLL"]
-      ),
-      pickUpC: Math.round10(
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - FINISH_COATER - BOTTOM_HEAD - APPL_ROLL"]
+          )
+        : 0,
+      pickUpC: !!Math.round10(
         parameters["act_speed_percent - PROCESS - FINISH_COATER - BOTTOM_HEAD - PU_ROLL"]
-      ),
+      )
+        ? Math.round10(
+            parameters["act_speed_percent - PROCESS - FINISH_COATER - BOTTOM_HEAD - PU_ROLL"]
+          )
+        : 0,
     },
   ];
 
