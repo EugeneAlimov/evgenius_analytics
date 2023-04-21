@@ -34,8 +34,18 @@ const Analytic = () => {
   const [isPopOpen, setPopOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [placement, setPlacement] = useState();
-  const [dateTimeStart, setDateTimeStart] = useState(Date.now());
-  const [dateTimeEnd, setDateTimeEnd] = useState(Date.now());
+  const [dateTimeStart, setDateTimeStart] =
+    useState(); //() => {
+    //   const date = Date.now();
+    //   const newDate = new Date(date);
+    //   return newDate;
+    // }
+  const [dateTimeEnd, setDateTimeEnd] =
+    useState(); //() => {
+    //   const date = Date.now();
+    //   const newDate = new Date(date);
+    //   return newDate;
+    // }
   const [isHistorical, setIsHistorical] = useState();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -58,7 +68,7 @@ const Analytic = () => {
   const allTagsListStyle = {
     rowHeithCoeff: 282,
     listHeithCoeff: 64,
-  }
+  };
 
   const setAlertStateHandler = (value) => {
     setAlertOpen(value);
@@ -170,6 +180,16 @@ const Analytic = () => {
   };
 
   const influxQueryHandler = () => {
+    if (!!!dateTimeStart) {
+      alert("Start time is empty");
+      return;
+    }
+
+    if (!!!dateTimeEnd) {
+      alert("End time is empty");
+      return;
+    }
+
     influxRequest(selectedTags, dateTimeStart, dateTimeEnd).then((response) => setData(response));
   };
 
@@ -223,12 +243,12 @@ const Analytic = () => {
               handlerEnd={dateTimeEndHandler}
               valueEnd={dateTimeEnd}
             />
-              <SaveSetComponent
-                isPopOpen={isPopOpen}
-                popAnchorEl={anchorEl}
-                popPlacement={placement}
-                closePopperHandle={closePopperHandle}
-              />
+            <SaveSetComponent
+              isPopOpen={isPopOpen}
+              popAnchorEl={anchorEl}
+              popPlacement={placement}
+              closePopperHandle={closePopperHandle}
+            />
             <Paper sx={{ mt: 10, m: 2, p: 3, width: "300px" }} elevation={10} square>
               <Button
                 onClick={setDatasetNamehandleClick("right", true)}
